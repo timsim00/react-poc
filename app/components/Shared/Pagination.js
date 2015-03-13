@@ -3,17 +3,17 @@ var PageSizeDropdown = module.exports.PageSizeDropdown = React.createClass({
     render: function(){
         var sizes = this.props.sizes;
         return (
-        <span>
-            <button class="btn btn-default dropdown-toggle" type="button" id="pageSize" data-toggle="dropdown" aria-expanded="false">
-                {sizes[0]}
-                <span className="caret"/>
-             </button>
-            <span className="dropdown">
+        	<span className="dropdown">
+            	<button class="btn btn-default dropdown-toggle" type="button" id="pageSize" data-toggle="dropdown" aria-expanded="false">
+                	{sizes[0]}
+					<span className="caret"/>
+				 </button>
                 <ul className="dropdown-menu" aria-labelledby="pageSize">
-            {sizes.map(function(s){
-                return (<li><a tabIndex="-1" href="#">{s}</a></li>);
-            })}
-        </ul></span></span>)
+            	{sizes.map(function(s){
+                	return (<li><a tabIndex="-1" href="#">{s}</a></li>);
+            	})}
+        		</ul>
+        	</span>)
     }
 });
 
@@ -29,17 +29,17 @@ var PageIndexDropdown = module.exports.PageIndexDropdown = React.createClass({
     render: function(){
         var lastPage = this.props.lastPage;
         return (
-        <span>
+        <span className="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="pageIndex" data-toggle="dropdown" aria-expanded="false">
                 1
                 <span className="caret"/>
              </button>
-            <span className="dropdown">
                 <ul className="dropdown-menu" aria-labelledby="pageIndex">
-            {range(1,lastPage).map(function(s){
-                return (<li><a tabIndex="-1" href="#">{s}</a></li>);
-            })}
-        </ul></span></span>)
+				{range(1,lastPage).map(function(s){
+					return (<li><a tabIndex="-1" href="#">{s}</a></li>);
+				})}
+			</ul>
+        </span>)
     }
 });
 

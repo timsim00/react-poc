@@ -864,7 +864,7 @@ var PageSizeDropdown = module.exports.PageSizeDropdown = React.createClass({
         var sizes = this.props.sizes;
         return React.createElement(
             "span",
-            null,
+            { className: "dropdown" },
             React.createElement(
                 "button",
                 { "class": "btn btn-default dropdown-toggle", type: "button", id: "pageSize", "data-toggle": "dropdown", "aria-expanded": "false" },
@@ -872,23 +872,19 @@ var PageSizeDropdown = module.exports.PageSizeDropdown = React.createClass({
                 React.createElement("span", { className: "caret" })
             ),
             React.createElement(
-                "span",
-                { className: "dropdown" },
-                React.createElement(
-                    "ul",
-                    { className: "dropdown-menu", "aria-labelledby": "pageSize" },
-                    sizes.map(function (s) {
-                        return React.createElement(
-                            "li",
-                            null,
-                            React.createElement(
-                                "a",
-                                { tabIndex: "-1", href: "#" },
-                                s
-                            )
-                        );
-                    })
-                )
+                "ul",
+                { className: "dropdown-menu", "aria-labelledby": "pageSize" },
+                sizes.map(function (s) {
+                    return React.createElement(
+                        "li",
+                        null,
+                        React.createElement(
+                            "a",
+                            { tabIndex: "-1", href: "#" },
+                            s
+                        )
+                    );
+                })
             )
         );
     }
@@ -909,7 +905,7 @@ var PageIndexDropdown = module.exports.PageIndexDropdown = React.createClass({
         var lastPage = this.props.lastPage;
         return React.createElement(
             "span",
-            null,
+            { className: "dropdown" },
             React.createElement(
                 "button",
                 { "class": "btn btn-default dropdown-toggle", type: "button", id: "pageIndex", "data-toggle": "dropdown", "aria-expanded": "false" },
@@ -917,23 +913,19 @@ var PageIndexDropdown = module.exports.PageIndexDropdown = React.createClass({
                 React.createElement("span", { className: "caret" })
             ),
             React.createElement(
-                "span",
-                { className: "dropdown" },
-                React.createElement(
-                    "ul",
-                    { className: "dropdown-menu", "aria-labelledby": "pageIndex" },
-                    range(1, lastPage).map(function (s) {
-                        return React.createElement(
-                            "li",
-                            null,
-                            React.createElement(
-                                "a",
-                                { tabIndex: "-1", href: "#" },
-                                s
-                            )
-                        );
-                    })
-                )
+                "ul",
+                { className: "dropdown-menu", "aria-labelledby": "pageIndex" },
+                range(1, lastPage).map(function (s) {
+                    return React.createElement(
+                        "li",
+                        null,
+                        React.createElement(
+                            "a",
+                            { tabIndex: "-1", href: "#" },
+                            s
+                        )
+                    );
+                })
             )
         );
     }
