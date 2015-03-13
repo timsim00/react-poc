@@ -396,9 +396,14 @@ var ListCount = Shared.ListCount;
 var SubscriberCount = Shared.SubscriberCount;
 var GridView = require("../Shared/GridView");
 
-var data = {
+var recentSendData = {
   subject: "Did you forget something?",
   name: "Abandoned Cart - Low Value"
+};
+
+var recentModifiedData = {
+  subject: "Check out our latest news",
+  name: "Sample Email 1"
 };
 
 var dates = {
@@ -487,7 +492,7 @@ var MostRecentSend = React.createClass({
         React.createElement(
           "div",
           { className: "col-md-9" },
-          React.createElement(EmailDetails, { data: data }),
+          React.createElement(EmailDetails, { data: recentSendData }),
           React.createElement(TrackingDetails, null)
         ),
         React.createElement("div", { className: "clearfix" })
@@ -506,7 +511,7 @@ var MostRecentModify = React.createClass({
       React.createElement(
         "h4",
         null,
-        "Most Recent Modify"
+        "Most Recent Modified Email"
       ),
       React.createElement(
         "div",
@@ -519,7 +524,7 @@ var MostRecentModify = React.createClass({
         React.createElement(
           "div",
           { className: "col-md-9" },
-          React.createElement(EmailDetails, { data: data }),
+          React.createElement(EmailDetails, { data: recentModifiedData }),
           React.createElement(LastModifiedDetails, { data: dates })
         ),
         React.createElement("div", { className: "clearfix" })
@@ -553,7 +558,30 @@ var SubscriberOverview = React.createClass({
           { className: "col-md-6" },
           React.createElement(SubscriberCount, null)
         ),
-        React.createElement("div", { className: "clearfix" })
+        React.createElement("div", { className: "clearfix" }),
+        React.createElement(
+          "div",
+          { className: "pull-right" },
+          React.createElement(
+            "button",
+            { className: "btn btn-sm btn-primary" },
+            "Manage Subscribers"
+          ),
+          React.createElement(
+            "div",
+            { className: "btn-group" },
+            React.createElement(
+              "button",
+              { className: "btn btn-sm btn-primary" },
+              "Add Subscribers "
+            ),
+            React.createElement(
+              "button",
+              { type: "button", className: "btn btn-sm btn-primary dropdown-toggle", "aria-expanded": "false" },
+              React.createElement("span", { className: "caret" })
+            )
+          )
+        )
       )
     );
   }
