@@ -1,0 +1,46 @@
+var src = "./",
+		dest = "./build/";
+
+var config = {
+	browserSync: {
+		server: {
+			baseDir: dest
+		},
+		notify: false,
+		browser: ["google chrome"]
+	},
+	less: {
+		src: src + 'less/styles.less',
+		watch: src + 'less/**/*.less',
+		dest: dest + 'css'
+	},
+	images: {
+		src: dest + '/images/*.*',
+		dest: dest + '/images'
+	},
+	icons: {
+		src: [
+			src + 'bower_components/bootstrap-sf1/dist/icons/**/*.*'
+		],
+		dest: dest + '/icons'
+	},
+	scripts: {
+		src: src + 'app/main.js',
+		dest: dest,
+		watch: src + 'app/**/*.js',
+		deps: ['react', 'react-router']
+	},
+	fonts: {
+		src: [
+			src + 'node_modules/font-awesome/fonts/**/*.{ttf,woff,eof,svg}',
+			src + 'bower_components/bootstrap-sf1/dist/fonts/**/*.{ttf,woff,eof,svg}'
+		],
+		dest: dest + "/fonts"
+	},
+	html: {
+		src: src + '/**/*.html',
+		dest: dest + '/'
+	}
+};
+
+module.exports = config;
