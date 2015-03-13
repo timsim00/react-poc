@@ -5,6 +5,7 @@
   "author": "Kelly J Andrews",
   "license": "ISC",
   "devDependencies": {
+    "babelify": "^5.0.4",
     "bootstrap": "^3.3.2",
     "bootstrap-sf1": "git+ssh://git@github.com:SalesforceFoundation/bootstrap-sf1.git",
     "browser-sync": "^1.7.1",
