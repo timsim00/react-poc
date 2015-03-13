@@ -37,7 +37,7 @@ var Overview = React.createClass({
       <div>
         <div className="row">
           <div className="col-md-6"><h2>Overview</h2></div>
-          <div className="col-md-6 text-right"><Link to="create-email" className="btn btn-default">Create Email</Link></div>
+          <div className="col-md-6 text-right"><Link to="create-email" className="btn btn-default"><span className="glyphicon glyphicon-plus" />Create Email</Link></div>
         </div>
         <div className="row">
           <div className="col-md-4 detail-box">
@@ -136,7 +136,7 @@ var OverviewTabs = React.createClass({
       <div>
         <ul className="nav nav-tabs" role="tablist">
           <li className="active"><a href="#email" data-toggle="tab">Emails</a></li>
-          <li><a href="#sends" data-toggle="tab">Sends</a></li>
+          <li><a className="disabled" href="#" data-toggle="tab">Sends</a></li>
         </ul>
         <div className="row">
          <div className="col-md-3">
