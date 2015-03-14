@@ -1,5 +1,7 @@
 var React = require('react');
 
+var Pagination = require("./Pagination.js").Pagination;
+
 var Actions = React.createClass({
     render: function () {
         return ( <div title = "actions" >
@@ -29,30 +31,41 @@ var data = [
      ]
 ]
 
-
+var pageData = {
+    pageIndex: 0,
+    pageSize: 25,
+    items: 190,
+    pageSizeOptions: [25,50]
+}
 
 var GridView = React.createClass({
   render: function() {
     return (
-     <div className="grid">
-        <table className="table">
-            <thead>
-                <tr>
-                    {columns.map(function(c,i){
-                        return (<th key={i}> {c} </th> )
-    })
-} </tr>
-            </thead> {
-    data.map(function (row) {
-        return ( <tr> {
-            row.map(function (r,i) {
-                return ( <td key={i}> {
-                    r
-                } </td>)
-                })}</tr> )
-            })
-        } </table>
-    </div> );
+    	<div>
+		 <div className="grid">
+			<table className="table">
+				<thead>
+					<tr>
+						{columns.map(function(c,i){
+							return (<th key={i}> {c} </th> )
+		})
+		} </tr>
+				</thead> {
+		data.map(function (row) {
+			return ( <tr> {
+				row.map(function (r,i) {
+					return ( <td key={i}> {
+						r
+					} </td>)
+					})}</tr> )
+				})
+			} </table>
+		</div>
+		<div>
+			<Pagination data={pageData} />
+		</div>
+    </div>
+);
     }
   });
 

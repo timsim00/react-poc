@@ -7,7 +7,7 @@ var Link = Router.Link;
 
 var SearchBar = require('../Shared/Shared').SearchBar;
 var FolderTree = require('../Shared/FolderTree');
-
+var FilterByType_ = require('../Shared/FilterByType').ItemList;
 
 var folders = [
     {
@@ -27,6 +27,14 @@ var folders = [
     { name: "Shared Templates"}
 ];
 
+var filterData = {
+    title: "Filter By Type"
+    ,items: [
+        { title: "Newsletters", id: "1" }
+        ,{ title: "Advice", id: "2" }
+        ,{ title: "Managed Communications", id: "3" }
+    ]
+};	
 
 var CreateEmail = React.createClass({
   render: function() {
@@ -43,8 +51,8 @@ var CreateEmail = React.createClass({
             <div>
               <ContentCategories />
             </div>
-            <div>
-              <FilterByType/>
+            <div className="Boo">
+              <FilterByType data={filterData}/>
             </div>
           </div>
           <div className="col-md-8">
@@ -79,7 +87,7 @@ var FilterByType = React.createClass({
     <div>
       <h4>Filter By Type</h4>
       <div className="well">
-
+      	<FilterByType_ data={filterData} />
       </div>
     </div>
     );

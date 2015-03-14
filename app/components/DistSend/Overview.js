@@ -16,9 +16,14 @@ var GridView = require('../Shared/GridView');
 
 
 
-var data = {
+var recentSendData = {
     "subject": "Did you forget something?",
     "name": "Abandoned Cart - Low Value"
+}
+
+var recentModifiedData = {
+    "subject": "Check out our latest news",
+    "name": "Sample Email 1"
 }
 
 var dates = {
@@ -32,7 +37,7 @@ var Overview = React.createClass({
       <div>
         <div className="row">
           <div className="col-md-6"><h2>Overview</h2></div>
-          <div className="col-md-6 text-right"><Link to="create-email" className="btn btn-default">Create Email</Link></div>
+          <div className="col-md-6 text-right"><Link to="create-email" className="btn btn-default"><span className="glyphicon glyphicon-plus" />Create Email</Link></div>
         </div>
         <div className="row">
           <div className="col-md-4 detail-box">
@@ -65,7 +70,7 @@ var MostRecentSend = React.createClass({
           <EmailPreview/>
         </div>
         <div className="col-md-9">
-          <EmailDetails data={data}/>
+          <EmailDetails data={recentSendData}/>
           <TrackingDetails/>
         </div>
         <div className="clearfix"></div>
@@ -80,13 +85,13 @@ var MostRecentModify = React.createClass({
   render: function() {
     return (
     <div>
-    <h4>Most Recent Modify</h4>
+    <h4>Most Recent Modified Email</h4>
       <div className="well">
         <div className="col-md-3">
           <EmailPreview/>
         </div>
         <div className="col-md-9">
-          <EmailDetails data={data}/>
+          <EmailDetails data={recentModifiedData}/>
           <LastModifiedDetails data={dates}/>
         </div>
         <div className="clearfix"></div>
@@ -109,6 +114,16 @@ var SubscriberOverview = React.createClass({
         <SubscriberCount/>
       </div>
       <div className="clearfix"></div>
+      <div className="pull-right">
+      
+      	 <button className="btn btn-sm btn-primary">Manage Subscribers</button>
+      	  <div className="btn-group">
+      	  	  <button className="btn btn-sm btn-primary">Add Subscribers </button>
+			  <button type="button" className="btn btn-sm btn-primary dropdown-toggle" aria-expanded="false">
+				<span className="caret"></span>
+			  </button>
+		  </div>
+      </div>
     </div>
     </div>
     );
@@ -121,7 +136,7 @@ var OverviewTabs = React.createClass({
       <div>
         <ul className="nav nav-tabs" role="tablist">
           <li className="active"><a href="#email" data-toggle="tab">Emails</a></li>
-          <li><a href="#sends" data-toggle="tab">Sends</a></li>
+          <li><a className="disabled" href="#" data-toggle="tab">Sends</a></li>
         </ul>
         <div className="row">
          <div className="col-md-3">
