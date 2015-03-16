@@ -36,45 +36,34 @@ var filterData = {
     ]
 };	
 
+
 var CreateEmail = React.createClass({
   render: function() {
     return (
-      <div>
-        <div className="row col-md-12">
-          <h2>CreateEmail</h2>
-        </div>
-        <div className="row col-md-12">
-          <h2>wizard</h2>
-        </div>
-        <div className="row">
-          <div className="col-md-4">
-            <div>
-              <ContentCategories />
-            </div>
-            <div className="Boo">
-              <FilterByType data={filterData}/>
-            </div>
-          </div>
-          <div className="col-md-8">
-              <EmailSelect/>
-          </div>
-        </div>
-      </div>
-
+	<div>
+		<div className="row col-md-12">
+		  <h2>Create Email</h2>
+		</div>
+		<div className="row col-md-12">
+			<Wizard />
+		</div>
+	</div>
     );
   }
-
 });
+
 
 var ContentCategories = React.createClass({
   render: function() {
     return (
     <div>
-      <h4>Content Categories</h4>
-      <SearchBar />
-      <div className="well">
-        <FolderTree folders={folders} />
-      </div>
+    	<h4>Content Categories</h4>
+    	<div className="searchbar">
+      		<SearchBar />
+    	</div>	
+    	<div className="well">
+        	<FolderTree folders={folders} />
+    	</div>
     </div>
     );
   }
@@ -100,14 +89,169 @@ var EmailSelect = React.createClass({
   render: function() {
     return (
     <div>
-      <h4>Retirement</h4>
-      <div className="well">
-
-      </div>
+    	<h4>Retirement</h4>
+    	<div className="well">
+			<RetirementThumbs />
+    	</div>
     </div>
     );
   }
+});
 
+var RetirementThumbs = React.createClass({
+    render: function() {
+        return(
+		<div>
+		   <table>
+			   <tr>
+				  <td>
+				  	  <label for="febNews">February Newsletter </label>
+					  <div>
+						 <img className="retirement-img" id="febNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="200" width="150" />
+					   </div>	   
+				  </td>
+				  <td>
+				      <label for="marchNews">March Newsletter </label>
+					  <div>
+						 <img className="retirement-img" id="marchNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="200" width="150" />
+					   </div>	   
+				  </td>
+			   </tr>
+			   <tr>
+				  <td>
+				      <label for="aprilNews">April Newsletter </label>
+					  <div>
+						 <img className="retirement-img" id="aprilNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="200" width="150" />
+					   </div>				   
+				  </td>
+				  <td>
+				      <label for="mayNews">May Newsletter </label>
+					  <div>
+						 <img className="retirement-img" id="mayNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="200" width="150" />
+					   </div>
+				  </td>
+			   </tr>
+		   </table>
+		</div>        
+       ); 
+    }
+});
+ 
+var HTMLView = React.createClass({
+    render: function() {
+        return(
+        <div>
+        	<div className="row">
+        		<div className="col-md-12">
+        			<div className="well">
+					<form className="form-horizontal" role="form">
+						<div className="form-group">
+							<label className="control-label col-sm-2" htmlFor="emailName">Email Name</label>
+							<div className="col-sm-3">
+								<input type="text" id="emailName" className="form-control col-sm-4" placeholder=""/>
+							</div>
+						</div>
+						<div className="form-group">	
+							<label className="control-label col-sm-2" htmlFor="emailSubject">Email Subject</label>
+							<div className="col-sm-3">
+								<input type="text" id="emailSubject" className="form-control" placeholder=""/>
+							</div>	
+						</div>
+						<div className="form-group">							
+							<label className="control-label col-sm-2" htmlFor="preheader">Preheader</label>
+							<div className="col-sm-3">
+								<textarea cols="40" rows="5" id="preheader" className="form-control" placeholder=""/>
+							</div>															
+						</div>	
+					</form>
+					</div>
+				</div>	   
+			</div>     
+			<div className="row">
+				<div className="col-md-12">
+					<a className="linkAlignMobile" href="http://pages.exacttarget.com/page.aspx?QS=773ed3059447707d9d701ccb4b27e72ab11c8f42980a76838c0411c92774c29a">View as Mobile</a>         
+					<a className="linkAlignWebpage" href="http://view.exacttarget.com/?j=fe6215727161077f7c17&m=fe6a1570706407787711&ls=fdf8117776640c7d771c7675&l=fe8e15797064027872&s=fe1c11717d6d03787c1172&jb=ffcf14&ju=fe2815747c620475761371&r=0">View as Webpage</a>               
+				</div>
+			</div>     
+			<div class="row">           
+				<img class="col-md-12" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/htmlLayout.png" /> 
+			</div>	
+		</div>		  
+       ); 
+    }
+});
+
+
+
+
+/****  WIZARD *****/
+
+var Step1 = React.createClass({
+  render: function() {
+    return (
+	<div className="row">
+		<div className="col-md-4">
+			<div>
+			  <ContentCategories />
+			</div>
+			<div className="Boo">
+			  <FilterByType data={filterData}/>
+			</div>
+		</div>
+		<div className="col-md-8">
+			<EmailSelect/>
+		</div>
+	</div>
+    );
+  }			
+});
+
+var Step2 = React.createClass({
+  render: function() {
+    return (
+	<div role="tabpanel" className="tab-pane active">
+		<HTMLView />
+	</div>
+    );
+  }			
+});
+
+var convertToId = function(title){
+    var text = title.replace(/\W+/g,"").replace("&","And");
+    return text.substring(0, 1).toLowerCase()+text.substring(1);
+}
+
+var Wizard = React.createClass({
+    render: function() {
+		return (
+		<div className="wizard">
+			<div className="wizard-header navbar navbar-default">
+				<ul className="nav navbar-nav navbar-left"> 				
+					<li key="0" className="active">
+						<a className="inactive-step" href="#selectContent" data-toggle="tab">
+							Select Content
+						</a>
+					</li>	
+					<li key="1">
+						<a className="inactive-step" href="#defineContent" data-toggle="tab">
+							Define Content
+						</a>
+					</li>                  
+				</ul>
+			</div>
+			<div className="wizard-content tab-content">
+				<div role="tabpanel" className="tab-pane active" id="selectContent">
+					<Step1 />
+				</div>             
+				<div role="tabpanel" className="tab-pane" id="defineContent">
+					<Step2 />
+				</div> 							               
+			</div>
+		</div>
+		);
+  }
 });
 
 module.exports = CreateEmail;
+
+

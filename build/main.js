@@ -130,7 +130,13 @@ module.exports = AppSwitcher;
 
 var React = require("react");
 var Shared = require("../Shared/Shared");
+
+//data
+var items = [{ title: "John Smith", email: "jsmith@gmail.com" }, { title: "Sue James", email: "sjames@gmail.com" }, { title: "Joe Jones", email: "jjones@gmail.com" }, { title: "Fiona Chapman", email: "fchapman@gmail.com" }, { title: "Lilly Kennedy", email: "lkennedy@gmail.com" }, { title: "Bradford Hill", email: "bhill@gmail.com" }, { title: "Erika Saarland", email: "esaarland@gmail.com" }, { title: "Peter Paulson", email: "ppaulson@gmail.com" }, { title: "Thomas Neal", email: "tneal@gmail.com" }, { title: "Jim Barber", email: "jbarber@gmail.com" }, { title: "Tina Smothers", email: "tsmothers@gmail.com" }, { title: "Billy June", email: "bjune@gmail.com" }, { title: "John Jacobs", email: "jjacobs@gmail.com" }, { title: "Joe Cobbs", email: "jcobbs@gmail.com" }, { title: "Dexter Dodgers", email: "ddodgers@gmail.com" }, { title: "Parker Peeps", email: "ppeeps@gmail.com" }, { title: "Valerie Watts", email: "vwatts@gmail.com" }, { title: "Vann Johnson", email: "vjohnson@gmail.com" }, { title: "Chris Michaels", email: "cmichaels@gmail.com" }, { title: "Brittany Johns", email: "bjohns@gmail.com" }, { title: "Jeff Woods", email: "jwoods@gmail.com" }, { title: "Kevin Woodard", email: "kwoodard@gmail.com" }];
+
+//components
 var SearchBar = Shared.SearchBar;
+var ItemList = Shared.ItemList;
 
 var ClientLists = React.createClass({
   displayName: "ClientLists",
@@ -168,6 +174,11 @@ var ClientLists = React.createClass({
             "h4",
             null,
             "My Contacts"
+          ),
+          React.createElement(
+            "div",
+            { className: "well", id: "myContactsPanel" },
+            React.createElement(ItemList, { items: items })
           )
         ),
         React.createElement(
@@ -177,24 +188,33 @@ var ClientLists = React.createClass({
             "div",
             null,
             React.createElement(
-              "button",
-              { className: "btn btn-primary" },
-              "Upload New Clients"
-            ),
-            React.createElement("br", null),
-            React.createElement(
-              "small",
-              null,
-              "Upload new contacts from your desktop using a “delimited” file"
+              "div",
+              { className: "form-group" },
+              React.createElement(
+                "button",
+                { className: "btn btn-primary" },
+                "Upload New Clients"
+              ),
+              React.createElement("br", null),
+              React.createElement(
+                "small",
+                null,
+                "Upload new contacts from your desktop using a “delimited” file"
+              )
             )
           ),
           React.createElement(
             "div",
-            null,
+            { className: "form-inline" },
+            React.createElement(
+              "div",
+              { className: "form-group" },
+              React.createElement("input", { type: "text", className: "form-control", id: "newListInput", placeholder: "Create New List" })
+            ),
             React.createElement(
               "button",
               { className: "btn btn-primary" },
-              "Create New List"
+              "Save"
             ),
             React.createElement("br", null),
             React.createElement(
@@ -205,11 +225,47 @@ var ClientLists = React.createClass({
           ),
           React.createElement(
             "div",
-            null,
+            { className: "form-inline" },
+            React.createElement(
+              "div",
+              { className: "form-group" },
+              React.createElement(
+                "div",
+                { className: "dropdown" },
+                React.createElement(
+                  "button",
+                  { type: "button", className: "btn btn-primary", "data-toggle": "dropdown" },
+                  "Add to List",
+                  React.createElement("span", { className: "caret" })
+                ),
+                React.createElement(
+                  "ul",
+                  { className: "dropdown-menu", role: "menu" },
+                  React.createElement(
+                    "li",
+                    null,
+                    React.createElement(
+                      "a",
+                      { href: "#" },
+                      "List One"
+                    )
+                  ),
+                  React.createElement(
+                    "li",
+                    null,
+                    React.createElement(
+                      "a",
+                      { href: "#" },
+                      "List Two"
+                    )
+                  )
+                )
+              )
+            ),
             React.createElement(
               "button",
               { className: "btn btn-primary" },
-              "Add to Existing List"
+              "Add"
             ),
             React.createElement("br", null),
             React.createElement(
@@ -324,10 +380,10 @@ var ClientManagement = React.createClass({
         { className: "col-md-2" },
         React.createElement(
           "ul",
-          null,
+          { className: "nav nav-pills nav-stacked" },
           React.createElement(
             "li",
-            null,
+            { role: "presentation" },
             React.createElement(
               Link,
               { to: "lookup" },
@@ -336,7 +392,7 @@ var ClientManagement = React.createClass({
           ),
           React.createElement(
             "li",
-            null,
+            { role: "presentation" },
             React.createElement(
               Link,
               { to: "manage" },
@@ -345,7 +401,7 @@ var ClientManagement = React.createClass({
           ),
           React.createElement(
             "li",
-            null,
+            { role: "presentation" },
             React.createElement(
               Link,
               { to: "lists-subscriptions" },
@@ -421,131 +477,381 @@ var FolderTree = require("../Shared/FolderTree");
 var FilterByType_ = require("../Shared/FilterByType").ItemList;
 
 var folders = [{
-  name: "Shared Emails",
-  folders: [{
-    name: "Newsletters",
-    folders: [{ name: "Retirement" }, { name: "Mortgage" }]
-  }, { name: "Webinars" }, { name: "Whitepapers" }, { name: "Series 7 Approved" }] }, { name: "Shared Templates" }];
+	name: "Shared Emails",
+	folders: [{
+		name: "Newsletters",
+		folders: [{ name: "Retirement" }, { name: "Mortgage" }]
+	}, { name: "Webinars" }, { name: "Whitepapers" }, { name: "Series 7 Approved" }] }, { name: "Shared Templates" }];
 
 var filterData = {
-  title: "Filter By Type",
-  items: [{ title: "Newsletters", id: "1" }, { title: "Advice", id: "2" }, { title: "Managed Communications", id: "3" }]
+	title: "Filter By Type",
+	items: [{ title: "Newsletters", id: "1" }, { title: "Advice", id: "2" }, { title: "Managed Communications", id: "3" }]
 };
 
 var CreateEmail = React.createClass({
-  displayName: "CreateEmail",
+	displayName: "CreateEmail",
 
-  render: function render() {
-    return React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "div",
-        { className: "row col-md-12" },
-        React.createElement(
-          "h2",
-          null,
-          "CreateEmail"
-        )
-      ),
-      React.createElement(
-        "div",
-        { className: "row col-md-12" },
-        React.createElement(
-          "h2",
-          null,
-          "wizard"
-        )
-      ),
-      React.createElement(
-        "div",
-        { className: "row" },
-        React.createElement(
-          "div",
-          { className: "col-md-4" },
-          React.createElement(
-            "div",
-            null,
-            React.createElement(ContentCategories, null)
-          ),
-          React.createElement(
-            "div",
-            { className: "Boo" },
-            React.createElement(FilterByType, { data: filterData })
-          )
-        ),
-        React.createElement(
-          "div",
-          { className: "col-md-8" },
-          React.createElement(EmailSelect, null)
-        )
-      )
-    );
-  }
-
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"div",
+				{ className: "row col-md-12" },
+				React.createElement(
+					"h2",
+					null,
+					"Create Email"
+				)
+			),
+			React.createElement(
+				"div",
+				{ className: "row col-md-12" },
+				React.createElement(Wizard, null)
+			)
+		);
+	}
 });
 
 var ContentCategories = React.createClass({
-  displayName: "ContentCategories",
+	displayName: "ContentCategories",
 
-  render: function render() {
-    return React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "h4",
-        null,
-        "Content Categories"
-      ),
-      React.createElement(SearchBar, null),
-      React.createElement(
-        "div",
-        { className: "well" },
-        React.createElement(FolderTree, { folders: folders })
-      )
-    );
-  }
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"h4",
+				null,
+				"Content Categories"
+			),
+			React.createElement(
+				"div",
+				{ className: "searchbar" },
+				React.createElement(SearchBar, null)
+			),
+			React.createElement(
+				"div",
+				{ className: "well" },
+				React.createElement(FolderTree, { folders: folders })
+			)
+		);
+	}
 
 });
 
 var FilterByType = React.createClass({
-  displayName: "FilterByType",
+	displayName: "FilterByType",
 
-  render: function render() {
-    return React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "h4",
-        null,
-        "Filter By Type"
-      ),
-      React.createElement(
-        "div",
-        { className: "well" },
-        React.createElement(FilterByType_, { data: filterData })
-      )
-    );
-  }
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"h4",
+				null,
+				"Filter By Type"
+			),
+			React.createElement(
+				"div",
+				{ className: "well" },
+				React.createElement(FilterByType_, { data: filterData })
+			)
+		);
+	}
 
 });
 
 var EmailSelect = React.createClass({
-  displayName: "EmailSelect",
+	displayName: "EmailSelect",
 
-  render: function render() {
-    return React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "h4",
-        null,
-        "Retirement"
-      ),
-      React.createElement("div", { className: "well" })
-    );
-  }
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"h4",
+				null,
+				"Retirement"
+			),
+			React.createElement(
+				"div",
+				{ className: "well" },
+				React.createElement(RetirementThumbs, null)
+			)
+		);
+	}
+});
 
+var RetirementThumbs = React.createClass({
+	displayName: "RetirementThumbs",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"table",
+				null,
+				React.createElement(
+					"tr",
+					null,
+					React.createElement(
+						"td",
+						null,
+						React.createElement(
+							"label",
+							{ "for": "febNews" },
+							"February Newsletter "
+						),
+						React.createElement(
+							"div",
+							null,
+							React.createElement("img", { className: "retirement-img", id: "febNews", src: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", height: "200", width: "150" })
+						)
+					),
+					React.createElement(
+						"td",
+						null,
+						React.createElement(
+							"label",
+							{ "for": "marchNews" },
+							"March Newsletter "
+						),
+						React.createElement(
+							"div",
+							null,
+							React.createElement("img", { className: "retirement-img", id: "marchNews", src: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", height: "200", width: "150" })
+						)
+					)
+				),
+				React.createElement(
+					"tr",
+					null,
+					React.createElement(
+						"td",
+						null,
+						React.createElement(
+							"label",
+							{ "for": "aprilNews" },
+							"April Newsletter "
+						),
+						React.createElement(
+							"div",
+							null,
+							React.createElement("img", { className: "retirement-img", id: "aprilNews", src: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", height: "200", width: "150" })
+						)
+					),
+					React.createElement(
+						"td",
+						null,
+						React.createElement(
+							"label",
+							{ "for": "mayNews" },
+							"May Newsletter "
+						),
+						React.createElement(
+							"div",
+							null,
+							React.createElement("img", { className: "retirement-img", id: "mayNews", src: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", height: "200", width: "150" })
+						)
+					)
+				)
+			)
+		);
+	}
+});
+
+var HTMLView = React.createClass({
+	displayName: "HTMLView",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement(
+					"div",
+					{ className: "col-md-12" },
+					React.createElement(
+						"div",
+						{ className: "well" },
+						React.createElement(
+							"form",
+							{ className: "form-horizontal", role: "form" },
+							React.createElement(
+								"div",
+								{ className: "form-group" },
+								React.createElement(
+									"label",
+									{ className: "control-label col-sm-2", htmlFor: "emailName" },
+									"Email Name"
+								),
+								React.createElement(
+									"div",
+									{ className: "col-sm-3" },
+									React.createElement("input", { type: "text", id: "emailName", className: "form-control col-sm-4", placeholder: "" })
+								)
+							),
+							React.createElement(
+								"div",
+								{ className: "form-group" },
+								React.createElement(
+									"label",
+									{ className: "control-label col-sm-2", htmlFor: "emailSubject" },
+									"Email Subject"
+								),
+								React.createElement(
+									"div",
+									{ className: "col-sm-3" },
+									React.createElement("input", { type: "text", id: "emailSubject", className: "form-control", placeholder: "" })
+								)
+							),
+							React.createElement(
+								"div",
+								{ className: "form-group" },
+								React.createElement(
+									"label",
+									{ className: "control-label col-sm-2", htmlFor: "preheader" },
+									"Preheader"
+								),
+								React.createElement(
+									"div",
+									{ className: "col-sm-3" },
+									React.createElement("textarea", { cols: "40", rows: "5", id: "preheader", className: "form-control", placeholder: "" })
+								)
+							)
+						)
+					)
+				)
+			),
+			React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement(
+					"div",
+					{ className: "col-md-12" },
+					React.createElement(
+						"a",
+						{ className: "linkAlignMobile", href: "http://pages.exacttarget.com/page.aspx?QS=773ed3059447707d9d701ccb4b27e72ab11c8f42980a76838c0411c92774c29a" },
+						"View as Mobile"
+					),
+					React.createElement(
+						"a",
+						{ className: "linkAlignWebpage", href: "http://view.exacttarget.com/?j=fe6215727161077f7c17&m=fe6a1570706407787711&ls=fdf8117776640c7d771c7675&l=fe8e15797064027872&s=fe1c11717d6d03787c1172&jb=ffcf14&ju=fe2815747c620475761371&r=0" },
+						"View as Webpage"
+					)
+				)
+			),
+			React.createElement(
+				"div",
+				{ "class": "row" },
+				React.createElement("img", { "class": "col-md-12", src: "http://image.exct.net/lib/fe6a1570706407787711/m/1/htmlLayout.png" })
+			)
+		);
+	}
+});
+
+/****  WIZARD *****/
+
+var Step1 = React.createClass({
+	displayName: "Step1",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			{ className: "row" },
+			React.createElement(
+				"div",
+				{ className: "col-md-4" },
+				React.createElement(
+					"div",
+					null,
+					React.createElement(ContentCategories, null)
+				),
+				React.createElement(
+					"div",
+					{ className: "Boo" },
+					React.createElement(FilterByType, { data: filterData })
+				)
+			),
+			React.createElement(
+				"div",
+				{ className: "col-md-8" },
+				React.createElement(EmailSelect, null)
+			)
+		);
+	}
+});
+
+var Step2 = React.createClass({
+	displayName: "Step2",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			{ role: "tabpanel", className: "tab-pane active" },
+			React.createElement(HTMLView, null)
+		);
+	}
+});
+
+var convertToId = function convertToId(title) {
+	var text = title.replace(/\W+/g, "").replace("&", "And");
+	return text.substring(0, 1).toLowerCase() + text.substring(1);
+};
+
+var Wizard = React.createClass({
+	displayName: "Wizard",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			{ className: "wizard" },
+			React.createElement(
+				"div",
+				{ className: "wizard-header navbar navbar-default" },
+				React.createElement(
+					"ul",
+					{ className: "nav navbar-nav navbar-left" },
+					React.createElement(
+						"li",
+						{ key: "0", className: "active" },
+						React.createElement(
+							"a",
+							{ className: "inactive-step", href: "#selectContent", "data-toggle": "tab" },
+							"Select Content"
+						)
+					),
+					React.createElement(
+						"li",
+						{ key: "1" },
+						React.createElement(
+							"a",
+							{ className: "inactive-step", href: "#defineContent", "data-toggle": "tab" },
+							"Define Content"
+						)
+					)
+				)
+			),
+			React.createElement(
+				"div",
+				{ className: "wizard-content tab-content" },
+				React.createElement(
+					"div",
+					{ role: "tabpanel", className: "tab-pane active", id: "selectContent" },
+					React.createElement(Step1, null)
+				),
+				React.createElement(
+					"div",
+					{ role: "tabpanel", className: "tab-pane", id: "defineContent" },
+					React.createElement(Step2, null)
+				)
+			)
+		);
+	}
 });
 
 module.exports = CreateEmail;
@@ -944,9 +1250,9 @@ var ItemList = module.exports.ItemList = React.createClass({
 
 var React = require("react");
 
-// $("html").on("click", ".folder-head", function(){
-//     $(this).toggleClass("collapsed").toggleClass("expanded");
-// });
+jQuery("html").on("click", ".folder-head", function () {
+    jQuery(this).toggleClass("collapsed").toggleClass("expanded");
+});
 
 var createFolder = (function (_createFolder) {
     var _createFolderWrapper = function createFolder(_x, _x2) {
@@ -1243,6 +1549,29 @@ module.exports.Pagination = React.createClass({
 
 var React = require("react");
 
+var Item = React.createClass({
+  displayName: "Item",
+
+  render: function render() {
+    return React.createElement(
+      "tr",
+      null,
+      React.createElement(
+        "td",
+        { className: "list-column" },
+        React.createElement("input", { type: "checkbox" }),
+        " ",
+        this.props.item.title
+      ),
+      React.createElement(
+        "td",
+        { className: "list-column" },
+        this.props.item.email
+      )
+    );
+  }
+});
+
 module.exports = {
   SearchBar: React.createClass({displayName: "SearchBar",
     render: function render() {
@@ -1290,7 +1619,7 @@ module.exports = {
         item.locked = i == 0 ? false : true;
         return item;
       });
-      return { items: items };
+      return { items: itemList };
     },
     render: function render() {
       var that = this;
@@ -1467,7 +1796,6 @@ module.exports = {
       );
     }
   })
-
 };
 
 },{"react":222}],19:[function(require,module,exports){

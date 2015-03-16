@@ -15761,6 +15761,34 @@ input[type="radio"].sf1-radio {
   font-weight: 700;
   text-decoration: underline;
 }
+.vertical-tabs .nav.nav-stacked {
+  max-width: 300px;
+  width: 20%;
+  float: left;
+}
+.vertical-tabs .tab-content {
+  position: relative;
+  float: left;
+  padding-left: 1em;
+}
+#myContactsPanel {
+  height: 600px;
+  overflow: scroll;
+}
+.list-group-item {
+  border: 0;
+  padding: 0px;
+}
+.retirement-img {
+  margin-right: 100px;
+  margin-bottom: 50px;
+}
+.searchbar {
+  margin-bottom: 20px;
+}
+.linkAlignMobile {
+  margin-right: 30px;
+}
 @font-face {
   font-family: 'ProximaNova-Light-Webfont';
   font-weight: normal;
