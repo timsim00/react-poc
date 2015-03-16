@@ -175,7 +175,11 @@ var ClientLists = React.createClass({
             null,
             "My Contacts"
           ),
-          React.createElement(ItemList, { items: items })
+          React.createElement(
+            "div",
+            { className: "well", id: "myContactsPanel" },
+            React.createElement(ItemList, { items: items })
+          )
         ),
         React.createElement(
           "div",
@@ -184,24 +188,33 @@ var ClientLists = React.createClass({
             "div",
             null,
             React.createElement(
-              "button",
-              { className: "btn btn-primary" },
-              "Upload New Clients"
-            ),
-            React.createElement("br", null),
-            React.createElement(
-              "small",
-              null,
-              "Upload new contacts from your desktop using a “delimited” file"
+              "div",
+              { className: "form-group" },
+              React.createElement(
+                "button",
+                { className: "btn btn-primary" },
+                "Upload New Clients"
+              ),
+              React.createElement("br", null),
+              React.createElement(
+                "small",
+                null,
+                "Upload new contacts from your desktop using a “delimited” file"
+              )
             )
           ),
           React.createElement(
             "div",
-            null,
+            { className: "form-inline" },
+            React.createElement(
+              "div",
+              { className: "form-group" },
+              React.createElement("input", { type: "text", className: "form-control", id: "newListInput", placeholder: "Create New List" })
+            ),
             React.createElement(
               "button",
               { className: "btn btn-primary" },
-              "Create New List"
+              "Save"
             ),
             React.createElement("br", null),
             React.createElement(
@@ -212,11 +225,47 @@ var ClientLists = React.createClass({
           ),
           React.createElement(
             "div",
-            null,
+            { className: "form-inline" },
+            React.createElement(
+              "div",
+              { className: "form-group" },
+              React.createElement(
+                "div",
+                { className: "dropdown" },
+                React.createElement(
+                  "button",
+                  { type: "button", className: "btn btn-primary", "data-toggle": "dropdown" },
+                  "Add to List",
+                  React.createElement("span", { className: "caret" })
+                ),
+                React.createElement(
+                  "ul",
+                  { className: "dropdown-menu", role: "menu" },
+                  React.createElement(
+                    "li",
+                    null,
+                    React.createElement(
+                      "a",
+                      { href: "#" },
+                      "List One"
+                    )
+                  ),
+                  React.createElement(
+                    "li",
+                    null,
+                    React.createElement(
+                      "a",
+                      { href: "#" },
+                      "List Two"
+                    )
+                  )
+                )
+              )
+            ),
             React.createElement(
               "button",
               { className: "btn btn-primary" },
-              "Add to Existing List"
+              "Add"
             ),
             React.createElement("br", null),
             React.createElement(
@@ -331,10 +380,10 @@ var ClientManagement = React.createClass({
         { className: "col-md-2" },
         React.createElement(
           "ul",
-          null,
+          { className: "nav nav-pills nav-stacked" },
           React.createElement(
             "li",
-            null,
+            { role: "presentation" },
             React.createElement(
               Link,
               { to: "lookup" },
@@ -343,7 +392,7 @@ var ClientManagement = React.createClass({
           ),
           React.createElement(
             "li",
-            null,
+            { role: "presentation" },
             React.createElement(
               Link,
               { to: "manage" },
@@ -352,7 +401,7 @@ var ClientManagement = React.createClass({
           ),
           React.createElement(
             "li",
-            null,
+            { role: "presentation" },
             React.createElement(
               Link,
               { to: "lists-subscriptions" },

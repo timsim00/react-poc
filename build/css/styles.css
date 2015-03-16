@@ -15761,6 +15761,20 @@ input[type="radio"].sf1-radio {
   font-weight: 700;
   text-decoration: underline;
 }
+.vertical-tabs .nav.nav-stacked {
+  max-width: 300px;
+  width: 20%;
+  float: left;
+}
+.vertical-tabs .tab-content {
+  position: relative;
+  float: left;
+  padding-left: 1em;
+}
+#myContactsPanel {
+  height: 600px;
+  overflow: scroll;
+}
 @font-face {
   font-family: 'ProximaNova-Light-Webfont';
   font-weight: normal;
