@@ -130,7 +130,13 @@ module.exports = AppSwitcher;
 
 var React = require("react");
 var Shared = require("../Shared/Shared");
+
+//data
+var items = [{ title: "John Smith", email: "jsmith@gmail.com" }, { title: "Sue James", email: "sjames@gmail.com" }, { title: "Joe Jones", email: "jjones@gmail.com" }, { title: "Fiona Chapman", email: "fchapman@gmail.com" }, { title: "Lilly Kennedy", email: "lkennedy@gmail.com" }, { title: "Bradford Hill", email: "bhill@gmail.com" }, { title: "Erika Saarland", email: "esaarland@gmail.com" }, { title: "Peter Paulson", email: "ppaulson@gmail.com" }, { title: "Thomas Neal", email: "tneal@gmail.com" }, { title: "Jim Barber", email: "jbarber@gmail.com" }, { title: "Tina Smothers", email: "tsmothers@gmail.com" }, { title: "Billy June", email: "bjune@gmail.com" }, { title: "John Jacobs", email: "jjacobs@gmail.com" }, { title: "Joe Cobbs", email: "jcobbs@gmail.com" }, { title: "Dexter Dodgers", email: "ddodgers@gmail.com" }, { title: "Parker Peeps", email: "ppeeps@gmail.com" }, { title: "Valerie Watts", email: "vwatts@gmail.com" }, { title: "Vann Johnson", email: "vjohnson@gmail.com" }, { title: "Chris Michaels", email: "cmichaels@gmail.com" }, { title: "Brittany Johns", email: "bjohns@gmail.com" }, { title: "Jeff Woods", email: "jwoods@gmail.com" }, { title: "Kevin Woodard", email: "kwoodard@gmail.com" }];
+
+//components
 var SearchBar = Shared.SearchBar;
+var ItemList = Shared.ItemList;
 
 var ClientLists = React.createClass({
   displayName: "ClientLists",
@@ -168,7 +174,8 @@ var ClientLists = React.createClass({
             "h4",
             null,
             "My Contacts"
-          )
+          ),
+          React.createElement(ItemList, { items: items })
         ),
         React.createElement(
           "div",
@@ -1243,6 +1250,29 @@ module.exports.Pagination = React.createClass({
 
 var React = require("react");
 
+var Item = React.createClass({
+  displayName: "Item",
+
+  render: function render() {
+    return React.createElement(
+      "tr",
+      null,
+      React.createElement(
+        "td",
+        { className: "list-column" },
+        React.createElement("input", { type: "checkbox" }),
+        " ",
+        this.props.item.title
+      ),
+      React.createElement(
+        "td",
+        { className: "list-column" },
+        this.props.item.email
+      )
+    );
+  }
+});
+
 module.exports = {
   SearchBar: React.createClass({displayName: "SearchBar",
     render: function render() {
@@ -1290,7 +1320,7 @@ module.exports = {
         item.locked = i == 0 ? false : true;
         return item;
       });
-      return { items: items };
+      return { items: itemList };
     },
     render: function render() {
       var that = this;
@@ -1467,7 +1497,6 @@ module.exports = {
       );
     }
   })
-
 };
 
 },{"react":222}],19:[function(require,module,exports){

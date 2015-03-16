@@ -1,5 +1,17 @@
 var React = require('react');
 
+var Item = React.createClass({
+    render: function () {
+      return (
+          <tr>
+          <td className="list-column"><input type="checkbox"/>&nbsp;{ this.props.item.title }</td>
+              <td className="list-column">{ this.props.item.email }</td>
+        </tr>
+      );
+    }
+});
+
+
 module.exports = {
   "SearchBar" : React.createClass({
      render: function() {
@@ -35,7 +47,7 @@ module.exports = {
           item.locked = (i == 0) ? false : true;
           return item;
         });
-        return {items:items};
+        return {items:itemList};
       },
       render: function(){
         var that = this;
@@ -123,6 +135,4 @@ module.exports = {
         );
       }
     })
-
-
 };
