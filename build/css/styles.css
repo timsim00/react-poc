@@ -15771,6 +15771,16 @@ input[type="radio"].sf1-radio {
   float: left;
   padding-left: 1em;
 }
+#inpFirstName {
+  margin-right: 5px;
+}
+.scrollPaneClientLookup {
+  width: 860px;
+  height: 400px;
+  padding: 25px;
+  border: 2px solid gray;
+  margin: 30px;
+}
 #myContactsPanel {
   height: 600px;
   overflow: scroll;
@@ -15788,6 +15798,24 @@ input[type="radio"].sf1-radio {
 }
 .linkAlignMobile {
   margin-right: 30px;
+}
+/* CheckListPlus */
+.checkLst {
+  border: 1px solid black;
+  overflow: auto;
+  height: 300px;
+}
+.item {
+  display: inline-block;
+  vertical-align: top;
+  width: 350px;
+}
+.actions {
+  display: inline-block;
+}
+.listsSubsMainContent .members {
+  height: 650px;
+  overflow: auto;
 }
 @font-face {
   font-family: 'ProximaNova-Light-Webfont';

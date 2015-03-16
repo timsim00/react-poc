@@ -288,14 +288,180 @@ module.exports = ClientLists;
 
 var React = require("react");
 
+var items = [{ title: "Publication 1" }, { title: "Publication 2" }, { title: "Publication 3" }, { title: "Publication 4" }, { title: "Publication 5" }, { title: "Publication 6" }, { title: "Publication 7" }, { title: "Publication 8" }];
+
+var items2 = [{ title: "Unsubscribe From All" }, { title: "I certify that this client has requested&nbsp; to be added back into the Morgan&nbsp;Stanley Email Program." }, { title: "Publication 3" }, { title: "Publication 4" }, { title: "Publication 5" }, { title: "Publication 6" }, { title: "Publication 7" }, { title: "Publication 8" }];
+
+var Item = React.createClass({
+  displayName: "Item",
+
+  render: function render() {
+    return React.createElement(
+      "li",
+      { className: "list-group-item" },
+      React.createElement("input", { type: "checkbox" }),
+      " ",
+      this.props.item.title
+    );
+  }
+});
+
+var ItemList = React.createClass({
+  displayName: "ItemList",
+
+  getInitialState: function getInitialState() {
+    var itemList = this.props.items.map(function (item, i) {
+      item.done = false;
+      // Unclock first item in the list
+      item.locked = i == 0 ? false : true;
+      return item;
+    });
+    return { items: items };
+  },
+  render: function render() {
+    var that = this;
+    var itemNodes = this.state.items.map(function (item, i) {
+      return React.createElement(Item, { item: item, order: i, clicked: that.whenClicked });
+    });
+    return React.createElement(
+      "ul",
+      { className: "list-group" },
+      itemNodes
+    );
+  }
+});
+
 var ClientLookup = React.createClass({
   displayName: "ClientLookup",
 
   render: function render() {
     return React.createElement(
-      "h2",
+      "div",
       null,
-      "Client Lookup"
+      React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "div",
+          { className: "input-group" },
+          React.createElement("input", { type: "text", className: "form-control", "aria-label": "...", placeholder: "email address", id: "emailAddr" }),
+          React.createElement(
+            "div",
+            { className: "input-group-btn" },
+            React.createElement(
+              "button",
+              { type: "button", className: "btn btn-default" },
+              "Search"
+            ),
+            React.createElement(
+              "button",
+              { type: "button", className: "btn btn-default dropdown-toggle", "data-toggle": "dropdown", "aria-expanded": "false" },
+              React.createElement("span", { className: "caret" }),
+              React.createElement(
+                "span",
+                { className: "sr-only" },
+                "Toggle Dropdown"
+              )
+            ),
+            React.createElement(
+              "ul",
+              { className: "dropdown-menu dropdown-menu-right", role: "menu" },
+              React.createElement(
+                "li",
+                null,
+                React.createElement(
+                  "a",
+                  { href: "#" },
+                  "Update"
+                )
+              ),
+              React.createElement(
+                "li",
+                null,
+                React.createElement(
+                  "a",
+                  { href: "#" },
+                  "Add new client"
+                )
+              )
+            )
+          )
+        ),
+        React.createElement("br", null),
+        React.createElement(
+          "form",
+          { className: "form-inline", role: "form" },
+          React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement(
+              "label",
+              { htmlFor: "inpFirstName", className: "sr-only" },
+              "First Name"
+            ),
+            React.createElement("input", { type: "text", id: "inpFirstName", className: "form-control", "aria-label": "...", placeholder: "First Name", disabled: true })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement(
+              "label",
+              { htmlFor: "inpLastName", className: "sr-only" },
+              "Last Name"
+            ),
+            React.createElement("input", { type: "text", id: "inpLastName", className: "form-control", "aria-label": "...", placeholder: "Last Name", disabled: true })
+          )
+        )
+      ),
+      React.createElement("br", null),
+      React.createElement("br", null),
+      React.createElement("br", null),
+      React.createElement("br", null),
+      React.createElement("br", null),
+      React.createElement("br", null),
+      React.createElement(
+        "label",
+        { htmlFor: "scrollPaneClientLookup" },
+        "Subscriptions"
+      ),
+      React.createElement(
+        "div",
+        { className: "scrollPaneClientLookup", id: "scrollPaneClientLookup" },
+        React.createElement(ItemList, { items: items }),
+        React.createElement(
+          "table",
+          null,
+          React.createElement(
+            "tr",
+            null,
+            React.createElement(
+              "td",
+              null,
+              React.createElement("input", { type: "checkbox" })
+            ),
+            React.createElement(
+              "td",
+              null,
+              "Unsubscribe From All "
+            ),
+            React.createElement(
+              "td",
+              null,
+              React.createElement("input", { type: "checkbox" })
+            ),
+            React.createElement(
+              "td",
+              null,
+              "I certify that this client has requested to be added back into to the Morgan Stanley Email Program."
+            )
+          )
+        )
+      ),
+      React.createElement(
+        "button",
+        { type: "button", className: "btn btn-default" },
+        "Submit"
+      )
     );
   }
 
@@ -426,23 +592,186 @@ module.exports = ClientManagement;
 "use strict";
 
 var React = require("react");
+var Shared = require("../Shared/Shared");
+var ItemList = Shared.ItemList;
+
+var SearchButton = React.createClass({
+    displayName: "SearchButton",
+
+    render: function render() {
+        return React.createElement(
+            "div",
+            { className: "search-button" },
+            React.createElement("span", { className: "glyphicon glyphicon-search" })
+        );
+    }
+});
+
+var data = [{
+    title: "Market Insights - Monthly",
+    content: "Monthly publication to share MS view on Market Conditions"
+}, {
+    title: "Global Investment Committee Weekly",
+    content: "Weekly publication from the MS Investment Committee on GlobalMarkets"
+}, {
+    title: "Retirement Planning Today - Monthly",
+    content: "Retirement updates on a Monthly and Semi-Monthy Basis"
+}, {
+    title: "World Point of View - Weekly",
+    content: "MS View of the World-wide Markets"
+}, {
+    title: "Investor Advisors Daily - Daily",
+    content: "Daily updates from the MS Advisor Team on Investment Conditions"
+}, {
+    title: "On the Market",
+    content: "Daily Advice and Predictions on the Market for the day"
+}];
+
+var items = [{ title: "ALL MY CLIENTS" }, { title: "College Friends" }, { title: "International Clients" }, { title: "Clients Interested in Retirement" }, { title: "Country Club members" }, { title: "Matt's Top Clients" }];
+
+var members = [{ title: "John Smith", email: "jsmith@gmail.com" }, { title: "Sue James", email: "sjames@gmail.com" }, { title: "Joe Jones", email: "jjones@gmail.com" }, { title: "Fiona Chapman", email: "fchapman@gmail.com" }, { title: "Lilly Kennedy", email: "lkennedy@gmail.com" }, { title: "Bradford Hill", email: "bhill@gmail.com" }, { title: "Erika Saarland", email: "esaarland@gmail.com" }, { title: "Peter Paulson", email: "ppaulson@gmail.com" }, { title: "Thomas Neal", email: "tneal@gmail.com" }, { title: "Jim Barber", email: "jbarber@gmail.com" }, { title: "Tina Smothers", email: "tsmothers@gmail.com" }, { title: "Billy June", email: "bjune@gmail.com" }, { title: "John Jacobs", email: "jjacobs@gmail.com" }, { title: "Joe Cobbs", email: "jcobbs@gmail.com" }, { title: "Dexter Dodgers", email: "ddodgers@gmail.com" }, { title: "Parker Peeps", email: "ppeeps@gmail.com" }, { title: "Valerie Watts", email: "vwatts@gmail.com" }, { title: "Vann Johnson", email: "vjohnson@gmail.com" }, { title: "Chris Michaels", email: "cmichaels@gmail.com" }, { title: "Brittany Johns", email: "bjohns@gmail.com" }, { title: "Jeff Woods", email: "jwoods@gmail.com" }, { title: "Kevin Woodard", email: "kwoodard@gmail.com" }];
+
+var ChecklistPlus = React.createClass({
+    displayName: "ChecklistPlus",
+
+    render: function render() {
+        return React.createElement(
+            "div",
+            { className: "checkLst" },
+            this.props.data.map(function (datum, index) {
+                var chkbxId = "chk_" + index;
+                return React.createElement(
+                    "div",
+                    { className: "form-group", key: index },
+                    React.createElement(
+                        "label",
+                        null,
+                        React.createElement("input", { id: chkbxId, type: "checkbox" }),
+                        React.createElement(
+                            "div",
+                            { className: "item" },
+                            React.createElement(
+                                "div",
+                                null,
+                                datum.title
+                            ),
+                            React.createElement(
+                                "div",
+                                null,
+                                datum.content
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "actions" },
+                            React.createElement(SearchButton, null)
+                        )
+                    )
+                );
+            })
+        );
+    }
+});
 
 var ListSubs = React.createClass({
-  displayName: "ListSubs",
+    displayName: "ListSubs",
 
-  render: function render() {
-    return React.createElement(
-      "h2",
-      null,
-      "Lists & Subscriptions"
-    );
-  }
+    render: function render() {
+        return React.createElement(
+            "div",
+            null,
+            React.createElement(
+                "h2",
+                null,
+                "Lists & Subscriptions"
+            ),
+            React.createElement(
+                "div",
+                { className: "listsSubsMainContent" },
+                React.createElement(
+                    "div",
+                    { className: "col-md-5" },
+                    React.createElement(
+                        "div",
+                        { className: "row" },
+                        React.createElement(
+                            "div",
+                            { className: "manage-lists well" },
+                            React.createElement(ItemList, { items: items })
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "row" },
+                        React.createElement(
+                            "button",
+                            { className: "col-md-6 btn" },
+                            "Delete Group "
+                        ),
+                        React.createElement(
+                            "button",
+                            { className: "col-md-6 btn" },
+                            "Manage Group "
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "row" },
+                        React.createElement(
+                            "button",
+                            { className: "col-md-6 btn" },
+                            "Rename Group "
+                        ),
+                        React.createElement("input", { type: "text", className: "col-md-6", text: "College Friends" })
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "row well" },
+                        React.createElement(ChecklistPlus, { data: data })
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "col-md-4" },
+                    React.createElement(
+                        "div",
+                        { className: "members" },
+                        React.createElement(ItemList, { items: members })
+                    ),
+                    React.createElement(
+                        "button",
+                        { className: "btn" },
+                        " View Publication Members "
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "col-md-1" },
+                    React.createElement(
+                        "button",
+                        { className: "btn" },
+                        " Remove From Group "
+                    ),
+                    React.createElement(
+                        "button",
+                        { className: "btn" },
+                        " Add to Publication "
+                    ),
+                    React.createElement(
+                        "button",
+                        { className: "btn" },
+                        " Remove from Publication "
+                    )
+                )
+            )
+        );
+    }
 
 });
 
 module.exports = ListSubs;
 
-},{"react":222}],8:[function(require,module,exports){
+},{"../Shared/Shared":18,"react":222}],8:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -1176,15 +1505,239 @@ module.exports = SendEmail;
 var React = require("react");
 
 var FAadmin = React.createClass({
-  displayName: "FAadmin",
+	displayName: "FAadmin",
 
-  render: function render() {
-    return React.createElement(
-      "h2",
-      null,
-      "FA Administration"
-    );
-  }
+	render: function render() {
+		return React.createElement(
+			"div",
+			{ className: "container" },
+			React.createElement(
+				"h3",
+				null,
+				"FA Administration"
+			),
+			React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement(
+					"div",
+					{ className: "col-md-3" },
+					React.createElement(
+						"h4",
+						null,
+						"FA Personalization"
+					)
+				),
+				React.createElement(
+					"div",
+					{ className: "col-md-8" },
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement(
+							"div",
+							{ className: "col-md-5" },
+							" "
+						),
+						React.createElement(
+							"div",
+							{ className: "col-md-5" },
+							React.createElement(
+								"button",
+								{ type: "button", className: "btn btn-primary" },
+								"Edit"
+							),
+							" ",
+							React.createElement(
+								"button",
+								{ type: "button", className: "btn btn-primary" },
+								"Update"
+							)
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement(
+							"div",
+							{ className: "col-md-3" },
+							"Name"
+						),
+						React.createElement(
+							"div",
+							{ className: "col-md-8" },
+							"Matthew Crowley"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement(
+							"div",
+							{ className: "col-md-3" },
+							"Title 1"
+						),
+						React.createElement(
+							"div",
+							{ className: "col-md-8" },
+							"Senior Vice President"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement(
+							"div",
+							{ className: "col-md-3" },
+							"Title 2"
+						),
+						React.createElement(
+							"div",
+							{ className: "col-md-8" },
+							"Wealth Advisor"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement(
+							"div",
+							{ className: "col-md-3" },
+							"Email Address"
+						),
+						React.createElement(
+							"div",
+							{ className: "col-md-8" },
+							"matthew.crowley@f1f.com"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement(
+							"div",
+							{ className: "col-md-3" },
+							"Branch"
+						),
+						React.createElement(
+							"div",
+							{ className: "col-md-8" },
+							"1110 Park Avenue Plaza"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement(
+							"div",
+							{ className: "col-md-3" },
+							"Twitter Handle"
+						),
+						React.createElement(
+							"div",
+							{ className: "col-md-8" },
+							"@MattCrowleyMS"
+						)
+					),
+					React.createElement("br", null),
+					React.createElement("br", null),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement(
+							"div",
+							{ className: "col-md-3" },
+							"Direct Phone"
+						),
+						React.createElement(
+							"div",
+							{ className: "col-md-8" },
+							"555-434-6789"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement(
+							"div",
+							{ className: "col-md-3" },
+							"Branch Phone"
+						),
+						React.createElement(
+							"div",
+							{ className: "col-md-8" },
+							"555-434-6700"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement(
+							"div",
+							{ className: "col-md-3" },
+							"Mail Address"
+						),
+						React.createElement(
+							"div",
+							{ className: "col-md-8" },
+							"Park Avenue Plaza/55 East 52nd St 28th Floor, New York, NY 10055"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement(
+							"div",
+							{ className: "col-md-3" },
+							"Your Photo"
+						),
+						React.createElement(
+							"div",
+							{ className: "col-md-8" },
+							React.createElement(
+								"div",
+								{ className: "input-group input-group-sm" },
+								React.createElement("input", { type: "text", className: "form-control", placeholder: "Photo" }),
+								" ",
+								React.createElement(
+									"button",
+									{ type: "button", className: "btn btn-primary" },
+									"Browse"
+								)
+							)
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement("div", { className: "col-md-3" }),
+						React.createElement(
+							"div",
+							{ className: "col-md-8" },
+							"Dimensions should be up to 80px wide x 80px tall",
+							React.createElement("br", null),
+							"Supported file formats are .jpg and .gif"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement("div", { className: "col-md-3" }),
+						React.createElement(
+							"div",
+							{ className: "col-md-3" },
+							React.createElement("img", { "data-src": "holder.js/80x80", width: "80", height: "80" })
+						),
+						React.createElement(
+							"div",
+							{ className: "col-md-3" },
+							"This photograph will show up on newsletters and personalized communications sent via email."
+						)
+					)
+				)
+			)
+		);
+	}
 
 });
 
@@ -1613,6 +2166,7 @@ module.exports = {
 
   ItemList: React.createClass({displayName: "ItemList",
     getInitialState: function getInitialState() {
+      var items = this.props.items;
       var itemList = this.props.items.map(function (item, i) {
         item.done = false;
         // Unclock first item in the list
