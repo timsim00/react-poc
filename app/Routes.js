@@ -24,9 +24,9 @@ var routes = (
     <Route name="content-admin" handler={ContentAdmin}/>
 
     <Route name="client-management" handler={ClientManagement}>
-      <Route name="lookup" handler={ClientLookup}/>
-      <Route name="manage-clients" handler={ClientLists}/>
-      <Route name="lists-subscribptions" handler={ListSubs}/>
+      <DefaultRoute name="lookup" handler={ClientLookup}/>
+      <Route name="manage" handler={ClientLists}/>
+      <Route name="lists-subscriptions" handler={ListSubs}/>
     </Route>
 
     <Route name="fa-administration" handler={FAadmin}/>

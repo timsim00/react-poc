@@ -114,15 +114,17 @@ var SubscriberOverview = React.createClass({
         <SubscriberCount/>
       </div>
       <div className="clearfix"></div>
-      <div className="pull-right">
-      
-      	 <button className="btn btn-sm btn-primary">Manage Subscribers</button>
-      	  <div className="btn-group">
-      	  	  <button className="btn btn-sm btn-primary">Add Subscribers </button>
-			  <button type="button" className="btn btn-sm btn-primary dropdown-toggle" aria-expanded="false">
-				<span className="caret"></span>
-			  </button>
-		  </div>
+      <div className="row">
+        <div className="pull-right">
+
+        	 <button className="btn btn-sm btn-primary">Manage Subscribers</button>
+        	  <div className="btn-group">
+        	  	  <button className="btn btn-sm btn-primary">Add Subscribers </button>
+  			  <button type="button" className="btn btn-sm btn-primary dropdown-toggle" aria-expanded="false">
+  				<span className="caret"></span>
+  			  </button>
+  		  </div>
+        </div>
       </div>
     </div>
     </div>

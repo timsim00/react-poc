@@ -169,15 +169,114 @@ module.exports = ClientLookup;
 "use strict";
 
 var React = require("react");
+var Router = require("react-router");
+
+var Link = Router.Link;
+var RouteHandler = Router.RouteHandler;
+
+// var tabs = [
+//     {
+//         title: "Managed Publications",
+//         content: "managed publications content -----------"
+//     },
+//     {
+//         title: "Manage Clients",
+//         content: "manage clients content-------------"
+//     },
+//     {
+//         title: "Lists & Subscriptions",
+//         content: "lists and subscriptions content --------------"
+//     }
+// ]
+//
+//
+//
+// var convertToId = function(title){
+//     var text = title.replace(/\W+/g,"").replace("&","And");
+//     return text.substring(0, 1).toLowerCase()+text.substring(1);
+// }
+//
+// var VerticalTabs = React.createClass({
+//   render: function() {
+//     return (
+//      <div className="vertical-tabs" role="tabpanel">
+//           <ul className="nav nav-pills nav-stacked" role="tablist">
+//               {tabs.map(function(tab, index){
+//                   var classes = index===0? "active": "";
+//                   var href = "#"+ convertToId(tab.title);
+//                   return (<li role="presentation" className={classes} key={index}>
+//                       <a href={href} aria-control="home" data-toggle="tab">
+//                       {tab.title}
+//                       </a>
+//                    </li>);
+//               })}
+//           </ul>
+//           <div className="tab-content">
+//               {tabs.map(function(tab, index){
+//                   var classes = index === 0? "tab-pane active": "tab-pane";
+//                   var id = convertToId(tab.title);
+//                   return (<div role="tabpanel" className={classes} id={id} key={index}>
+//                       {tab.content}
+//                   </div>)
+//               })}
+//           </div>
+//     </div>
+//     );
+//   }
+// });
 
 var ClientManagement = React.createClass({
   displayName: "ClientManagement",
 
   render: function render() {
     return React.createElement(
-      "h2",
+      "div",
       null,
-      "ClientManagement"
+      React.createElement(
+        "h2",
+        null,
+        "ClientManagement"
+      ),
+      React.createElement(
+        "div",
+        { className: "col-md-4" },
+        React.createElement(
+          "ul",
+          null,
+          React.createElement(
+            "li",
+            null,
+            React.createElement(
+              Link,
+              { to: "lookup" },
+              "Client Lookup"
+            )
+          ),
+          React.createElement(
+            "li",
+            null,
+            React.createElement(
+              Link,
+              { to: "manage" },
+              "Manage Clients"
+            )
+          ),
+          React.createElement(
+            "li",
+            null,
+            React.createElement(
+              Link,
+              { to: "lists-subscriptions" },
+              "Lists & Subscriptions"
+            )
+          )
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "col-md-8" },
+        React.createElement(RouteHandler, null)
+      )
     );
   }
 
@@ -185,7 +284,7 @@ var ClientManagement = React.createClass({
 
 module.exports = ClientManagement;
 
-},{"react":222}],7:[function(require,module,exports){
+},{"react":222,"react-router":63}],7:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -572,24 +671,28 @@ var SubscriberOverview = React.createClass({
         React.createElement("div", { className: "clearfix" }),
         React.createElement(
           "div",
-          { className: "pull-right" },
-          React.createElement(
-            "button",
-            { className: "btn btn-sm btn-primary" },
-            "Manage Subscribers"
-          ),
+          { className: "row" },
           React.createElement(
             "div",
-            { className: "btn-group" },
+            { className: "pull-right" },
             React.createElement(
               "button",
               { className: "btn btn-sm btn-primary" },
-              "Add Subscribers "
+              "Manage Subscribers"
             ),
             React.createElement(
-              "button",
-              { type: "button", className: "btn btn-sm btn-primary dropdown-toggle", "aria-expanded": "false" },
-              React.createElement("span", { className: "caret" })
+              "div",
+              { className: "btn-group" },
+              React.createElement(
+                "button",
+                { className: "btn btn-sm btn-primary" },
+                "Add Subscribers "
+              ),
+              React.createElement(
+                "button",
+                { type: "button", className: "btn btn-sm btn-primary dropdown-toggle", "aria-expanded": "false" },
+                React.createElement("span", { className: "caret" })
+              )
             )
           )
         )
@@ -932,7 +1035,7 @@ var PageSizeDropdown = module.exports.PageSizeDropdown = React.createClass({
             { className: "dropdown" },
             React.createElement(
                 "button",
-                { "class": "btn btn-default dropdown-toggle", type: "button", id: "pageSize", "data-toggle": "dropdown", "aria-expanded": "false" },
+                { className: "btn btn-default dropdown-toggle", type: "button", id: "pageSize", "data-toggle": "dropdown", "aria-expanded": "false" },
                 sizes[0],
                 React.createElement("span", { className: "caret" })
             ),
@@ -973,7 +1076,7 @@ var PageIndexDropdown = module.exports.PageIndexDropdown = React.createClass({
             { className: "dropdown" },
             React.createElement(
                 "button",
-                { "class": "btn btn-default dropdown-toggle", type: "button", id: "pageIndex", "data-toggle": "dropdown", "aria-expanded": "false" },
+                { className: "btn btn-default dropdown-toggle", type: "button", id: "pageIndex", "data-toggle": "dropdown", "aria-expanded": "false" },
                 "1",
                 React.createElement("span", { className: "caret" })
             ),
@@ -1292,9 +1395,9 @@ var routes = React.createElement(
   React.createElement(
     Route,
     { name: "client-management", handler: ClientManagement },
-    React.createElement(Route, { name: "lookup", handler: ClientLookup }),
-    React.createElement(Route, { name: "manage-clients", handler: ClientLists }),
-    React.createElement(Route, { name: "lists-subscribptions", handler: ListSubs })
+    React.createElement(DefaultRoute, { name: "lookup", handler: ClientLookup }),
+    React.createElement(Route, { name: "manage", handler: ClientLists }),
+    React.createElement(Route, { name: "lists-subscriptions", handler: ListSubs })
   ),
   React.createElement(Route, { name: "fa-administration", handler: FAadmin })
 );
