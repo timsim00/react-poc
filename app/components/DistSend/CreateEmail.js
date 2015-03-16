@@ -231,17 +231,11 @@ var Wizard = React.createClass({
 						<a className="inactive-step" href="#selectContent" data-toggle="tab">
 							Select Content
 						</a>
-						<span className="active-step2">
-							Select Content
-						</span>
 					</li>	
 					<li key="1">
 						<a className="inactive-step" href="#defineContent" data-toggle="tab">
 							Define Content
 						</a>
-						<span className="active-step2">
-							Define Content
-						</span>
 					</li>                  
 				</ul>
 			</div>

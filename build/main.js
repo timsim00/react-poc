@@ -653,11 +653,6 @@ var Wizard = React.createClass({
 							"a",
 							{ className: "inactive-step", href: "#selectContent", "data-toggle": "tab" },
 							"Select Content"
-						),
-						React.createElement(
-							"span",
-							{ className: "active-step2" },
-							"Select Content"
 						)
 					),
 					React.createElement(
@@ -666,11 +661,6 @@ var Wizard = React.createClass({
 						React.createElement(
 							"a",
 							{ className: "inactive-step", href: "#defineContent", "data-toggle": "tab" },
-							"Define Content"
-						),
-						React.createElement(
-							"span",
-							{ className: "active-step2" },
 							"Define Content"
 						)
 					)
