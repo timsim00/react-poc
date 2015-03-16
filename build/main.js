@@ -759,9 +759,9 @@ var ItemList = module.exports.ItemList = React.createClass({
 
 var React = require("react");
 
-// $("html").on("click", ".folder-head", function(){
-//     $(this).toggleClass("collapsed").toggleClass("expanded");
-// });
+jQuery("html").on("click", ".folder-head", function () {
+    jQuery(this).toggleClass("collapsed").toggleClass("expanded");
+});
 
 var createFolder = (function (_createFolder) {
     var _createFolderWrapper = function createFolder(_x, _x2) {

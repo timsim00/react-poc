@@ -1,8 +1,9 @@
 var React = require('react');
 
-// $("html").on("click", ".folder-head", function(){
-//     $(this).toggleClass("collapsed").toggleClass("expanded");
-// });
+jQuery("html").on("click", ".folder-head", function(){
+    jQuery(this).toggleClass("collapsed").toggleClass("expanded");
+});
+
 
 var createFolder = function(data, index){
     var children;
