@@ -56,7 +56,7 @@ var Router = require("react-router");
 
 var Link = Router.Link;
 
-var menu = [{ name: "Distributed Sending", link: "distributed-sending", icon: "email", current: true }, { name: "Manage Clients", link: "client-management", icon: "groups" }, { name: "FA Administration", link: "fa-administration", icon: "contact" }];
+var menu = { items: [{ name: "Distributed Sending", link: "distributed-sending", icon: "email" }, { name: "Manage Clients", link: "client-management", icon: "groups" }, { name: "FA Administration", link: "fa-administration", icon: "contact" }] };
 
 var AppSwitcher = React.createClass({
   displayName: "AppSwitcher",
@@ -81,28 +81,58 @@ var AppSwitcher = React.createClass({
 var AppSwitcherDropDown = React.createClass({
   displayName: "AppSwitcherDropDown",
 
+  mixins: [Router.State],
+  shouldComponentUpdate: function shouldComponentUpdate() {
+    var current = this.getPath();
+    console.log("shouldComponentUpdatePRE:" + current);
+    current = current.indexOf("/", 1) !== -1 ? current.substring(1, current.indexOf("/", 1)) : current.substring(1);
+    console.log("shouldComponentUpdate:" + current);
+    var links = this.state;
+    links.current = current === "" ? "distributed-sending" : current;
+    return links;
+  },
+  getInitialState: function getInitialState() {
+    console.log(this.props.data);
+
+    var current = this.getPath();
+    console.log("init:" + current);
+    current = current.indexOf("/", 1) !== -1 ? current.substring(1, current.indexOf("/", 1)) : current.substring(1);
+    console.log("init-substring:" + current);
+    var links = {};
+    links.navItems = this.props.data;
+    links.current = current === "" ? "distributed-sending" : current;
+    return links;
+  },
   render: function render() {
+    var self = this;
     return React.createElement(
       "div",
       { className: "btn-group" },
-      React.createElement(
-        "a",
-        { className: "dropdown-toggle", "data-toggle": "dropdown" },
-        React.createElement("span", { className: "s1icon s1icon-lg s1icon-s-email" }),
-        " ",
-        this.props.currentApp
-      ),
+      this.state.navItems.items.filter(function (e) {
+        return e.link === self.state.current;
+      }).map(function (navItem, i) {
+        var classes = "s1icon s1icon-lg s1icon-s-" + navItem.icon;
+        return React.createElement(
+          "a",
+          { className: "dropdown-toggle", "data-toggle": "dropdown" },
+          React.createElement("span", { className: classes }),
+          " ",
+          navItem.name
+        );
+      }),
       React.createElement(
         "ul",
         { className: "dropdown-menu", role: "menu" },
-        this.props.data.map(function (navItem, i) {
+        this.state.navItems.items.filter(function (e) {
+          return e.link !== self.state.current;
+        }).map(function (navItem, i) {
           var classes = "s1icon s1icon-lg s1icon-s-" + navItem.icon;
           return React.createElement(
             "li",
             { key: i },
             React.createElement(
               Link,
-              { to: navItem.link },
+              { to: navItem.link, onClick: self.clickHandler },
               React.createElement("span", { className: classes }),
               " ",
               navItem.name
@@ -114,6 +144,22 @@ var AppSwitcherDropDown = React.createClass({
   }
 });
 
+// <a className="dropdown-toggle" data-toggle="dropdown" >
+//   <span className={currentClasses}></span>&nbsp;{this.state.current.name}
+// </a>
+
+// {
+//   //this.state.map(function(navItem, i){
+//   console.log(this.state);
+//   return null;
+//   //var classes="s1icon s1icon-lg s1icon-s-" + navItem.icon;
+//   //return(<li key={i}><Link to={navItem.link} onClick={self.clickHandler}><span className={classes}></span>&nbsp;{navItem.name}</Link></li>)
+// //})
+// }
+
+// <a className="dropdown-toggle" data-toggle="dropdown" >
+//   <span className={currentClasses}></span>&nbsp;{this.state.current.name}
+// </a>
 // <li><Link to="distributed-sending"><span className="s1icon s1icon-lg s1icon-s-email"></span>&nbsp;Distributed Sending</Link></li>
 // <li><Link to="client-management"><span className="s1icon s1icon-lg s1icon-s-groups"></span>&nbsp;Manage Clients</Link></li>
 // <li><Link to="fa-administration"><span className="s1icon s1icon-lg s1icon-s-contact"></span>&nbsp;FA Administration</Link></li>
@@ -2350,14 +2396,6 @@ var Item = module.exports.Item = React.createClass({
 var ItemList = module.exports.ItemList = React.createClass({
   displayName: "ItemList",
 
-  getInitialState: function getInitialState() {
-    var itemList = this.props.data.items.map(function (item, i) {
-      item.selected = item.selected ? item.selected : false;
-      item.id = item.id ? item.id : i;
-      return item;
-    });
-    return { data: this.props.data };
-  },
   render: function render() {
     var that = this;
     var itemNodes = this.props.data.items.map(function (item, i) {
@@ -2957,9 +2995,9 @@ var routes = React.createElement(
   Route,
   { name: "app", path: "/", handler: App },
   React.createElement(DefaultRoute, { name: "distributed-sending", handler: DistSending }),
-  React.createElement(Route, { name: "create-email", handler: CreateEmail }),
-  React.createElement(Route, { name: "send-email", handler: SendEmail }),
-  React.createElement(Route, { name: "content-admin", handler: ContentAdmin }),
+  React.createElement(Route, { name: "create-email", path: "distributed-sending/create-email", handler: CreateEmail }),
+  React.createElement(Route, { name: "send-email", path: "distributed-sending/send-email", handler: SendEmail }),
+  React.createElement(Route, { name: "content-admin", path: "distributed-sending/content-admin", handler: ContentAdmin }),
   React.createElement(
     Route,
     { name: "client-management", handler: ClientManagement },

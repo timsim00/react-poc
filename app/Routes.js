@@ -19,9 +19,9 @@ var App = require('./App'),
 var routes = (
   <Route name="app" path="/" handler={App}>
     <DefaultRoute name="distributed-sending" handler={DistSending}/>
-    <Route name="create-email" handler={CreateEmail}/>
-    <Route name="send-email" handler={SendEmail}/>
-    <Route name="content-admin" handler={ContentAdmin}/>
+    <Route name="create-email" path="distributed-sending/create-email" handler={CreateEmail}/>
+    <Route name="send-email" path="distributed-sending/send-email" handler={SendEmail}/>
+    <Route name="content-admin" path="distributed-sending/content-admin" handler={ContentAdmin}/>
 
     <Route name="client-management" handler={ClientManagement}>
       <DefaultRoute name="lookup" handler={ClientLookup}/>
