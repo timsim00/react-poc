@@ -83,7 +83,7 @@ var ChecklistPlus = React.createClass({
                   <input id={chkbxId} type="checkbox" />
                       <div className="item">
                           <div>{datum.title}</div>
-                          <div>{datum.content}</div>
+                          <div className="itemInner">{datum.content}</div>
                       </div>
                       <div className="actions">
                           <SearchButton />
@@ -110,12 +110,11 @@ var ListSubs = React.createClass({
         				</div>
         			</div>
 					<div className="row">
-						<button className="col-md-6 btn">Delete Group </button>
-						<button className="col-md-6 btn">Manage Group </button>
-					</div>
-					<div className="row">
-						<button className="col-md-6 btn">Rename Group </button>
-						<input type="text" className="col-md-6" text="College Friends"/>
+						<button className="btn btn-default">Delete Group </button>
+						<button className="btn btn-default">Manage Group </button>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						<button className="btn btn-default">Rename Group: </button>
+						<input type="text" className="btn btn-default" text="College Friends"/>
 					</div>
         			<div className="row well">
 	        			<ChecklistPlus data={data}/>
@@ -124,13 +123,13 @@ var ListSubs = React.createClass({
         		<div className="col-md-4">
         			<div className="members">
         				<ItemList items={members} />
-        			</div>
-        			<button className="btn"> View Publication Members </button>
+        			</div><br/><br/>
+        			<button className="btn btn-default"> View Publication Members </button>
         		</div>
-        		<div className="col-md-1">
-        			<button className="btn"> Remove From Group </button>
-        			<button className="btn"> Add to Publication </button>
-        			<button className="btn"> Remove from Publication </button>
+        		<div className="col-md-1 btn-spc">
+        			<button className="btn btn-default"> Remove From Group &nbsp; &nbsp; &nbsp;  </button>
+        			<button className="btn btn-default"> Add to Publication  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</button><br/>
+        			<button className="btn btn-default"> Remove from Publication </button>
         		</div>
         	</div>
         </div>
