@@ -37,7 +37,7 @@ var Overview = React.createClass({
       <div>
         <div className="row">
           <div className="col-md-6"><h2>Overview</h2></div>
-          <div className="col-md-6 text-right"><Link to="create-email" className="btn btn-default"><span className="glyphicon glyphicon-plus" />Create Email</Link></div>
+          <div className="col-md-6 text-right"><Link to="create-email" className="btn btn-default"><span className="glyphicon glyphicon-plus" />&nbsp;Create Email</Link></div>
         </div>
         <div className="row">
           <div className="col-md-4 detail-box">
@@ -106,7 +106,7 @@ var SubscriberOverview = React.createClass({
     return (
     <div>
     <h4>Subscribers</h4>
-    <div className="well">
+    <div className="well" id="subscriber-overview">
       <div className="col-md-6">
         <ListCount/>
       </div>
@@ -114,13 +114,12 @@ var SubscriberOverview = React.createClass({
         <SubscriberCount/>
       </div>
       <div className="clearfix"></div>
-      <div className="row">
+      <div className="row" id="subscriber-buttons">
         <div className="pull-right">
-
-        	 <button className="btn btn-sm btn-primary">Manage Subscribers</button>
+        	 <button className="btn btn-sm btn-primary btn-xs">Manage Subscribers</button>&nbsp;
         	  <div className="btn-group">
-        	  	  <button className="btn btn-sm btn-primary">Add Subscribers </button>
-  			  <button type="button" className="btn btn-sm btn-primary dropdown-toggle" aria-expanded="false">
+        	  	  <button className="btn btn-sm btn-primary btn-xs">Add Subscribers</button>
+  			  <button type="button" className="btn btn-xs btn-primary dropdown-toggle" aria-expanded="false">
   				<span className="caret"></span>
   			  </button>
   		  </div>

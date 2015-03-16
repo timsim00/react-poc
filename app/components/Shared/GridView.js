@@ -5,9 +5,9 @@ var Pagination = require("./Pagination.js").Pagination;
 var Actions = React.createClass({
     render: function () {
         return ( <div title = "actions" >
-        <span className="glyphicon glyphicon-pencil" />
-        <span className="glyphicon glyphicon-file" />
-        <span className="glyphicon glyphicon-envelope" />
+        <span className="glyphicon glyphicon-pencil action" />
+        <span className="glyphicon glyphicon-file action" />
+        <span className="glyphicon glyphicon-envelope action" />
         <span title ="envelop-beaker" />
         </div>)
     }
@@ -34,7 +34,7 @@ var data = [
 var pageData = {
     pageIndex: 0,
     pageSize: 25,
-    items: 190,
+    items: 2,
     pageSizeOptions: [25,50]
 }
 
@@ -64,6 +64,7 @@ var GridView = React.createClass({
 		<div>
 			<Pagination data={pageData} />
 		</div>
+    <div className="clearfix"></div>
     </div>
 );
     }

@@ -34,7 +34,7 @@ var filterData = {
         ,{ title: "Advice", id: "2" }
         ,{ title: "Managed Communications", id: "3" }
     ]
-};	
+};
 
 
 var CreateEmail = React.createClass({
@@ -60,7 +60,7 @@ var ContentCategories = React.createClass({
     	<h4>Content Categories</h4>
     	<div className="searchbar">
       		<SearchBar />
-    	</div>	
+    	</div>
     	<div className="well">
         	<FolderTree folders={folders} />
     	</div>
@@ -105,38 +105,38 @@ var RetirementThumbs = React.createClass({
 		   <table>
 			   <tr>
 				  <td>
-				  	  <label for="febNews">February Newsletter </label>
+				  	  <label htmlFor="febNews">February Newsletter </label>
 					  <div>
 						 <img className="retirement-img" id="febNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="200" width="150" />
-					   </div>	   
+					   </div>
 				  </td>
 				  <td>
-				      <label for="marchNews">March Newsletter </label>
+				      <label htmlFor="marchNews">March Newsletter </label>
 					  <div>
 						 <img className="retirement-img" id="marchNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="200" width="150" />
-					   </div>	   
+					   </div>
 				  </td>
 			   </tr>
 			   <tr>
 				  <td>
-				      <label for="aprilNews">April Newsletter </label>
+				      <label htmlFor="aprilNews">April Newsletter </label>
 					  <div>
 						 <img className="retirement-img" id="aprilNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="200" width="150" />
-					   </div>				   
+					   </div>
 				  </td>
 				  <td>
-				      <label for="mayNews">May Newsletter </label>
+				      <label htmlFor="mayNews">May Newsletter </label>
 					  <div>
 						 <img className="retirement-img" id="mayNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="200" width="150" />
 					   </div>
 				  </td>
 			   </tr>
 		   </table>
-		</div>        
-       ); 
+		</div>
+       );
     }
 });
- 
+
 var HTMLView = React.createClass({
     render: function() {
         return(
@@ -151,33 +151,33 @@ var HTMLView = React.createClass({
 								<input type="text" id="emailName" className="form-control col-sm-4" placeholder=""/>
 							</div>
 						</div>
-						<div className="form-group">	
+						<div className="form-group">
 							<label className="control-label col-sm-2" htmlFor="emailSubject">Email Subject</label>
 							<div className="col-sm-3">
 								<input type="text" id="emailSubject" className="form-control" placeholder=""/>
-							</div>	
+							</div>
 						</div>
-						<div className="form-group">							
+						<div className="form-group">
 							<label className="control-label col-sm-2" htmlFor="preheader">Preheader</label>
 							<div className="col-sm-3">
 								<textarea cols="40" rows="5" id="preheader" className="form-control" placeholder=""/>
-							</div>															
-						</div>	
+							</div>
+						</div>
 					</form>
 					</div>
-				</div>	   
-			</div>     
+				</div>
+			</div>
 			<div className="row">
 				<div className="col-md-12">
-					<a className="linkAlignMobile" href="http://pages.exacttarget.com/page.aspx?QS=773ed3059447707d9d701ccb4b27e72ab11c8f42980a76838c0411c92774c29a">View as Mobile</a>         
-					<a className="linkAlignWebpage" href="http://view.exacttarget.com/?j=fe6215727161077f7c17&m=fe6a1570706407787711&ls=fdf8117776640c7d771c7675&l=fe8e15797064027872&s=fe1c11717d6d03787c1172&jb=ffcf14&ju=fe2815747c620475761371&r=0">View as Webpage</a>               
+					<a className="linkAlignMobile" href="http://pages.exacttarget.com/page.aspx?QS=773ed3059447707d9d701ccb4b27e72ab11c8f42980a76838c0411c92774c29a">View as Mobile</a>
+					<a className="linkAlignWebpage" href="http://view.exacttarget.com/?j=fe6215727161077f7c17&m=fe6a1570706407787711&ls=fdf8117776640c7d771c7675&l=fe8e15797064027872&s=fe1c11717d6d03787c1172&jb=ffcf14&ju=fe2815747c620475761371&r=0">View as Webpage</a>
 				</div>
-			</div>     
-			<div class="row">           
-				<img class="col-md-12" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/htmlLayout.png" /> 
-			</div>	
-		</div>		  
-       ); 
+			</div>
+			<div className="row">
+				<img className="col-md-12" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/htmlLayout.png" />
+			</div>
+		</div>
+       );
     }
 });
 
@@ -203,7 +203,7 @@ var Step1 = React.createClass({
 		</div>
 	</div>
     );
-  }			
+  }
 });
 
 var Step2 = React.createClass({
@@ -213,7 +213,7 @@ var Step2 = React.createClass({
 		<HTMLView />
 	</div>
     );
-  }			
+  }
 });
 
 var convertToId = function(title){
@@ -223,35 +223,34 @@ var convertToId = function(title){
 
 var Wizard = React.createClass({
     render: function() {
-		return (
-		<div className="wizard">
-			<div className="wizard-header navbar navbar-default">
-				<ul className="nav navbar-nav navbar-left"> 				
-					<li key="0" className="active">
-						<a className="inactive-step" href="#selectContent" data-toggle="tab">
-							Select Content
-						</a>
-					</li>	
-					<li key="1">
-						<a className="inactive-step" href="#defineContent" data-toggle="tab">
-							Define Content
-						</a>
-					</li>                  
-				</ul>
-			</div>
-			<div className="wizard-content tab-content">
-				<div role="tabpanel" className="tab-pane active" id="selectContent">
-					<Step1 />
-				</div>             
-				<div role="tabpanel" className="tab-pane" id="defineContent">
-					<Step2 />
-				</div> 							               
-			</div>
+return (
+	<div className="wizard">
+		<div className="wizard-header navbar navbar-default">
+			<ul className="nav navbar-nav navbar-left">
+				<li key="0" className="active">
+					<a className="inactive-step" href="#selectContent" data-toggle="tab">
+					Select Content
+					</a>
+				</li>
+				<li key="1">
+				<a className="inactive-step" href="#defineContent" data-toggle="tab">
+				Define Content
+				</a>
+				</li>
+			</ul>
+		<div id="btnScheduleSend" className="pull-right text-right"><Link to="send-email" className="btn btn-default">Schedule Send&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></Link></div>
 		</div>
-		);
+		<div className="wizard-content tab-content">
+		<div role="tabpanel" className="tab-pane active" id="selectContent">
+			<Step1 />
+		</div>
+		<div role="tabpanel" className="tab-pane" id="defineContent">
+			<Step2 />
+		</div>
+	</div>
+</div>
+);
   }
 });
 
 module.exports = CreateEmail;
-
-

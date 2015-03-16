@@ -1,4 +1,6 @@
 var React = require('react');
+var Shared = require('../Shared/Shared');
+
 
 var items = [
   { title: "Publication 1"},
@@ -22,36 +24,39 @@ var items2 = [
   { title: "Publication 8" }
 ];
 
+var ItemList = Shared.ItemList;
+
+
 var Item = React.createClass({
     render: function () {
-      return ( 
+      return (
         <li className="list-group-item"><input type="checkbox"/>&nbsp;{ this.props.item.title }</li>
       );
     }
 });
 
-var ItemList = React.createClass({
-  getInitialState: function(){
-    var itemList = this.props.items.map(function(item, i){
-      item.done = false;
-      // Unclock first item in the list
-      item.locked = (i == 0) ? false : true;
-      return item;
-    });
-    return {items:items};
-  },
-  render: function(){
-    var that = this;
-    var itemNodes = this.state.items.map(function (item, i) {
-      return <Item item={item} order={i} clicked={that.whenClicked} />
-    });
-    return ( 
-      <ul className="list-group">
-        { itemNodes } 
-      </ul>
-    );
-  }  
-});
+// var ItemList = React.createClass({
+//   getInitialState: function(){
+//     var itemList = this.props.items.map(function(item, i){
+//       item.done = false;
+//       // Unclock first item in the list
+//       item.locked = (i == 0) ? false : true;
+//       return item;
+//     });
+//     return {items:items};
+//   },
+//   render: function(){
+//     var that = this;
+//     var itemNodes = this.state.items.map(function (item, i) {
+//       return <Item item={item} order={i} clicked={that.whenClicked} />
+//     });
+//     return (
+//       <ul className="list-group">
+//         { itemNodes }
+//       </ul>
+//     );
+//   }
+// });
 
 
 
@@ -59,9 +64,10 @@ var ClientLookup = React.createClass({
  render: function() {
     return (
     <div>
+      <h3>Lookup/Add Subscriber</h3>
       <div>
-        <div className="input-group">
-            <input type="text" className="form-control" aria-label="..." placeholder="email address" id="emailAddr"/>
+        <div className="input-group col-md-9">
+            <input type="text" className="form-control" aria-label="..." placeholder="Email Address" id="emailAddr"/>
             <div className="input-group-btn" >
                 <button type="button" className="btn btn-default">Search</button>
                 <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -69,12 +75,11 @@ var ClientLookup = React.createClass({
                     <span className="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul className="dropdown-menu dropdown-menu-right" role="menu">
-                    <li><a href="#">Update</a></li>
-                    <li><a href="#">Add new client</a></li>
+                    <li><a >Update</a></li>
+                    <li><a >Add New client</a></li>
                 </ul>
-            </div>  
-        </div> 
-        <br/>
+            </div>
+        </div><br/>
         <form className="form-inline" role="form">
             <div className="form-group">
             <label htmlFor="inpFirstName" className="sr-only">First Name</label>
@@ -82,27 +87,25 @@ var ClientLookup = React.createClass({
             </div>
             <div className="form-group">
             <label htmlFor="inpLastName" className="sr-only">Last Name</label>
-            <input type="text" id="inpLastName" className="form-control" aria-label="..."  placeholder="Last Name" disabled/>   
+            <input type="text" id="inpLastName" className="form-control" aria-label="..."  placeholder="Last Name" disabled/>
             </div>
         </form>
+      </div><br/><br/>
+      <div className="row">
+      <div className="col-md-7">
+        <label htmlFor="scrollPaneClientLookup" >Subscriptions</label>
+        <div className="well" id="scrollPaneClientLookup">
+          <ItemList items={items}/>
+        </div>
+        <input type="checkbox"/> I certify that this client has requested to be added back into to the Morgan Stanley Email Program.<br/><br/>
+        <input type="checkbox"/> Unsubscribe From All<br/><br/>
+  			<button type="button" className="btn btn-primary">Submit</button>
       </div>
-      
-      <br /><br /><br /><br /><br /><br />      
-      <label htmlFor="scrollPaneClientLookup" >Subscriptions</label>
-      <div className="scrollPaneClientLookup" id="scrollPaneClientLookup">
-        <ItemList items={items}/>  
-	<table>
-		<tr>
-			<td><input type="checkbox"/></td><td>Unsubscribe From All&nbsp;</td>
-			<td><input type="checkbox"/></td><td>I certify that this client has requested to be added back into to the Morgan Stanley Email Program.</td>
-		</tr>
-               
-	</table>
-      </div>
-			                <button type="button" className="btn btn-default">Submit</button>
 
 
-    </div>    
+      </div>
+
+    </div>
     );
   }
 

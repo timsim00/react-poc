@@ -15692,15 +15692,22 @@ input[type="radio"].sf1-radio {
 .navbar {
   border-radius: 0;
 }
+.navbar .s1icon {
+  border-radius: 0;
+}
+.navbar .s1icon-lg {
+  height: 50px;
+  width: 50px;
+}
 .navbar a.dropdown-toggle {
-  height: 48px;
-  line-height: 48px;
-  border: 1px white solid;
+  height: 50px;
+  line-height: 50px;
+  border: 1px #62A0C6 solid;
   border-top: none;
   border-bottom: none;
   display: block;
   width: 300px;
-  padding: 0px 20px;
+  padding: 0px 20px 0 0;
   cursor: pointer;
   color: white;
   font-weight: bold;
@@ -15716,12 +15723,12 @@ input[type="radio"].sf1-radio {
   box-shadow: none;
 }
 .navbar .dropdown-menu li {
-  height: 48px;
+  height: 50px;
   padding: 0;
 }
 .navbar .dropdown-menu li a {
-  line-height: 48px;
-  padding: 0 20px;
+  line-height: 50px;
+  padding: 0 20px 0 0;
 }
 .folder {
   padding-left: 8px;
@@ -15737,6 +15744,9 @@ input[type="radio"].sf1-radio {
 }
 .detail-box .well {
   min-height: 175px!important;
+}
+.counts {
+  padding-top: 25px;
 }
 .counts span {
   display: block;
@@ -15771,6 +15781,16 @@ input[type="radio"].sf1-radio {
   float: left;
   padding-left: 1em;
 }
+#inpFirstName {
+  margin-right: 5px;
+}
+.scrollPaneClientLookup {
+  width: 860px;
+  height: 400px;
+  padding: 25px;
+  border: 2px solid gray;
+  margin: 30px;
+}
 #myContactsPanel {
   height: 600px;
   overflow: scroll;
@@ -15788,6 +15808,58 @@ input[type="radio"].sf1-radio {
 }
 .linkAlignMobile {
   margin-right: 30px;
+}
+#subscriber-overview {
+  position: relative;
+}
+#subscriber-buttons {
+  position: absolute;
+  bottom: 10px;
+  right: 25px;
+}
+.action {
+  margin-right: 8px;
+}
+.email-preview {
+  margin-bottom: 15px;
+}
+.checkLst {
+  border: 1px solid black;
+  overflow: auto;
+  height: 300px;
+}
+.item {
+  display: inline-block;
+  vertical-align: top;
+  width: 350px;
+}
+.actions {
+  display: inline-block;
+}
+.listsSubsMainContent .members {
+  height: 650px;
+  overflow: auto;
+}
+#btnScheduleSend {
+  padding: 0.5em 0.5em 0 0;
+}
+.list-column {
+  border-top: none!important;
+}
+.list-group-item {
+  border: 0;
+  padding: 0px;
+}
+.divider {
+  margin: 20px 0 20px;
+}
+.staticValue {
+  color: black;
+  font-weight: bold;
+}
+.date-created {
+  float: left;
+  padding-right: 30px;
 }
 @font-face {
   font-family: 'ProximaNova-Light-Webfont';
@@ -15809,4 +15881,27 @@ input[type="radio"].sf1-radio {
   font-style: normal;
   src: url('../fonts/ProximaNova-Light-Webfont.eot');
   src: url('../fonts/ProximaNova-Light-Webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/ProximaNova-Light-Webfont.woff') format('woff'), url('../fonts/ProximaNova-Light-Webfont.ttf') format('truetype'), url('../fonts/ProximaNova-Light-Webfont.svg#proxima_nova_softmedium') format('svg');
+}
+::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #777!important;
+  opacity: 1;
+}
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #777!important;
+  opacity: 1;
+}
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #777!important;
+  opacity: 1;
+}
+:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  color: #777!important;
+  opacity: 1;
+}
+.bold {
+  font-weight: bolder;
 }

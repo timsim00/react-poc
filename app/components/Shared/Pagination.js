@@ -3,8 +3,8 @@ var PageSizeDropdown = module.exports.PageSizeDropdown = React.createClass({
     render: function(){
         var sizes = this.props.sizes;
         return (
-        	<span className="dropdown">
-            	<button className="btn btn-default dropdown-toggle" type="button" id="pageSize" data-toggle="dropdown" aria-expanded="false">
+        	<span className="dropdown">&nbsp;
+            	<button className="btn btn-default btn-xs dropdown-toggle" type="button" id="pageSize" data-toggle="dropdown" aria-expanded="false">
                 	{sizes[0]}
 					<span className="caret"/>
 				 </button>
@@ -30,9 +30,8 @@ var PageIndexDropdown = module.exports.PageIndexDropdown = React.createClass({
         var lastPage = this.props.lastPage;
         return (
         <span className="dropdown">
-            <button className="btn btn-default dropdown-toggle" type="button" id="pageIndex" data-toggle="dropdown" aria-expanded="false">
-                1
-                <span className="caret"/>
+            <button className="btn btn-default btn-xs dropdown-toggle disabled" type="button" id="pageIndex" data-toggle="dropdown" aria-expanded="false">
+                1&nbsp;&nbsp;<span className="caret"/>
              </button>
                 <ul className="dropdown-menu" aria-labelledby="pageIndex">
 				{range(1,lastPage).map(function(s){
@@ -59,11 +58,11 @@ module.exports.Pagination = React.createClass({
           <span><PageSizeDropdown sizes={data.pageSizeOptions}/> Per Page</span>
       </div>
       <div className="pull-right">
-          <button className="btn btn-default btn-sm">
+          <button className="btn btn-default btn-xs disabled">
               <span className="glyphicon glyphicon-arrow-left" />
-          </button>
-          <span><PageIndexDropdown lastPage={lastPage}/></span>
-          <button className="btn btn-default btn-sm">
+          </button>&nbsp;
+          <span><PageIndexDropdown lastPage={lastPage}/></span>&nbsp;
+          <button className="btn btn-default btn-xs disabled">
               <span className="glyphicon glyphicon-arrow-right" />
           </button>
       </div>
