@@ -223,32 +223,33 @@ var convertToId = function(title){
 
 var Wizard = React.createClass({
     render: function() {
-		return (
-		<div className="wizard">
-			<div className="wizard-header navbar navbar-default">
-				<ul className="nav navbar-nav navbar-left">
-					<li key="0" className="active">
-						<a className="inactive-step" href="#selectContent" data-toggle="tab">
-							Select Content
-						</a>
-					</li>
-					<li key="1">
-						<a className="inactive-step" href="#defineContent" data-toggle="tab">
-							Define Content
-						</a>
-					</li>
-				</ul>
-			</div>
-			<div className="wizard-content tab-content">
-				<div role="tabpanel" className="tab-pane active" id="selectContent">
-					<Step1 />
-				</div>
-				<div role="tabpanel" className="tab-pane" id="defineContent">
-					<Step2 />
-				</div>
-			</div>
+return (
+	<div className="wizard">
+		<div className="wizard-header navbar navbar-default">
+			<ul className="nav navbar-nav navbar-left">
+				<li key="0" className="active">
+					<a className="inactive-step" href="#selectContent" data-toggle="tab">
+					Select Content
+					</a>
+				</li>
+				<li key="1">
+				<a className="inactive-step" href="#defineContent" data-toggle="tab">
+				Define Content
+				</a>
+				</li>
+			</ul>
+		<div id="btnScheduleSend" className="pull-right text-right"><Link to="send-email" className="btn btn-default">Schedule Send&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></Link></div>
 		</div>
-		);
+		<div className="wizard-content tab-content">
+		<div role="tabpanel" className="tab-pane active" id="selectContent">
+			<Step1 />
+		</div>
+		<div role="tabpanel" className="tab-pane" id="defineContent">
+			<Step2 />
+		</div>
+	</div>
+</div>
+);
   }
 });
 

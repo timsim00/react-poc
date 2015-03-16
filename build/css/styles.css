@@ -15823,6 +15823,44 @@ input[type="radio"].sf1-radio {
 .email-preview {
   margin-bottom: 15px;
 }
+.checkLst {
+  border: 1px solid black;
+  overflow: auto;
+  height: 300px;
+}
+.item {
+  display: inline-block;
+  vertical-align: top;
+  width: 350px;
+}
+.actions {
+  display: inline-block;
+}
+.listsSubsMainContent .members {
+  height: 650px;
+  overflow: auto;
+}
+#btnScheduleSend {
+  padding: 0.5em 0.5em 0 0;
+}
+.list-column {
+  border-top: none!important;
+}
+.list-group-item {
+  border: 0;
+  padding: 0px;
+}
+.divider {
+  margin: 20px 0 20px;
+}
+.staticValue {
+  color: black;
+  font-weight: bold;
+}
+.date-created {
+  float: left;
+  padding-right: 30px;
+}
 @font-face {
   font-family: 'ProximaNova-Light-Webfont';
   font-weight: normal;

@@ -1,5 +1,6 @@
 var React = require('react');
 
+
 var Item = React.createClass({
     render: function () {
       return (
@@ -10,7 +11,6 @@ var Item = React.createClass({
       );
     }
 });
-
 
 module.exports = {
   "SearchBar" : React.createClass({
@@ -41,6 +41,7 @@ module.exports = {
 
     "ItemList" : React.createClass({
       getInitialState: function(){
+      	var items = this.props.items;
         var itemList = this.props.items.map(function(item, i){
           item.done = false;
           // Unclock first item in the list
