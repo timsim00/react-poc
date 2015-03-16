@@ -1163,6 +1163,16 @@ var Wizard = React.createClass({
 							"Define Content"
 						)
 					)
+				),
+				React.createElement(
+					"div",
+					{ id: "btnScheduleSend", className: "pull-right text-right" },
+					React.createElement(
+						Link,
+						{ to: "send-email", className: "btn btn-default" },
+						"Schedule Send  ",
+						React.createElement("span", { className: "glyphicon glyphicon-arrow-right" })
+					)
 				)
 			),
 			React.createElement(
@@ -1484,22 +1494,628 @@ var React = require("react"),
 
 var Link = Router.Link;
 
+//components   
+var FolderTree = require("../Shared/FolderTree");
+var SearchBar = require("../Shared/Shared").SearchBar;
+
+//data
+var folders = [{
+  name: "Lists",
+  folders: [{
+    name: "Lists",
+    folders: [{ name: "Retirement" }, { name: "Mortgage" }]
+  }] }, { name: "All Clients" }];
+
+/**** MAIN *****/
+
 var SendEmail = React.createClass({
   displayName: "SendEmail",
 
   render: function render() {
     return React.createElement(
-      "h2",
+      "div",
       null,
-      "SendEmail"
+      React.createElement(
+        "div",
+        { className: "row col-md-12" },
+        React.createElement(
+          "h2",
+          null,
+          "Send Email"
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "row col-md-12" },
+        React.createElement(Wizard, null)
+      )
     );
   }
+});
 
+/**** WIZARD *****/
+
+var Wizard = React.createClass({
+  displayName: "Wizard",
+
+  render: function render() {
+
+    return React.createElement(
+      "div",
+      { className: "wizard" },
+      React.createElement(
+        "div",
+        { className: "wizard-header navbar navbar-default" },
+        React.createElement(
+          "ul",
+          { className: "nav navbar-nav navbar-left" },
+          React.createElement(
+            "li",
+            { key: "0", className: "active" },
+            React.createElement(
+              "a",
+              { className: "inactive-step", href: "#stepSelectAudience", "data-toggle": "tab" },
+              "Select Audience"
+            )
+          ),
+          React.createElement(
+            "li",
+            { key: "1" },
+            React.createElement(
+              "a",
+              { className: "inactive-step", href: "#stepSchedule", "data-toggle": "tab" },
+              "Schedule"
+            )
+          )
+        ),
+        React.createElement(
+          "div",
+          { id: "btnScheduleSend", visibility: "hidden", className: "pull-right text-right" },
+          React.createElement(
+            Link,
+            { to: "send-email", className: "btn btn-default" },
+            "Send  ",
+            React.createElement("span", { className: "glyphicon glyphicon-arrow-right" })
+          )
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "wizard-content tab-content" },
+        React.createElement(
+          "div",
+          { role: "tabpanel", className: "tab-pane active", id: "stepSelectAudience" },
+          React.createElement(StepSelectAudience, null)
+        ),
+        React.createElement(
+          "div",
+          { role: "tabpanel", className: "tab-pane", id: "stepSchedule" },
+          React.createElement(StepSchedule, null)
+        )
+      )
+    );
+  }
+});
+
+/*************************************** SELECT AUDIENCE TAB ******************************************/
+
+var StepSelectAudience = React.createClass({
+  displayName: "StepSelectAudience",
+
+  render: function render() {
+    return React.createElement(
+      "div",
+      { role: "tabpanel", className: "tab-pane active" },
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-1" },
+          React.createElement(
+            "div",
+            { id: "btnManageGroups", className: "text-right" },
+            React.createElement(
+              Link,
+              { to: "/", className: "btn btn-default", disabled: "disabled" },
+              "Manage Groups"
+            )
+          )
+        )
+      ),
+      React.createElement("br", null),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-12" },
+          React.createElement(
+            "div",
+            { className: "col-md-2" },
+            React.createElement(
+              "div",
+              { className: "well" },
+              React.createElement(FolderTree, { folders: folders })
+            )
+          ),
+          React.createElement(
+            "div",
+            { className: "col-md-7" },
+            React.createElement(
+              "div",
+              { className: "well row" },
+              React.createElement(
+                "div",
+                { className: "col-md-4" },
+                React.createElement(
+                  "form",
+                  { className: "form-inline", role: "form" },
+                  React.createElement(
+                    "div",
+                    { className: "form-group" },
+                    React.createElement(
+                      "label",
+                      { className: "control-label col-sm-2", htmlFor: "searchLists" },
+                      "Lists"
+                    ),
+                    React.createElement(
+                      "div",
+                      { className: "col-sm-3" },
+                      React.createElement("input", { type: "text", id: "searchLists", className: "form-control col-sm-4", placeholder: "Search" })
+                    )
+                  )
+                )
+              ),
+              React.createElement(
+                "div",
+                { className: "col-md-2" },
+                React.createElement(
+                  "div",
+                  { id: "btnSelect", className: "text-right" },
+                  React.createElement(
+                    Link,
+                    { to: "/", className: "pull-right btn btn-default", disabled: "disabled" },
+                    "Select"
+                  )
+                )
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "well row" },
+              React.createElement(
+                "div",
+                { className: "col-md-3" },
+                React.createElement(SubListNames, { items: subnames })
+              ),
+              React.createElement(
+                "div",
+                { className: "col-md-4" },
+                React.createElement(SubscriberList, { items: subscribers })
+              )
+            )
+          ),
+          React.createElement(
+            "div",
+            { className: "col-md-3" },
+            React.createElement(
+              "div",
+              { className: "well" },
+              React.createElement(SelectedItemList, { items: selectednames })
+            )
+          )
+        )
+      )
+    );
+  }
+});
+
+/*** SUBSCRIBER LIST NAMES ***/
+
+var subnames = [{ title: "Email - High Value", count: "8" }, { title: "Email - Lower Value", count: "42" }, { title: "High R and MF", count: "62" }, { title: "High Value - Investment Focus", count: "14" }];
+
+var SubNameItem = React.createClass({
+  displayName: "SubNameItem",
+
+  render: function render() {
+    return React.createElement(
+      "tr",
+      null,
+      React.createElement(
+        "td",
+        { className: "list-column" },
+        React.createElement("input", { type: "checkbox" }),
+        " ",
+        this.props.item.title
+      ),
+      React.createElement(
+        "td",
+        { className: "list-column" },
+        this.props.item.count
+      )
+    );
+  }
+});
+
+var SubListNames = React.createClass({
+  displayName: "SubListNames",
+
+  getInitialState: function getInitialState() {
+    var itemList = this.props.items.map(function (item, i) {
+      item.done = false;
+      // Unclock first item in the list
+      item.locked = i == 0 ? false : true;
+      return item;
+    });
+    return { items: subnames };
+  },
+  render: function render() {
+    var that = this;
+    var itemNodes = this.state.items.map(function (item, i) {
+      return React.createElement(SubNameItem, { item: item, order: i, clicked: that.whenClicked });
+    });
+    return React.createElement(
+      "table",
+      { className: "table" },
+      itemNodes
+    );
+  }
+});
+
+/*** SUBSCRIBER LIST ***/
+
+var subscribers = [{ title: "John Smith", email: "jsmith@gmail.com" }, { title: "Sue James", email: "sjames@gmail.com" }, { title: "Joe Jones", email: "jjones@gmail.com" }, { title: "Fiona Chapman", email: "fchapman@gmail.com" }, { title: "Lilly Kennedy", email: "lkennedy@gmail.com" }, { title: "Bradford Hill", email: "bhill@gmail.com" }, { title: "Erika Saarland", email: "esaarland@gmail.com" }, { title: "Peter Paulson", email: "ppaulson@gmail.com" }];
+
+var SubItem = React.createClass({
+  displayName: "SubItem",
+
+  render: function render() {
+    return React.createElement(
+      "tr",
+      null,
+      React.createElement(
+        "td",
+        { className: "list-column" },
+        React.createElement("input", { type: "checkbox" }),
+        " ",
+        this.props.item.title
+      ),
+      React.createElement(
+        "td",
+        { className: "list-column" },
+        this.props.item.email
+      )
+    );
+  }
+});
+
+var SubscriberList = React.createClass({
+  displayName: "SubscriberList",
+
+  getInitialState: function getInitialState() {
+    var itemList = this.props.items.map(function (item, i) {
+      item.done = false;
+      // Unclock first item in the list
+      item.locked = i == 0 ? false : true;
+      return item;
+    });
+    return { items: subscribers };
+  },
+  render: function render() {
+    var that = this;
+    var itemNodes = this.state.items.map(function (item, i) {
+      return React.createElement(SubItem, { item: item, order: i, clicked: that.whenClicked });
+    });
+    return React.createElement(
+      "table",
+      { className: "table" },
+      itemNodes
+    );
+  }
+});
+
+/*** SELECTED LIST ***/
+
+var selectednames = [{ title: "Email - High Value", count: "8" }];
+
+var SelectedItem = React.createClass({
+  displayName: "SelectedItem",
+
+  render: function render() {
+    return React.createElement(
+      "li",
+      { className: "list-group-item" },
+      " ",
+      this.props.item.title
+    );
+  }
+});
+
+var SelectedItemList = React.createClass({
+  displayName: "SelectedItemList",
+
+  getInitialState: function getInitialState() {
+    var itemList = this.props.items.map(function (item, i) {
+      return item;
+    });
+    return { items: selectednames };
+  },
+  render: function render() {
+    var that = this;
+    var itemNodes = this.state.items.map(function (item, i) {
+      return React.createElement(SelectedItem, { item: item, order: i, clicked: that.whenClicked });
+    });
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "label",
+        null,
+        "Selected Audiences"
+      ),
+      React.createElement(
+        "div",
+        { className: "well" },
+        React.createElement(
+          "ul",
+          { className: "list-group" },
+          itemNodes
+        )
+      ),
+      "Audience Count:  ",
+      8
+    );
+  }
+});
+
+/*************************************** SCHEDULE TAB ******************************************/
+
+var StepSchedule = React.createClass({
+  displayName: "StepSchedule",
+
+  render: function render() {
+    return React.createElement(
+      "div",
+      { role: "tabpanel", className: "tab-pane" },
+      React.createElement(
+        "div",
+        { className: "col-md-12" },
+        React.createElement(
+          "h3",
+          null,
+          "Summary"
+        ),
+        React.createElement("hr", { className: "divider" })
+      ),
+      React.createElement(
+        "div",
+        { className: "col-md-12" },
+        React.createElement(
+          "div",
+          { className: "col-md-6" },
+          React.createElement(
+            "div",
+            { className: "staticLabel" },
+            "Subject"
+          ),
+          React.createElement(
+            "div",
+            { className: "staticValue" },
+            "Get out on an Hike NOW!"
+          ),
+          React.createElement("br", null),
+          React.createElement(
+            "div",
+            { className: "staticLabel" },
+            "Email Name"
+          ),
+          React.createElement(
+            "div",
+            { className: "staticValue" },
+            "Simple - Guide to Incredible Hikes"
+          ),
+          React.createElement("br", null),
+          React.createElement(
+            "div",
+            { className: "staticLabel" },
+            "Audience"
+          ),
+          React.createElement(
+            "div",
+            { className: "staticValue" },
+            "High Value - Investment Focus"
+          ),
+          React.createElement("hr", { className: "divider" }),
+          React.createElement(FromNameDropdown, { data: dropdowndata }),
+          React.createElement("br", null),
+          React.createElement("br", null),
+          React.createElement("hr", { className: "divider" }),
+          React.createElement(Radios, { data: radiodata })
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-6" },
+          React.createElement(
+            "div",
+            { className: "well" },
+            React.createElement(
+              "div",
+              { className: "staticLabel" },
+              "Subject"
+            ),
+            React.createElement(
+              "div",
+              { className: "staticValue" },
+              "Get out on an Hike NOW!"
+            ),
+            React.createElement("br", null),
+            React.createElement(
+              "div",
+              { className: "date-created" },
+              React.createElement(
+                "div",
+                { className: "staticLabel" },
+                "Date Created"
+              ),
+              React.createElement(
+                "div",
+                { className: "staticValue" },
+                "2/25/2015 8:17 PM"
+              )
+            ),
+            React.createElement(
+              "div",
+              null,
+              React.createElement(
+                "div",
+                { className: "staticLabel" },
+                "Date Modified"
+              ),
+              React.createElement(
+                "div",
+                { className: "staticValue" },
+                "2/25/2015 8:17 PM"
+              )
+            ),
+            React.createElement("img", { className: "", src: "http://image.exct.net/lib/fe6a1570706407787711/m/1/mobileView.png" })
+          )
+        )
+      )
+    );
+  }
+});
+
+/*** FROM NAME DROPDOWN ***/
+
+var dropdowndata = {
+  title: "From Name",
+  visible: ["title", "email"],
+  items: [{ title: "Lilly Kennedy", email: "lkennedy@gmail.com" }, { title: "Bradford Hill", email: "bhill@gmail.com" }, { title: "Erika Saarland", email: "esaarland@gmail.com" }, { title: "Peter Paulson", email: "ppaulson@gmail.com" }, { title: "Thomas Neal", email: "tneal@gmail.com" }]
+};
+
+var DropDownItem = React.createClass({
+  displayName: "DropDownItem",
+
+  render: function render() {
+    console.log(this);
+    return React.createElement(
+      "option",
+      null,
+      this.props.item.title,
+      " (",
+      this.props.item.email,
+      ")"
+    );
+  }
+});
+
+var FromNameDropdown = React.createClass({
+  displayName: "FromNameDropdown",
+
+  getInitialState: function getInitialState() {
+    var itemList = this.props.data.items.map(function (item, i) {
+      item.selected = item.selected ? item.selected : false;
+      item.id = item.id ? item.id : i;
+      return item;
+    });
+    return { data: this.props.data };
+  },
+  render: function render() {
+    var that = this;
+    console.log(this.state);
+    var itemNodes = this.state.data.items.map(function (item, i) {
+      return React.createElement(DropDownItem, { item: item, order: i });
+    });
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "label",
+          { className: "" },
+          this.props.data.title
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "col-md-5" },
+        React.createElement(
+          "select",
+          { name: "itemSelector", className: "form-control" },
+          itemNodes
+        )
+      )
+    );
+  }
+});
+
+/*** RADIO BUTTONS ***/
+
+var radiodata = {
+  title: "Schedule",
+  visible: "",
+  items: [{ title: "Immediately", checked: true }, { title: "Future", checked: false }]
+};
+
+var RadioItem = React.createClass({
+  displayName: "RadioItem",
+
+  render: function render() {
+    var checked = this.props.item.checked ? "checked" : "";
+    return React.createElement(
+      "label",
+      { className: "radio-inline" },
+      React.createElement(
+        "input",
+        { type: "radio", name: "inlineRadioOptions", id: "inlineRadio1", value: "option1", checked: checked },
+        " ",
+        this.props.item.title,
+        " "
+      )
+    );
+  }
+});
+
+var Radios = React.createClass({
+  displayName: "Radios",
+
+  getInitialState: function getInitialState() {
+    var itemList = this.props.data.items.map(function (item, i) {
+      item.selected = item.selected ? item.selected : false;
+      item.id = item.id ? item.id : i;
+      return item;
+    });
+    return { data: this.props.data };
+  },
+  render: function render() {
+    var that = this;
+    console.log(this.state);
+    var itemNodes = this.state.data.items.map(function (item, i) {
+      return React.createElement(RadioItem, { item: item, order: i });
+    });
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "label",
+        { "class": "col-sm-2 control-label" },
+        this.props.data.title
+      ),
+      React.createElement(
+        "div",
+        null,
+        itemNodes
+      )
+    );
+  }
 });
 
 module.exports = SendEmail;
 
-},{"react":222,"react-router":63}],13:[function(require,module,exports){
+},{"../Shared/FolderTree":15,"../Shared/Shared":18,"react":222,"react-router":63}],13:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
