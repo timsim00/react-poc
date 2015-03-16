@@ -4,7 +4,7 @@ var PageSizeDropdown = module.exports.PageSizeDropdown = React.createClass({
         var sizes = this.props.sizes;
         return (
         	<span className="dropdown">
-            	<button class="btn btn-default dropdown-toggle" type="button" id="pageSize" data-toggle="dropdown" aria-expanded="false">
+            	<button className="btn btn-default dropdown-toggle" type="button" id="pageSize" data-toggle="dropdown" aria-expanded="false">
                 	{sizes[0]}
 					<span className="caret"/>
 				 </button>
@@ -30,7 +30,7 @@ var PageIndexDropdown = module.exports.PageIndexDropdown = React.createClass({
         var lastPage = this.props.lastPage;
         return (
         <span className="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="pageIndex" data-toggle="dropdown" aria-expanded="false">
+            <button className="btn btn-default dropdown-toggle" type="button" id="pageIndex" data-toggle="dropdown" aria-expanded="false">
                 1
                 <span className="caret"/>
              </button>
