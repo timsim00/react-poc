@@ -129,15 +129,97 @@ module.exports = AppSwitcher;
 "use strict";
 
 var React = require("react");
+var Shared = require("../Shared/Shared");
+var SearchBar = Shared.SearchBar;
 
 var ClientLists = React.createClass({
   displayName: "ClientLists",
 
   render: function render() {
     return React.createElement(
-      "h2",
+      "div",
       null,
-      "Manage Client List"
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-6" },
+          React.createElement(
+            "h2",
+            null,
+            "Manage Client Lists"
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-6" },
+          "Search for Contact ",
+          React.createElement(SearchBar, null)
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-6" },
+          React.createElement(
+            "h4",
+            null,
+            "My Contacts"
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-6" },
+          React.createElement(
+            "div",
+            null,
+            React.createElement(
+              "button",
+              { className: "btn btn-primary" },
+              "Upload New Clients"
+            ),
+            React.createElement("br", null),
+            React.createElement(
+              "small",
+              null,
+              "Upload new contacts from your desktop using a “delimited” file"
+            )
+          ),
+          React.createElement(
+            "div",
+            null,
+            React.createElement(
+              "button",
+              { className: "btn btn-primary" },
+              "Create New List"
+            ),
+            React.createElement("br", null),
+            React.createElement(
+              "small",
+              null,
+              "Create new Group to associate clients together. This will remain in the platform unless deleted"
+            )
+          ),
+          React.createElement(
+            "div",
+            null,
+            React.createElement(
+              "button",
+              { className: "btn btn-primary" },
+              "Add to Existing List"
+            ),
+            React.createElement("br", null),
+            React.createElement(
+              "small",
+              null,
+              "Add contact to existing Group."
+            )
+          )
+        )
+      )
     );
   }
 
@@ -145,7 +227,7 @@ var ClientLists = React.createClass({
 
 module.exports = ClientLists;
 
-},{"react":222}],5:[function(require,module,exports){
+},{"../Shared/Shared":18,"react":222}],5:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -239,7 +321,7 @@ var ClientManagement = React.createClass({
       ),
       React.createElement(
         "div",
-        { className: "col-md-4" },
+        { className: "col-md-2" },
         React.createElement(
           "ul",
           null,
@@ -274,7 +356,7 @@ var ClientManagement = React.createClass({
       ),
       React.createElement(
         "div",
-        { className: "col-md-8" },
+        { className: "col-md-10" },
         React.createElement(RouteHandler, null)
       )
     );
@@ -1196,6 +1278,29 @@ module.exports = {
             "View"
           )
         )
+      );
+    }
+  }),
+
+  ItemList: React.createClass({displayName: "ItemList",
+    getInitialState: function getInitialState() {
+      var itemList = this.props.items.map(function (item, i) {
+        item.done = false;
+        // Unclock first item in the list
+        item.locked = i == 0 ? false : true;
+        return item;
+      });
+      return { items: items };
+    },
+    render: function render() {
+      var that = this;
+      var itemNodes = this.state.items.map(function (item, i) {
+        return React.createElement(Item, { item: item, order: i, clicked: that.whenClicked });
+      });
+      return React.createElement(
+        "table",
+        { className: "table" },
+        itemNodes
       );
     }
   }),

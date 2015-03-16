@@ -27,6 +27,29 @@ module.exports = {
       }
     }),
 
+    "ItemList" : React.createClass({
+      getInitialState: function(){
+        var itemList = this.props.items.map(function(item, i){
+          item.done = false;
+          // Unclock first item in the list
+          item.locked = (i == 0) ? false : true;
+          return item;
+        });
+        return {items:items};
+      },
+      render: function(){
+        var that = this;
+        var itemNodes = this.state.items.map(function (item, i) {
+          return <Item item={item} order={i} clicked={that.whenClicked} />
+        });
+        return (
+            <table className="table">
+                { itemNodes }
+            </table>
+        );
+      }
+    }),
+
     "TrackingDetails" :  React.createClass({
       render: function() {
          return(

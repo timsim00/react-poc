@@ -63,14 +63,14 @@ var ClientManagement = React.createClass({
     return (
 	<div>
     <h2>ClientManagement</h2>
-    <div className="col-md-4">
+    <div className="col-md-2">
       <ul>
         <li><Link to="lookup">Client Lookup</Link></li>
         <li><Link to="manage">Manage Clients</Link></li>
         <li><Link to="lists-subscriptions">Lists &amp; Subscriptions</Link></li>
       </ul>
     </div>
-    <div className="col-md-8">
+    <div className="col-md-10">
       <RouteHandler/>
     </div>
 	</div>
