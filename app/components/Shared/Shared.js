@@ -28,11 +28,11 @@ module.exports = {
       render: function() {
         return (
         <div id="emailPreview">
-            <div className="text-center">
+            <div className="text-center email-preview">
                 <img src="holder.js/50x75" />
             </div>
              <div className="text-center">
-                 <button className="btn btn-sm btn-primary">View</button>
+                 <button className="btn btn-xs btn-primary">View</button>
              </div>
         </div>
         );

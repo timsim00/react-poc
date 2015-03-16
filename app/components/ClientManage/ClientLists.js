@@ -50,27 +50,27 @@ var ClientLists = React.createClass({
             <div className="well" id="myContactsPanel">
               <ItemList items={items}/>
             </div>
-          </div>
+          </div><br /><br />
           <div className="col-md-6">
             <div>
               <div className="form-group">
                 <button className="btn btn-primary">Upload New Clients</button><br/>
                 <small>Upload new contacts from your desktop using a “delimited” file</small>
               </div>
-            </div>
+            </div><br />
             <div className="form-inline">
               <div className="form-group">
                 <input type="text" className="form-control" id="newListInput" placeholder="Create New List" />
               </div>
-                <button className="btn btn-primary">Save</button><br />
+              &nbsp;<button className="btn btn-primary">Save</button><br />
               <small>Create new Group to associate clients together. This will remain in the platform unless deleted</small>
-            </div>
+            </div><br />
             <div className="form-inline">
               <div className="form-group">
                 <div className="dropdown">
                   <button type="button" className="btn btn-primary" data-toggle="dropdown">
-                    Add to List
-                    <span className="caret"></span>
+                    Select List
+                    &nbsp;<span className="caret"></span>
                   </button>
                   <ul className="dropdown-menu" role="menu">
                     <li><a href="#">List One</a></li>
@@ -78,7 +78,7 @@ var ClientLists = React.createClass({
                   </ul>
                 </div>
               </div>
-              <button className="btn btn-primary">Add</button><br/>
+              &nbsp;<button className="btn btn-primary">Add</button><br/>
               <small>Add contact to existing Group.</small>
             </div>
           </div>

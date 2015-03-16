@@ -56,6 +56,8 @@ var Router = require("react-router");
 
 var Link = Router.Link;
 
+var menu = [{ name: "Distributed Sending", link: "distributed-sending", icon: "email", current: true }, { name: "Manage Clients", link: "client-management", icon: "groups" }, { name: "FA Administration", link: "fa-administration", icon: "contact" }];
+
 var AppSwitcher = React.createClass({
   displayName: "AppSwitcher",
 
@@ -69,7 +71,7 @@ var AppSwitcher = React.createClass({
         React.createElement(
           "div",
           null,
-          React.createElement(AppSwitcherDropDown, { currentApp: "Distributed Sending" })
+          React.createElement(AppSwitcherDropDown, { data: menu })
         )
       )
     );
@@ -86,42 +88,35 @@ var AppSwitcherDropDown = React.createClass({
       React.createElement(
         "a",
         { className: "dropdown-toggle", "data-toggle": "dropdown" },
+        React.createElement("span", { className: "s1icon s1icon-lg s1icon-s-email" }),
+        " ",
         this.props.currentApp
       ),
       React.createElement(
         "ul",
         { className: "dropdown-menu", role: "menu" },
-        React.createElement(
-          "li",
-          null,
-          React.createElement(
-            Link,
-            { to: "distributed-sending" },
-            "Distributed Sending"
-          )
-        ),
-        React.createElement(
-          "li",
-          null,
-          React.createElement(
-            Link,
-            { to: "client-management" },
-            "Manage Clients"
-          )
-        ),
-        React.createElement(
-          "li",
-          null,
-          React.createElement(
-            Link,
-            { to: "fa-administration" },
-            "FA Administration"
-          )
-        )
+        this.props.data.map(function (navItem, i) {
+          var classes = "s1icon s1icon-lg s1icon-s-" + navItem.icon;
+          return React.createElement(
+            "li",
+            { key: i },
+            React.createElement(
+              Link,
+              { to: navItem.link },
+              React.createElement("span", { className: classes }),
+              " ",
+              navItem.name
+            )
+          );
+        })
       )
     );
   }
 });
+
+// <li><Link to="distributed-sending"><span className="s1icon s1icon-lg s1icon-s-email"></span>&nbsp;Distributed Sending</Link></li>
+// <li><Link to="client-management"><span className="s1icon s1icon-lg s1icon-s-groups"></span>&nbsp;Manage Clients</Link></li>
+// <li><Link to="fa-administration"><span className="s1icon s1icon-lg s1icon-s-contact"></span>&nbsp;FA Administration</Link></li>
 
 module.exports = AppSwitcher;
 
@@ -181,6 +176,8 @@ var ClientLists = React.createClass({
             React.createElement(ItemList, { items: items })
           )
         ),
+        React.createElement("br", null),
+        React.createElement("br", null),
         React.createElement(
           "div",
           { className: "col-md-6" },
@@ -203,6 +200,7 @@ var ClientLists = React.createClass({
               )
             )
           ),
+          React.createElement("br", null),
           React.createElement(
             "div",
             { className: "form-inline" },
@@ -211,6 +209,7 @@ var ClientLists = React.createClass({
               { className: "form-group" },
               React.createElement("input", { type: "text", className: "form-control", id: "newListInput", placeholder: "Create New List" })
             ),
+            " ",
             React.createElement(
               "button",
               { className: "btn btn-primary" },
@@ -223,6 +222,7 @@ var ClientLists = React.createClass({
               "Create new Group to associate clients together. This will remain in the platform unless deleted"
             )
           ),
+          React.createElement("br", null),
           React.createElement(
             "div",
             { className: "form-inline" },
@@ -235,7 +235,7 @@ var ClientLists = React.createClass({
                 React.createElement(
                   "button",
                   { type: "button", className: "btn btn-primary", "data-toggle": "dropdown" },
-                  "Add to List",
+                  "Select List  ",
                   React.createElement("span", { className: "caret" })
                 ),
                 React.createElement(
@@ -262,6 +262,7 @@ var ClientLists = React.createClass({
                 )
               )
             ),
+            " ",
             React.createElement(
               "button",
               { className: "btn btn-primary" },
@@ -287,15 +288,171 @@ module.exports = ClientLists;
 "use strict";
 
 var React = require("react");
+var Shared = require("../Shared/Shared");
+
+var items = [{ title: "Publication 1" }, { title: "Publication 2" }, { title: "Publication 3" }, { title: "Publication 4" }, { title: "Publication 5" }, { title: "Publication 6" }, { title: "Publication 7" }, { title: "Publication 8" }];
+
+var items2 = [{ title: "Unsubscribe From All" }, { title: "I certify that this client has requested&nbsp; to be added back into the Morgan&nbsp;Stanley Email Program." }, { title: "Publication 3" }, { title: "Publication 4" }, { title: "Publication 5" }, { title: "Publication 6" }, { title: "Publication 7" }, { title: "Publication 8" }];
+
+var ItemList = Shared.ItemList;
+
+var Item = React.createClass({
+  displayName: "Item",
+
+  render: function render() {
+    return React.createElement(
+      "li",
+      { className: "list-group-item" },
+      React.createElement("input", { type: "checkbox" }),
+      " ",
+      this.props.item.title
+    );
+  }
+});
+
+// var ItemList = React.createClass({
+//   getInitialState: function(){
+//     var itemList = this.props.items.map(function(item, i){
+//       item.done = false;
+//       // Unclock first item in the list
+//       item.locked = (i == 0) ? false : true;
+//       return item;
+//     });
+//     return {items:items};
+//   },
+//   render: function(){
+//     var that = this;
+//     var itemNodes = this.state.items.map(function (item, i) {
+//       return <Item item={item} order={i} clicked={that.whenClicked} />
+//     });
+//     return (
+//       <ul className="list-group">
+//         { itemNodes }
+//       </ul>
+//     );
+//   }
+// });
 
 var ClientLookup = React.createClass({
   displayName: "ClientLookup",
 
   render: function render() {
     return React.createElement(
-      "h2",
+      "div",
       null,
-      "Client Lookup"
+      React.createElement(
+        "h3",
+        null,
+        "Lookup/Add Subscriber"
+      ),
+      React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "div",
+          { className: "input-group col-md-9" },
+          React.createElement("input", { type: "text", className: "form-control", "aria-label": "...", placeholder: "Email Address", id: "emailAddr" }),
+          React.createElement(
+            "div",
+            { className: "input-group-btn" },
+            React.createElement(
+              "button",
+              { type: "button", className: "btn btn-default" },
+              "Search"
+            ),
+            React.createElement(
+              "button",
+              { type: "button", className: "btn btn-default dropdown-toggle", "data-toggle": "dropdown", "aria-expanded": "false" },
+              React.createElement("span", { className: "caret" }),
+              React.createElement(
+                "span",
+                { className: "sr-only" },
+                "Toggle Dropdown"
+              )
+            ),
+            React.createElement(
+              "ul",
+              { className: "dropdown-menu dropdown-menu-right", role: "menu" },
+              React.createElement(
+                "li",
+                null,
+                React.createElement(
+                  "a",
+                  null,
+                  "Update"
+                )
+              ),
+              React.createElement(
+                "li",
+                null,
+                React.createElement(
+                  "a",
+                  null,
+                  "Add New client"
+                )
+              )
+            )
+          )
+        ),
+        React.createElement("br", null),
+        React.createElement(
+          "form",
+          { className: "form-inline", role: "form" },
+          React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement(
+              "label",
+              { htmlFor: "inpFirstName", className: "sr-only" },
+              "First Name"
+            ),
+            React.createElement("input", { type: "text", id: "inpFirstName", className: "form-control", "aria-label": "...", placeholder: "First Name", disabled: true })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement(
+              "label",
+              { htmlFor: "inpLastName", className: "sr-only" },
+              "Last Name"
+            ),
+            React.createElement("input", { type: "text", id: "inpLastName", className: "form-control", "aria-label": "...", placeholder: "Last Name", disabled: true })
+          )
+        )
+      ),
+      React.createElement("br", null),
+      React.createElement("br", null),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-7" },
+          React.createElement(
+            "label",
+            { htmlFor: "scrollPaneClientLookup" },
+            "Subscriptions"
+          ),
+          React.createElement(
+            "div",
+            { className: "well", id: "scrollPaneClientLookup" },
+            React.createElement(ItemList, { items: items })
+          ),
+          React.createElement("input", { type: "checkbox" }),
+          " I certify that this client has requested to be added back into to the Morgan Stanley Email Program.",
+          React.createElement("br", null),
+          React.createElement("br", null),
+          React.createElement("input", { type: "checkbox" }),
+          " Unsubscribe From All",
+          React.createElement("br", null),
+          React.createElement("br", null),
+          React.createElement(
+            "button",
+            { type: "button", className: "btn btn-primary" },
+            "Submit"
+          )
+        )
+      )
     );
   }
 
@@ -303,7 +460,7 @@ var ClientLookup = React.createClass({
 
 module.exports = ClientLookup;
 
-},{"react":222}],6:[function(require,module,exports){
+},{"../Shared/Shared":18,"react":222}],6:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -601,7 +758,7 @@ var RetirementThumbs = React.createClass({
 						null,
 						React.createElement(
 							"label",
-							{ "for": "febNews" },
+							{ htmlFor: "febNews" },
 							"February Newsletter "
 						),
 						React.createElement(
@@ -615,7 +772,7 @@ var RetirementThumbs = React.createClass({
 						null,
 						React.createElement(
 							"label",
-							{ "for": "marchNews" },
+							{ htmlFor: "marchNews" },
 							"March Newsletter "
 						),
 						React.createElement(
@@ -633,7 +790,7 @@ var RetirementThumbs = React.createClass({
 						null,
 						React.createElement(
 							"label",
-							{ "for": "aprilNews" },
+							{ htmlFor: "aprilNews" },
 							"April Newsletter "
 						),
 						React.createElement(
@@ -647,7 +804,7 @@ var RetirementThumbs = React.createClass({
 						null,
 						React.createElement(
 							"label",
-							{ "for": "mayNews" },
+							{ htmlFor: "mayNews" },
 							"May Newsletter "
 						),
 						React.createElement(
@@ -747,8 +904,8 @@ var HTMLView = React.createClass({
 			),
 			React.createElement(
 				"div",
-				{ "class": "row" },
-				React.createElement("img", { "class": "col-md-12", src: "http://image.exct.net/lib/fe6a1570706407787711/m/1/htmlLayout.png" })
+				{ className: "row" },
+				React.createElement("img", { className: "col-md-12", src: "http://image.exct.net/lib/fe6a1570706407787711/m/1/htmlLayout.png" })
 			)
 		);
 	}
@@ -934,7 +1091,7 @@ var Overview = React.createClass({
             Link,
             { to: "create-email", className: "btn btn-default" },
             React.createElement("span", { className: "glyphicon glyphicon-plus" }),
-            "Create Email"
+            " Create Email"
           )
         )
       ),
@@ -1045,7 +1202,7 @@ var SubscriberOverview = React.createClass({
       ),
       React.createElement(
         "div",
-        { className: "well" },
+        { className: "well", id: "subscriber-overview" },
         React.createElement(
           "div",
           { className: "col-md-6" },
@@ -1059,26 +1216,27 @@ var SubscriberOverview = React.createClass({
         React.createElement("div", { className: "clearfix" }),
         React.createElement(
           "div",
-          { className: "row" },
+          { className: "row", id: "subscriber-buttons" },
           React.createElement(
             "div",
             { className: "pull-right" },
             React.createElement(
               "button",
-              { className: "btn btn-sm btn-primary" },
+              { className: "btn btn-sm btn-primary btn-xs" },
               "Manage Subscribers"
             ),
+            " ",
             React.createElement(
               "div",
               { className: "btn-group" },
               React.createElement(
                 "button",
-                { className: "btn btn-sm btn-primary" },
-                "Add Subscribers "
+                { className: "btn btn-sm btn-primary btn-xs" },
+                "Add Subscribers"
               ),
               React.createElement(
                 "button",
-                { type: "button", className: "btn btn-sm btn-primary dropdown-toggle", "aria-expanded": "false" },
+                { type: "button", className: "btn btn-xs btn-primary dropdown-toggle", "aria-expanded": "false" },
                 React.createElement("span", { className: "caret" })
               )
             )
@@ -1180,9 +1338,207 @@ var FAadmin = React.createClass({
 
   render: function render() {
     return React.createElement(
-      "h2",
+      "div",
       null,
-      "FA Administration"
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-6 " },
+          React.createElement(
+            "h2",
+            null,
+            "Update your Financial Advisor Information"
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-6 text-right" },
+          React.createElement(
+            "button",
+            { type: "button", className: "btn btn-primary" },
+            "Edit"
+          ),
+          " ",
+          React.createElement(
+            "button",
+            { type: "button", className: "btn btn-primary" },
+            "Update"
+          )
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-2 bold" },
+          "Name"
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-8" },
+          "Matthew Crowley"
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-2 bold" },
+          "Title 1"
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-8" },
+          "Senior Vice President"
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-2 bold" },
+          "Title 2"
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-8" },
+          "Wealth Advisor"
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-2 bold" },
+          "Email Address"
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-8" },
+          "matthew.crowley@f1f.com"
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-2 bold" },
+          "Branch"
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-8" },
+          "1110 Park Avenue Plaza"
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-2 bold" },
+          "Twitter Handle"
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-8" },
+          "@MattCrowleyMS"
+        )
+      ),
+      React.createElement("br", null),
+      React.createElement("br", null),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-2 bold" },
+          "Direct Phone"
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-8" },
+          "555-434-6789"
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-2 bold" },
+          "Branch Phone"
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-8" },
+          "555-434-6700"
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-2 bold" },
+          "Mail Address"
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-8" },
+          "Park Avenue Plaza/55 East 52nd St 28th Floor, New York, NY 10055"
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-2 bold" },
+          "Your Photo"
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-8 form-inline" },
+          React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement("input", { type: "text", className: "form-control", placeholder: "Photo" }),
+            " ",
+            React.createElement(
+              "button",
+              { type: "button", className: "btn btn-primary" },
+              "Browse"
+            ),
+            React.createElement("br", null),
+            React.createElement(
+              "small",
+              null,
+              "Dimensions should be up to 80px wide x 80px tall",
+              React.createElement("br", null),
+              "Supported file formats are .jpg and .gif"
+            )
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "col-md-3 col-md-offset-2" },
+          React.createElement("img", { "data-src": "holder.js/150x150", width: "80", height: "80" }),
+          React.createElement("br", null),
+          React.createElement(
+            "small",
+            null,
+            "This photograph will show up on newsletters and personalized communications sent via email."
+          )
+        )
+      )
     );
   }
 
@@ -1231,11 +1587,6 @@ var ItemList = module.exports.ItemList = React.createClass({
     return React.createElement(
       "div",
       null,
-      React.createElement(
-        "span",
-        { className: "title" },
-        this.props.data.title
-      ),
       React.createElement(
         "ul",
         { className: "list-group" },
@@ -1329,9 +1680,9 @@ var Actions = React.createClass({
     return React.createElement(
       "div",
       { title: "actions" },
-      React.createElement("span", { className: "glyphicon glyphicon-pencil" }),
-      React.createElement("span", { className: "glyphicon glyphicon-file" }),
-      React.createElement("span", { className: "glyphicon glyphicon-envelope" }),
+      React.createElement("span", { className: "glyphicon glyphicon-pencil action" }),
+      React.createElement("span", { className: "glyphicon glyphicon-file action" }),
+      React.createElement("span", { className: "glyphicon glyphicon-envelope action" }),
       React.createElement("span", { title: "envelop-beaker" })
     );
   }
@@ -1343,7 +1694,7 @@ var data = [["Sample Email 1", "Check out our latest news", "2/20/2015 12:50PM",
 var pageData = {
   pageIndex: 0,
   pageSize: 25,
-  items: 190,
+  items: 2,
   pageSizeOptions: [25, 50]
 };
 
@@ -1402,7 +1753,8 @@ var GridView = React.createClass({
         "div",
         null,
         React.createElement(Pagination, { data: pageData })
-      )
+      ),
+      React.createElement("div", { className: "clearfix" })
     );
   }
 });
@@ -1421,9 +1773,10 @@ var PageSizeDropdown = module.exports.PageSizeDropdown = React.createClass({
         return React.createElement(
             "span",
             { className: "dropdown" },
+            " ",
             React.createElement(
                 "button",
-                { className: "btn btn-default dropdown-toggle", type: "button", id: "pageSize", "data-toggle": "dropdown", "aria-expanded": "false" },
+                { className: "btn btn-default btn-xs dropdown-toggle", type: "button", id: "pageSize", "data-toggle": "dropdown", "aria-expanded": "false" },
                 sizes[0],
                 React.createElement("span", { className: "caret" })
             ),
@@ -1464,8 +1817,8 @@ var PageIndexDropdown = module.exports.PageIndexDropdown = React.createClass({
             { className: "dropdown" },
             React.createElement(
                 "button",
-                { className: "btn btn-default dropdown-toggle", type: "button", id: "pageIndex", "data-toggle": "dropdown", "aria-expanded": "false" },
-                "1",
+                { className: "btn btn-default btn-xs dropdown-toggle disabled", type: "button", id: "pageIndex", "data-toggle": "dropdown", "aria-expanded": "false" },
+                "1  ",
                 React.createElement("span", { className: "caret" })
             ),
             React.createElement(
@@ -1526,17 +1879,19 @@ module.exports.Pagination = React.createClass({
                 { className: "pull-right" },
                 React.createElement(
                     "button",
-                    { className: "btn btn-default btn-sm" },
+                    { className: "btn btn-default btn-xs disabled" },
                     React.createElement("span", { className: "glyphicon glyphicon-arrow-left" })
                 ),
+                " ",
                 React.createElement(
                     "span",
                     null,
                     React.createElement(PageIndexDropdown, { lastPage: lastPage })
                 ),
+                " ",
                 React.createElement(
                     "button",
-                    { className: "btn btn-default btn-sm" },
+                    { className: "btn btn-default btn-xs disabled" },
                     React.createElement("span", { className: "glyphicon glyphicon-arrow-right" })
                 )
             )
@@ -1595,7 +1950,7 @@ module.exports = {
         { id: "emailPreview" },
         React.createElement(
           "div",
-          { className: "text-center" },
+          { className: "text-center email-preview" },
           React.createElement("img", { src: "holder.js/50x75" })
         ),
         React.createElement(
@@ -1603,7 +1958,7 @@ module.exports = {
           { className: "text-center" },
           React.createElement(
             "button",
-            { className: "btn btn-sm btn-primary" },
+            { className: "btn btn-xs btn-primary" },
             "View"
           )
         )
