@@ -1,6 +1,9 @@
 .folder-list {
+	
+
 	.folder {
 		padding-left: 8px;
+		padding-top:4px;
 	
 		.folder-head {
 			&.collapsed {
@@ -33,12 +36,18 @@
 			
 			.folder-name {
 				padding-left:0.5em;
+				font-size: 16px;
 			}
 			
 			.folder-icon {
 				color: lighten(black, 50%);
 			}
 		}
+	}
+	
+	>.folder{
+		padding-left: 0px;
+		padding-top: 0px;
 	}
 }
 
@@ -143,9 +152,14 @@
 }
 
 .checkLst{
-    border: 1px solid black;
     overflow:auto;
     height:300px;
+    label {
+    	font-weight:normal;
+    	div.item {
+    		padding-left:4px;
+    	}
+    }
 }
 .item {
     display:inline-block;
@@ -167,6 +181,20 @@
 	.members {
 		height: 615px;
 		overflow: auto;
+	}
+	
+	.group-btns {
+		padding:4px;
+		
+		.btn, input[type=text]{
+			width:100%;
+			
+		}
+	}
+	
+	.col {
+		margin-left:5px;
+		margin-right:5px;
 	}
 }
 
