@@ -14,8 +14,19 @@ var createFolder = function(data, index){
     } else {
         children = "";
     }
-
+    if(data.name === "Retirement" || data.name === "Shared Emails" || data.name === "Newsletters" )  { 
     return (<div className="folder" key={index}>
+        <div className="folder-head expanded" >
+            <span className="glyphicon glyphicon-folder-close" />
+            <span className="glyphicon glyphicon-folder-open" />
+            <span>{data.name}</span>
+        </div>
+        <div className="children">
+            {children}
+        </div>
+    </div>)
+    } else {
+     return (<div className="folder" key={index}>
         <div className="folder-head collapsed" >
             <span className="glyphicon glyphicon-folder-close" />
             <span className="glyphicon glyphicon-folder-open" />
@@ -25,6 +36,9 @@ var createFolder = function(data, index){
             {children}
         </div>
     </div>)
+    
+    }
+
 }
 
 var FolderTree = React.createClass({
