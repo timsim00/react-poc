@@ -4,7 +4,7 @@ var React = require('react'),
 
 var Link = Router.Link;
 
-//components    
+//components
 var FolderTree = require('../Shared/FolderTree');
 var SearchBar = require('../Shared/Shared').SearchBar;
 
@@ -31,14 +31,18 @@ var folders = [
 var SendEmail = React.createClass({
   render: function() {
     return (
-	<div>
-		<div className="row col-md-12">
-		  <h2>Send Email</h2>
-		</div>
-		<div className="row col-md-12">
-			<Wizard />
-		</div>
-	</div>
+      <div>
+        <div className="row">
+      		<div className="col-md-12">
+      		  <h2>Send Email</h2>
+      		</div>
+        </div>
+        <div className="row">
+      		<div className="col-md-12">
+      			<Wizard />
+      		</div>
+        </div>
+    	</div>
     );
   }
 });
@@ -60,35 +64,35 @@ var Wizard = React.createClass({
     			$('#btnBack button').removeAttr('disabled');
     			$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
     			break;
-    		}	
+    		}
     		case 3: location.hash = "#/";
     	}
 	},
 	handleBack: function() {
 		if (this.state.step >= 2) this.state.step--;
 		switch (this.state.step) {
-    		case 1: {    			
+    		case 1: {
     			$('a[href^="#stepSelectAudience"]').click();
     			$('#btnBack button').attr('disabled','disabled');
     			$('#btnNext button').html('Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
-    		}	
-    	} 
+    		}
+    	}
 	},
-    render: function() {    
+    render: function() {
 	return (
 		<div className="wizard">
 			<div className="wizard-header navbar navbar-default">
-				<ul className="nav navbar-nav navbar-left"> 				
+				<ul className="nav navbar-nav navbar-left">
 					<li key="0" className="active">
 						<a className="inactive-step" href="#stepSelectAudience" data-toggle="tab" onClick={this.handleBack}>
 							Select Audience
 						</a>
-					</li>	
+					</li>
 					<li key="1">
 						<a className="inactive-step" href="#stepSchedule" data-toggle="tab" onClick={this.handleNext}>
 							Schedule
 						</a>
-					</li>                  
+					</li>
 				</ul>
 				<div id="btnNext" className="pull-right text-right wiz-btn"><button onClick={this.handleNext} className="btn btn-default">Next&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></button></div>
 				<div id="btnBack" className="pull-right text-right wiz-btn"><button onClick={this.handleBack} className="btn btn-default">Back</button></div>
@@ -97,14 +101,14 @@ var Wizard = React.createClass({
 			<div className="wizard-content tab-content">
 				<div role="tabpanel" className="tab-pane active" id="stepSelectAudience">
 					<StepSelectAudience />
-				</div>             
+				</div>
 				<div role="tabpanel" className="tab-pane" id="stepSchedule">
 					<StepSchedule />
-				</div> 							               
+				</div>
 			</div>
 		</div>
 	);
-		
+
   }
 });
 
@@ -131,15 +135,15 @@ var StepSelectAudience = React.createClass({
 				</div>
 				<div className="col-md-7">
 					<div className="well row">
-						<div className="col-md-4">							
+						<div className="col-md-4">
 							<form className="form-inline" role="form">
 								<div className="form-group">
 									<label className="control-label col-sm-2" htmlFor="searchLists">Lists</label>
 									<div className="col-sm-3">
 										<input type="text" id="searchLists" className="form-control col-sm-4" placeholder="Search"/>
 									</div>
-								</div>	
-							</form>														
+								</div>
+							</form>
 						</div>
 						<div className="col-md-2">
 							<div id="btnSelect" className="text-right"><Link to="/" className="pull-right btn btn-default" disabled="disabled">Select</Link></div>
@@ -151,19 +155,19 @@ var StepSelectAudience = React.createClass({
 						</div>
 						<div className="well col-md-6">
 							<SubscriberList items={subscribers} />
-						</div>						
+						</div>
 					</div>
 				</div>
 				<div className="col-md-3">
 					<div className="well">
 						<SelectedItemList items={selectednames} />
 					</div>
-				</div>								
+				</div>
 			</div>
-		</div>		
+		</div>
 	</div>
     );
-  }			
+  }
 });
 
 
@@ -179,11 +183,11 @@ var subnames = [
 
 var SubNameItem = React.createClass({
     render: function () {
-        return ( 
+        return (
         <tr>
 		   	<td className="list-column"><input type="checkbox"/>&nbsp;{ this.props.item.title }</td>
            	<td className="list-column">{ this.props.item.count }</td>
-	    </tr>        
+	    </tr>
         );
     }
 });
@@ -203,12 +207,12 @@ var SubListNames = React.createClass({
     var itemNodes = this.state.items.map(function (item, i) {
     	return <SubNameItem item={item} order={i} clicked={that.whenClicked} />
     });
-    return ( 
+    return (
         <table className="table">
             { itemNodes }
         </table>
     );
-  }  
+  }
 });
 
 
@@ -223,15 +227,15 @@ var subscribers = [
 	{ title: "Bradford Hill", email: "bhill@gmail.com" },
 	{ title: "Erika Saarland", email: "esaarland@gmail.com" },
 	{ title: "Peter Paulson", email: "ppaulson@gmail.com" }
-]  
+]
 
 var SubItem = React.createClass({
     render: function () {
-      return ( 
+      return (
           <tr>
 		      <td className="list-column"><input type="checkbox"/>&nbsp;{ this.props.item.title }</td>
               <td className="list-column">{ this.props.item.email }</td>
-	      </tr>        
+	      </tr>
       );
     }
 });
@@ -251,12 +255,12 @@ var SubscriberList = React.createClass({
     var itemNodes = this.state.items.map(function (item, i) {
       return <SubItem item={item} order={i} clicked={that.whenClicked} />
     });
-    return ( 
+    return (
         <table className="table">
             { itemNodes }
         </table>
     );
-  }  
+  }
 });
 
 
@@ -268,7 +272,7 @@ var selectednames = [
 
 var SelectedItem = React.createClass({
     render: function () {
-      return (  
+      return (
         <li className="list-group-item">&nbsp;{ this.props.item.title }</li>
       );
     }
@@ -286,19 +290,19 @@ var SelectedItemList = React.createClass({
     var itemNodes = this.state.items.map(function (item, i) {
       return <SelectedItem item={item} order={i} clicked={that.whenClicked} />
     });
-    return ( 
+    return (
        <div>
             <label>Selected Audiences</label>
             <div className="well">
                <ul className="list-group">
-                 { itemNodes } 
-                </ul> 
-            </div> 
-            Audience Count:  {8} 
+                 { itemNodes }
+                </ul>
+            </div>
+            Audience Count:  {8}
       </div>
-      
+
     );
-  }  
+  }
 });
 
 
@@ -310,7 +314,7 @@ var StepSchedule = React.createClass({
 	<div role="tabpanel" className="tab-pane">
 		<div className="col-md-12">
 			<h3>Summary</h3>
-			<hr className="divider"/>			
+			<hr className="divider"/>
 		</div>
 		<div className="col-md-12">
 			<div className="col-md-6">
@@ -321,11 +325,11 @@ var StepSchedule = React.createClass({
 				<div className="staticValue">Simple - Guide to Incredible Hikes</div>
 				<br/>
 				<div className="staticLabel">Audience</div>
-				<div className="staticValue">High Value - Investment Focus</div>									
+				<div className="staticValue">High Value - Investment Focus</div>
 				<hr className="divider"/>
 				<FromNameDropdown data={dropdowndata} />
 				<br/>
-				<br/>			
+				<br/>
 				<hr className="divider"/>
 				<Radios data={radiodata} />
 			</div>
@@ -337,18 +341,18 @@ var StepSchedule = React.createClass({
 					<div className="date-created">
 						<div className="staticLabel">Date Created</div>
 						<div className="staticValue">2/25/2015 8:17 PM</div>
-					</div>	
+					</div>
 					<div>
 						<div className="staticLabel">Date Modified</div>
 						<div className="staticValue">2/25/2015 8:17 PM</div>
-					</div>																		
+					</div>
 					<img className="" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/mobileView.png" />
-				</div>	
+				</div>
 			</div>
-		</div>		
+		</div>
 	</div>
     );
-  }			
+  }
 });
 
 
@@ -365,12 +369,12 @@ var dropdowndata = {
         { title: "Peter Paulson", email: "ppaulson@gmail.com" },
         { title: "Thomas Neal", email: "tneal@gmail.com" }
     ]
-};	
+};
 
 var DropDownItem = React.createClass({
-    render: function () { 
+    render: function () {
         console.log(this);
-        return ( 
+        return (
             <option>{ this.props.item.title }&nbsp;({ this.props.item.email })</option>
         );
     }
@@ -385,14 +389,14 @@ var FromNameDropdown = React.createClass({
       return item;
     });
     return {data: this.props.data};
-  },    
+  },
   render: function(){
     var that = this;
     console.log(this.state);
     var itemNodes = this.state.data.items.map(function (item, i) {
       return <DropDownItem item={item} order={i} />
     });
-    return ( 
+    return (
         <div>
         	<div>
             	<label className="">{this.props.data.title}</label>
@@ -404,7 +408,7 @@ var FromNameDropdown = React.createClass({
             </div>
         </div>
     );
-  }  
+  }
 });
 
 
@@ -417,12 +421,12 @@ var radiodata = {
         { title: "Immediately", checked: true },
         { title: "Future", checked: false }
     ]
-};	
+};
 
 var RadioItem = React.createClass({
-    render: function () { 
+    render: function () {
         var checked = this.props.item.checked ? "checked" : "";
-        return ( 
+        return (
             <label className="radio-inline">
                 <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked={checked}> { this.props.item.title } </input>
             </label>
@@ -439,14 +443,14 @@ var Radios = React.createClass({
       return item;
     });
     return {data: this.props.data};
-  },    
+  },
   render: function(){
     var that = this;
     console.log(this.state);
     var itemNodes = this.state.data.items.map(function (item, i) {
       return <RadioItem item={item} order={i} />
     });
-    return ( 
+    return (
         <div>
             <label class="col-sm-2 control-label">{this.props.data.title}</label>
             <div>
@@ -454,7 +458,7 @@ var Radios = React.createClass({
             </div>
         </div>
     );
-  }  
+  }
 });
 
 

@@ -42,12 +42,16 @@ var CreateEmail = React.createClass({
   render: function() {
     return (
 	<div>
-		<div className="row col-md-12">
-		  <h2>Create Email</h2>
-		</div>
-		<div className="row col-md-12">
-			<Wizard />
-		</div>
+    <div className="row">
+  		<div className="col-md-12">
+  		  <h2>Create Email</h2>
+  		</div>
+    </div>
+    <div className="row">
+  		<div className="col-md-12">
+  			<Wizard />
+  		</div>
+    </div>
 	</div>
     );
   }
