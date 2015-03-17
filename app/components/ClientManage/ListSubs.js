@@ -134,7 +134,8 @@ var ListSubs = React.createClass({
 	        			<button className="btn btn-primary"> View Publication Members </button>
         			</div>
         		</div>
-        		<div className="col col-md-1">
+        		<div className="col btn-col col-md-2">
+        			<h3>&nbsp;</h3>
         			<div className="row">
         				<button className="btn btn-primary"> Remove from Group</button>
         			</div>
