@@ -14,31 +14,24 @@ var createFolder = function(data, index){
     } else {
         children = "";
     }
-    if(data.name === "Retirement" || data.name === "Shared Emails" || data.name === "Newsletters" )  { 
-    return (<div className="folder" key={index}>
-        <div className="folder-head expanded" >
-            <span className="glyphicon glyphicon-folder-close" />
-            <span className="glyphicon glyphicon-folder-open" />
-            <span>{data.name}</span>
-        </div>
-        <div className="children">
-            {children}
-        </div>
-    </div>)
-    } else {
-     return (<div className="folder" key={index}>
-        <div className="folder-head collapsed" >
-            <span className="glyphicon glyphicon-folder-close" />
-            <span className="glyphicon glyphicon-folder-open" />
-            <span>{data.name}</span>
-        </div>
-        <div className="children">
-            {children}
-        </div>
-    </div>)
     
+    var folderHeadClasses = "folder-head collapsed";
+    if(data.name === "Retirement" || data.name === "Shared Emails" || data.name === "Newsletters" )  { 
+    	folderHeadClasses = "folder-head expanded";
     }
-
+    
+    return (<div className="folder" key={index}>
+        <div className={folderHeadClasses} >
+        	<span className="folder-icon">
+				<span className="glyphicon glyphicon-folder-close" />
+				<span className="glyphicon glyphicon-folder-open" />
+            </span>
+            <span className="folder-name">{data.name}</span>
+        </div>
+        <div className="children">
+            {children}
+        </div>
+    </div>)
 }
 
 var FolderTree = React.createClass({
