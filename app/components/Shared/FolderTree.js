@@ -19,7 +19,7 @@ var createFolder = function(data, index){
         <div className="folder-head expanded" >
             <span className="glyphicon glyphicon-folder-close" />
             <span className="glyphicon glyphicon-folder-open" />
-            <span>{data.name}</span>
+            <span>&nbsp;&nbsp;{data.name}</span>
         </div>
         <div className="children">
             {children}
@@ -30,7 +30,7 @@ var createFolder = function(data, index){
         <div className="folder-head collapsed" >
             <span className="glyphicon glyphicon-folder-close" />
             <span className="glyphicon glyphicon-folder-open" />
-            <span>{data.name}</span>
+            <span>&nbsp;&nbsp;{data.name}</span>
         </div>
         <div className="children">
             {children}
