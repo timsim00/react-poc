@@ -61,7 +61,7 @@ var Wizard = React.createClass({
     			$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
     			break;
     		}	
-    		case 3: location.hash = "#/send-email";
+    		case 3: location.hash = "#/";
     	}
 	},
 	handleBack: function() {
