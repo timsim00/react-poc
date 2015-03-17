@@ -3,11 +3,22 @@ var React = require('react');
 
 var Item = React.createClass({
     render: function () {
+    	var classes;
+    	if(this.props.item.email && this.props.item.title){
+    		classes = "col-md-6";
+    	} else {
+    		classes = "col-md-12";
+    	}
       return (
-          <tr>
-          <td className="list-column"><input type="checkbox"/>&nbsp;{ this.props.item.title }</td>
-              <td className="list-column">{ this.props.item.email }</td>
-        </tr>
+			  <div className="form-group checkbox">
+				<label>
+					<input type="checkbox"/>
+					<div className="lbl">
+						<div className={classes}>{ this.props.item.title }</div>
+						<div className={classes}>{ this.props.item.email }</div>
+					</div>
+				</label>
+			</div>
       );
     }
 });
@@ -56,9 +67,9 @@ module.exports = {
           return <Item item={item} order={i} clicked={that.whenClicked} />
         });
         return (
-            <table className="table">
+            <div className="itemLst">
                 { itemNodes }
-            </table>
+            </div>
         );
       }
     }),
