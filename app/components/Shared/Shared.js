@@ -2,6 +2,12 @@ var React = require('react');
 
 
 var Item = React.createClass({
+	__changeSelection: function(item) {
+        item.selected = !item.selected;
+        if(this.props.onChange){
+        	this.props.onChange();
+        }
+    },
     render: function () {
     	var classes;
     	if(this.props.item.email && this.props.item.title){
@@ -10,9 +16,9 @@ var Item = React.createClass({
     		classes = "col-md-12";
     	}
       return (
-			  <div className="form-group checkbox">
+			  <div className="form-group checkbox" key={this.props.key}>
 				<label>
-					<input type="checkbox"/>
+					<input type="checkbox" onChange={this.__changeSelection.bind(this, this.props.item)}/>
 					<div className="lbl">
 						<div className={classes}>{ this.props.item.title }</div>
 						<div className={classes}>{ this.props.item.email }</div>
@@ -51,6 +57,12 @@ module.exports = {
     }),
 
     "ItemList" : React.createClass({
+	  handleFilterChange: function(){
+		if(this.props.onChange){
+			var selected = this.props.items.filter(function(i){ return i.selected;});
+			this.props.onChange(selected);
+		}
+	  },
       getInitialState: function(){
       	var items = this.props.items;
         var itemList = this.props.items.map(function(item, i){
@@ -63,8 +75,8 @@ module.exports = {
       },
       render: function(){
         var that = this;
-        var itemNodes = this.state.items.map(function (item, i) {
-          return <Item item={item} order={i} clicked={that.whenClicked} />
+        var itemNodes = this.props.items.map(function (item) {
+          return <Item item={item} key={item.id} onChange={that.handleFilterChange} />
         });
         return (
             <div className="itemLst">
