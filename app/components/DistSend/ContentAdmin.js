@@ -1,5 +1,13 @@
 var React = require('react'),
-    Router = require('react-router');
+    Router = require('react-router')
+
+jQuery("html").on("click.selectableDivs", ".selectableDivs", function(){
+    console.log(jQuery(this));
+    jQuery(this).toggleClass("active");
+    console.log(jQuery(this));
+});
+
+
 
 var Link = Router.Link;
 
@@ -119,40 +127,35 @@ var EmailSelect = React.createClass({
 var RetirementThumbs = React.createClass({
     render: function() {
         return(
-		<div>
+		<div id="contentAdmin">
 		   <table>
 			   <tr>
-				  <td>
-				  	  <label for="febNews"><input type="checkbox">February Newsletter</input></label>
+				  <td><div className="btn btn-default selectableDivs">
+				  	  <label for="febNews">February Newsletter</label>
 					  <div>
-						 <img className="retirement-img" id="febNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="200" width="150" />
-					   </div>
-				  </td>
-				  <td>
-				      <label for="marchNews"><input type="checkbox">March Newsletter</input> </label>
+						 <img className="retirement-img" id="febNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
+						 </div>
+				  </div></td>
+				  <td><div className="btn btn-default selectableDivs">
+				      <label for="marchNews">March Newsletter </label>
 					  <div>
-						 <img className="retirement-img" id="marchNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="200" width="150" />
+						 <img className="retirement-img" id="marchNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
 					   </div>
-				  </td>
+				  </div></td>
 			   </tr>
 			   <tr>
-				  <td>
-				      <label for="aprilNews"><input type="checkbox">April Newsletter </input></label>
+				  <td><div className="btn btn-default selectableDivs">
+				      <label for="aprilNews">April Newsletter </label>
 					  <div>
-						 <img className="retirement-img" id="aprilNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="200" width="150" />
+						 <img className="retirement-img" id="aprilNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
 					   </div>
-				  </td>
-				  <td>
-				      <label for="mayNews"><input type="checkbox">May Newsletter </input></label>
+				  </div></td>
+				  <td><div className="btn btn-default selectableDivs">
+				      <label for="mayNews">May Newsletter </label>
 					  <div>
-						 <img className="retirement-img" id="mayNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="200" width="150" />
+						 <img className="retirement-img" id="mayNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
 					   </div>
-				  </td>
-			   </tr>
-			   <tr>
-			   	<td colspan="2">
-					<button type="button" className="btn btn-default">Select</button>
-				</td>
+				  </div></td>
 			   </tr>
 		   </table>
 		</div>
