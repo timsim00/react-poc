@@ -1,5 +1,6 @@
 var React = require('react'),
-    Router = require('react-router');
+    Router = require('react-router'),
+    $ = require('jquery');
 
 var Link = Router.Link;
 
@@ -141,32 +142,35 @@ var HTMLView = React.createClass({
     render: function() {
         return(
         <div>
-        	<div className="row">
-        		<div className="col-md-12">
-        			<div className="well">
-					<form className="form-horizontal" role="form">
-						<div className="form-group">
-							<label className="control-label col-sm-2" htmlFor="emailName">Email Name</label>
-							<div className="col-sm-3">
-								<input type="text" id="emailName" className="form-control col-sm-4" placeholder=""/>
-							</div>
+
+			<div className="col-md-12">
+				<div className="well">
+				<form className="form-horizontal" role="form">
+					<div className="form-group">
+						<label className="control-label col-sm-2" htmlFor="emailName">Email Name</label>
+						<div className="col-sm-3">
+							<input type="text" id="emailName" className="form-control col-sm-4" placeholder=""/>
 						</div>
-						<div className="form-group">
-							<label className="control-label col-sm-2" htmlFor="emailSubject">Email Subject</label>
-							<div className="col-sm-3">
-								<input type="text" id="emailSubject" className="form-control" placeholder=""/>
-							</div>
-						</div>
-						<div className="form-group">
-							<label className="control-label col-sm-2" htmlFor="preheader">Preheader</label>
-							<div className="col-sm-3">
-								<textarea cols="40" rows="5" id="preheader" className="form-control" placeholder=""/>
-							</div>
-						</div>
-					</form>
 					</div>
+					<div className="form-group">
+						<label className="control-label col-sm-2" htmlFor="emailSubject">Email Subject</label>
+						<div className="col-sm-3">
+							<input type="text" id="emailSubject" className="form-control" placeholder=""/>
+						</div>
+					</div>
+					<div className="form-group">
+						<label className="control-label col-sm-2" htmlFor="preheader">Preheader</label>
+						<div className="col-sm-3">
+							<textarea cols="40" rows="5" id="preheader" className="form-control" placeholder=""/>
+						</div>
+					</div>
+				</form>
 				</div>
 			</div>
+			<div className="col-md-12">
+				<div id="btnSave" className="pull-right text-right wiz-btn"><button className="btn btn-default">Save</button></div>
+				<div id="btnTestSend" className="pull-right text-right wiz-btn"><button className="btn btn-default">Preview / Test Send</button></div>				
+			</div>			
 			<div className="row">
 				<div className="col-md-12">
 					<a className="linkAlignMobile" href="http://pages.exacttarget.com/page.aspx?QS=773ed3059447707d9d701ccb4b27e72ab11c8f42980a76838c0411c92774c29a">View as Mobile</a>
@@ -216,41 +220,66 @@ var Step2 = React.createClass({
   }
 });
 
-var convertToId = function(title){
-    var text = title.replace(/\W+/g,"").replace("&","And");
-    return text.substring(0, 1).toLowerCase()+text.substring(1);
-}
 
 var Wizard = React.createClass({
+	getInitialState: function() {
+		return {
+			step: 1
+		}
+	},
+	handleNext: function() {
+		if (this.state.step <= 2) this.state.step++;
+		switch (this.state.step) {
+    		case 2: {
+    			$('a[href^="#defineContent"]').click();
+    			$('#btnBack button').removeAttr('disabled');
+    			$('#btnNext button').html('Schedule Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
+    			break;
+    		}	
+    		case 3: location.hash = "#/send-email";
+    	}
+	},
+	handleBack: function() {
+		if (this.state.step >= 2) this.state.step--;
+		switch (this.state.step) {
+    		case 1: {    			
+    			$('a[href^="#selectContent"]').click();
+    			$('#btnBack button').attr('disabled','disabled');
+    			$('#btnNext button').html('Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
+    		}	
+    	} 
+	},	
     render: function() {
-return (
-	<div className="wizard">
-		<div className="wizard-header navbar navbar-default">
-			<ul className="nav navbar-nav navbar-left">
-				<li key="0" className="active">
-					<a className="inactive-step" href="#selectContent" data-toggle="tab">
-					Select Content
-					</a>
-				</li>
-				<li key="1">
-				<a className="inactive-step" href="#defineContent" data-toggle="tab">
-				Define Content
-				</a>
-				</li>
-			</ul>
-		<div id="btnScheduleSend" className="pull-right text-right"><Link to="send-email" className="btn btn-default">Schedule Send&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></Link></div>
-		</div>
-		<div className="wizard-content tab-content">
-		<div role="tabpanel" className="tab-pane active" id="selectContent">
-			<Step1 />
-		</div>
-		<div role="tabpanel" className="tab-pane" id="defineContent">
-			<Step2 />
+	return (
+		<div className="wizard">
+			<div className="wizard-header navbar navbar-default">
+				<ul className="nav navbar-nav navbar-left">
+					<li key="0" className="active">
+						<a className="inactive-step" href="#selectContent" data-toggle="tab" onClick={this.handleBack}>
+						Select Content
+						</a>
+					</li>
+					<li key="1">
+						<a className="inactive-step" href="#defineContent" data-toggle="tab" onClick={this.handleNext}>
+						Define Content
+						</a>
+					</li>
+				</ul>				
+				<div id="btnNext" className="pull-right text-right wiz-btn"><button onClick={this.handleNext} className="btn btn-default">Next&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></button></div>
+				<div id="btnBack" className="pull-right text-right wiz-btn"><button onClick={this.handleBack} className="btn btn-default">Back</button></div>
+				<div id="btnCancel" className="pull-right text-right wiz-btn"><Link to="/" className="btn btn-default">Cancel</Link></div>		
+			</div>
+			<div className="wizard-content tab-content">
+			<div role="tabpanel" className="tab-pane active" id="selectContent">
+				<Step1 />
+			</div>
+			<div role="tabpanel" className="tab-pane" id="defineContent">
+				<Step2 />
+			</div>
 		</div>
 	</div>
-</div>
-);
-  }
+	);
+	}
 });
 
 module.exports = CreateEmail;

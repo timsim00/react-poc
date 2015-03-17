@@ -15840,7 +15840,7 @@ input[type="radio"].sf1-radio {
   height: 650px;
   overflow: auto;
 }
-#btnScheduleSend {
+.wiz-btn {
   padding: 0.5em 0.5em 0 0;
 }
 .list-column {
@@ -15860,6 +15860,9 @@ input[type="radio"].sf1-radio {
 .date-created {
   float: left;
   padding-right: 30px;
+}
+.sub-list-name {
+  margin-right: 20px;
 }
 @font-face {
   font-family: 'ProximaNova-Light-Webfont';

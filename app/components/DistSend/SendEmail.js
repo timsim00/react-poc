@@ -1,5 +1,6 @@
 var React = require('react'),
-    Router = require('react-router');
+    Router = require('react-router'),
+    $ = require('jquery');
 
 var Link = Router.Link;
 
@@ -46,34 +47,62 @@ var SendEmail = React.createClass({
 /**** WIZARD *****/
 
 var Wizard = React.createClass({
-    render: function() {
-    
+	getInitialState: function() {
+		return {
+			step: 1
+		}
+	},
+	handleNext: function() {
+		if (this.state.step <= 2) this.state.step++;
+		switch (this.state.step) {
+    		case 2: {
+    			$('a[href^="#stepSchedule"]').click();
+    			$('#btnBack button').removeAttr('disabled');
+    			$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
+    			break;
+    		}	
+    		case 3: location.hash = "#/send-email";
+    	}
+	},
+	handleBack: function() {
+		if (this.state.step >= 2) this.state.step--;
+		switch (this.state.step) {
+    		case 1: {    			
+    			$('a[href^="#stepSelectAudience"]').click();
+    			$('#btnBack button').attr('disabled','disabled');
+    			$('#btnNext button').html('Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
+    		}	
+    	} 
+	},
+    render: function() {    
 	return (
-	<div className="wizard">
-		<div className="wizard-header navbar navbar-default">
-			<ul className="nav navbar-nav navbar-left"> 				
-				<li key="0" className="active">
-					<a className="inactive-step" href="#stepSelectAudience" data-toggle="tab">
-						Select Audience
-					</a>
-				</li>	
-				<li key="1">
-					<a className="inactive-step" href="#stepSchedule" data-toggle="tab">
-						Schedule
-					</a>
-				</li>                  
-			</ul>
-			<div id="btnScheduleSend" visibility="hidden" className="pull-right text-right"><Link to="send-email" className="btn btn-default">Send&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></Link></div>
+		<div className="wizard">
+			<div className="wizard-header navbar navbar-default">
+				<ul className="nav navbar-nav navbar-left"> 				
+					<li key="0" className="active">
+						<a className="inactive-step" href="#stepSelectAudience" data-toggle="tab" onClick={this.handleBack}>
+							Select Audience
+						</a>
+					</li>	
+					<li key="1">
+						<a className="inactive-step" href="#stepSchedule" data-toggle="tab" onClick={this.handleNext}>
+							Schedule
+						</a>
+					</li>                  
+				</ul>
+				<div id="btnNext" className="pull-right text-right wiz-btn"><button onClick={this.handleNext} className="btn btn-default">Next&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></button></div>
+				<div id="btnBack" className="pull-right text-right wiz-btn"><button onClick={this.handleBack} className="btn btn-default">Back</button></div>
+				<div id="btnCancel" className="pull-right text-right wiz-btn"><Link to="create-email" className="btn btn-default">Cancel</Link></div>
+			</div>
+			<div className="wizard-content tab-content">
+				<div role="tabpanel" className="tab-pane active" id="stepSelectAudience">
+					<StepSelectAudience />
+				</div>             
+				<div role="tabpanel" className="tab-pane" id="stepSchedule">
+					<StepSchedule />
+				</div> 							               
+			</div>
 		</div>
-		<div className="wizard-content tab-content">
-			<div role="tabpanel" className="tab-pane active" id="stepSelectAudience">
-				<StepSelectAudience />
-			</div>             
-			<div role="tabpanel" className="tab-pane" id="stepSchedule">
-				<StepSchedule />
-			</div> 							               
-		</div>
-	</div>
 	);
 		
   }
@@ -89,7 +118,7 @@ var StepSelectAudience = React.createClass({
 	<div  role="tabpanel" className="tab-pane active">
 		<div className="row">
 			<div className="col-md-1">
-				<div id="btnManageGroups" className="text-right"><Link to="/" className="btn btn-default" disabled="disabled">Manage Groups</Link></div>
+				<div id="btnManageGroups" className="text-right"><Link to="/" className="btn btn-default">Manage Groups</Link></div>
 			</div>
 		</div>
 		<br/>
@@ -117,10 +146,10 @@ var StepSelectAudience = React.createClass({
 						</div>
 					</div>
 					<div className="well row">
-						<div className="col-md-3">
+						<div className="well col-md-5 sub-list-name">
 							<SubListNames items={subnames} />
 						</div>
-						<div className="col-md-4">
+						<div className="well col-md-6">
 							<SubscriberList items={subscribers} />
 						</div>						
 					</div>
