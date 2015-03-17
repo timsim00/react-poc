@@ -75,7 +75,7 @@ var members = [
 var ChecklistPlus = React.createClass({
   render: function() {
     return (
-        <div className="checkLst">
+        <div className="checkLst well">
           {this.props.data.map(function(datum, index){
               var chkbxId = "chk_"+index;
               return (<div className="form-group" key={index}>
@@ -102,34 +102,48 @@ var ListSubs = React.createClass({
     return (    
         <div>
 	        <h2>Lists & Subscriptions</h2>
-        	<div className="listsSubsMainContent">
-        		<div className="col-md-5">
+        	<div className="listsSubsMainContent container">
+        		<div className="col col-md-5">
         			<div className="row">
+        				<h3>Manage My Lists</h3>
         				<div className="manage-lists well">
         					<ItemList items={items} />
         				</div>
         			</div>
-					<div className="row">
-						<button className="btn btn-default">Delete Group </button>
-						<button className="btn btn-default">Manage Group </button>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-						<button className="btn btn-default">Rename Group: </button>
-						<input type="text" className="btn btn-default" text="College Friends"/>
+					<div className="row group-btns">
+						<div className="col-md-6"><button className="btn btn-primary">Delete Group </button></div>
+						<div className="col-md-6"><button className="btn btn-primary">Manage Group </button></div>
 					</div>
-        			<div className="row well">
+					<div className="row group-btns">
+						<div className="col-md-6"><button className="btn btn-primary">Rename Group: </button></div>
+						<div className="col-md-6"><input type="text" text="College Friends"/></div>
+					</div>
+        			<div className="row">
+        				<h3>Subscriptions</h3>
 	        			<ChecklistPlus data={data}/>
         			</div>
         		</div>
-        		<div className="col-md-4">
-        			<div className="members well">
-        				<ItemList items={members} />
-        			</div><br/><br/>
-        			<button className="btn btn-default"> View Publication Members </button>
+        		<div className="col col-md-4">
+        			<div className="row">
+        			<h3>Members</h3>
+						<div className="members well">
+							<ItemList items={members} />
+						</div>
+        			</div>
+        			<div className="row">
+	        			<button className="btn btn-primary"> View Publication Members </button>
+        			</div>
         		</div>
-        		<div className="col-md-1 btn-spc">
-        			<button className="btn btn-default"> Remove From Group &nbsp; &nbsp; &nbsp;  </button>
-        			<button className="btn btn-default"> Add to Publication  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</button><br/>
-        			<button className="btn btn-default"> Remove from Publication </button>
+        		<div className="col col-md-1">
+        			<div className="row">
+        				<button className="btn btn-primary"> Remove from Group</button>
+        			</div>
+        			<div className="row">
+        				<button className="btn btn-primary"> Add to Publication</button>
+        			</div>
+        			<div className="row">
+        				<button className="btn btn-primary"> Remove from Publication</button>
+        			</div>
         		</div>
         	</div>
         </div>
