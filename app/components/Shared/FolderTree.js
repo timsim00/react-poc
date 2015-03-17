@@ -14,12 +14,12 @@ var createFolder = function(data, index){
     } else {
         children = "";
     }
-    
+
     var folderHeadClasses = "folder-head collapsed";
-    if(data.name === "Retirement" || data.name === "Shared Emails" || data.name === "Newsletters" )  { 
+    if(data.name === "Retirement" || data.name === "Shared Emails" || data.name === "Newsletters" )  {
     	folderHeadClasses = "folder-head expanded";
     }
-    
+
     return (<div className="folder" key={index}>
         <div className={folderHeadClasses} >
         	<span className="folder-icon">
