@@ -9,8 +9,8 @@ var PageSizeDropdown = module.exports.PageSizeDropdown = React.createClass({
 					<span className="caret"/>
 				 </button>
                 <ul className="dropdown-menu" aria-labelledby="pageSize">
-            	{sizes.map(function(s){
-                	return (<li><a tabIndex="-1" href="#">{s}</a></li>);
+            	{sizes.map(function(s, i){
+                	return (<li key={i}><a tabIndex="-1" href="#">{s}</a></li>);
             	})}
         		</ul>
         	</span>)
@@ -34,8 +34,8 @@ var PageIndexDropdown = module.exports.PageIndexDropdown = React.createClass({
                 1&nbsp;&nbsp;<span className="caret"/>
              </button>
                 <ul className="dropdown-menu" aria-labelledby="pageIndex">
-				{range(1,lastPage).map(function(s){
-					return (<li><a tabIndex="-1" href="#">{s}</a></li>);
+				{range(1,lastPage).map(function(s, i){
+					return (<li key={i}><a tabIndex="-1" href="#">{s}</a></li>);
 				})}
 			</ul>
         </span>)

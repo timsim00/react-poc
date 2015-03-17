@@ -42,12 +42,16 @@ var CreateEmail = React.createClass({
   render: function() {
     return (
 	<div>
-		<div className="row col-md-12">
-		  <h2>Create Email</h2>
-		</div>
-		<div className="row col-md-12">
-			<Wizard />
-		</div>
+    <div className="row">
+  		<div className="col-md-12">
+  		  <h2>Create Email</h2>
+  		</div>
+    </div>
+    <div className="row">
+  		<div className="col-md-12">
+  			<Wizard />
+  		</div>
+    </div>
 	</div>
     );
   }
@@ -77,7 +81,7 @@ var FilterByType = React.createClass({
     <div>
       <h4>Filter By Type</h4>
       <div className="well">
-      	<FilterByType_ data={filterData} />
+      	<FilterByType_ data={filterData} onChange={this.props.onChange} />
       </div>
     </div>
     );
@@ -88,6 +92,8 @@ var FilterByType = React.createClass({
 
 var EmailSelect = React.createClass({
   render: function() {
+  console.log("***");
+  	console.log(this.props.types);
     return (
     <div>
     	<h4>Retirement</h4>
@@ -206,7 +212,18 @@ var HTMLView = React.createClass({
 /****  WIZARD *****/
 
 var Step1 = React.createClass({
+  handleFilterChange: function(selected) {
+  	//TODO consider extracting relevant values
+  	this.state.selected = selected;
+  },
+  getInitialState: function(){
+  	var state = {};
+  	state.selected = [];
+  	return state;
+  },
   render: function() {
+  	var that = this;
+  	var types = this.state.selected;
     return (
 	<div className="row">
 		<div className="col-md-4">
@@ -214,11 +231,11 @@ var Step1 = React.createClass({
 			  <ContentCategories />
 			</div>
 			<div className="Boo">
-			  <FilterByType data={filterData}/>
+			  <FilterByType data={filterData} onChange={that.handleFilterChange}/>
 			</div>
 		</div>
 		<div className="col-md-8">
-			<EmailSelect/>
+			<EmailSelect types={types}/>
 		</div>
 	</div>
     );

@@ -60,7 +60,7 @@ var AppSwitcherDropDown = React.createClass({
               .map(function(navItem, i){
               var classes="s1icon s1icon-lg s1icon-s-" + navItem.icon;
               return(
-                <a className="dropdown-toggle" data-toggle="dropdown" >
+                <a key={i} className="dropdown-toggle" data-toggle="dropdown" >
                   <span className={classes}></span>&nbsp;{navItem.name}
                 </a>
               )

@@ -29,7 +29,7 @@ module.exports = {
         return (
         <div id="emailPreview">
             <div className="text-center email-preview">
-                <img src="holder.js/50x75" />
+                <img src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="75" width="50" />
             </div>
              <div className="text-center">
                  <button className="btn btn-xs btn-primary">View</button>
