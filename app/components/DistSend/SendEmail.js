@@ -331,8 +331,10 @@ var StepSchedule = React.createClass({
 				<div className="staticLabel">Audience</div>
 				<div className="staticValue">High Value - Investment Focus</div>
 				<hr className="divider"/>
+				<div>
+					<label className="">From Name</label>
+				</div>								
 				<FromNameDropdown data={dropdowndata} />
-				<br/>
 				<br/>
 				<hr className="divider"/>
 				<Radios data={radiodata} />
@@ -375,13 +377,26 @@ var dropdowndata = {
         { title: "Peter Paulson", email: "ppaulson@gmail.com" },
         { title: "Thomas Neal", email: "tneal@gmail.com" }
     ]
-};
+};	
 
 var DropDownItem = React.createClass({
+	handleClick: function(e) {
+        e.preventDefault();
+        var node = this.getDOMNode();
+		var i = $(node).parents('.select').attr('id');
+		var v = $(node).children().text();
+		var o = $(node).attr('id');
+		$('#'+i+' .selected').attr('id',o);
+		$('#'+i+' .selected').text(v);
+	},	
     render: function () {
-        console.log(this);
+    	var drop_down_a = { 'border-bottom':'0', 'padding-top':'0px', 'padding-bottom':'0px' };
         return (
-            <option>{ this.props.item.title }&nbsp;({ this.props.item.email })</option>
+            <li id={this.props.item.id} role="presentation">
+                <a role="menuitem" tabIndex="-1" href="#" onClick={this.handleClick} style={drop_down_a}>
+                	{ this.props.item.title }&nbsp;({ this.props.item.email })
+                </a>
+            </li>
         );
     }
 });
@@ -398,21 +413,17 @@ var FromNameDropdown = React.createClass({
   },
   render: function(){
     var that = this;
-    console.log(this.state);
     var itemNodes = this.state.data.items.map(function (item, i) {
       return <DropDownItem item={item} order={i} />
-    });
+    });    
+    
     return (
-        <div>
-        	<div>
-            	<label className="">{this.props.data.title}</label>
-            </div>
-            <div className="col-md-6">
-				<select name="itemSelector" className="form-control">
+			<div className="input-group-btn select" id="select1">
+				<button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span className="selected">Select a value</span> <span className="caret"></span></button>
+				<ul className="dropdown-menu option" role="menu" aria-labelledby="dropdownMenu1">
 					{ itemNodes }
-				</select>
-            </div>
-        </div>
+				</ul>
+			</div>
     );
   }
 });
