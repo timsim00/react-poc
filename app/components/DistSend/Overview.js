@@ -37,7 +37,16 @@ var Overview = React.createClass({
       <div>
         <div className="row">
           <div className="col-md-6"><h2>Overview</h2></div>
-          <div className="col-md-6 text-right"><Link to="create-email" className="btn btn-default"><span className="glyphicon glyphicon-plus" />&nbsp;Create Email</Link></div>
+          <div className="col-md-6 text-right">
+            <Link to="content-admin" className="btn btn-default">
+              <span className="glyphicon glyphicon-pencil" />
+              &nbsp;Content Admin
+            </Link>&nbsp;&nbsp;
+            <Link to="create-email" className="btn btn-default">
+              <span className="glyphicon glyphicon-plus" />
+              &nbsp;Create Email
+            </Link>
+          </div>
         </div>
         <div className="row">
           <div className="col-md-4 detail-box">

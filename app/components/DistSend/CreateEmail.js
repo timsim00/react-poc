@@ -169,8 +169,8 @@ var HTMLView = React.createClass({
 			</div>
 			<div className="col-md-12">
 				<div id="btnSave" className="pull-right text-right wiz-btn"><button className="btn btn-default">Save</button></div>
-				<div id="btnTestSend" className="pull-right text-right wiz-btn"><button className="btn btn-default">Preview / Test Send</button></div>				
-			</div>			
+				<div id="btnTestSend" className="pull-right text-right wiz-btn"><button className="btn btn-default">Preview / Test Send</button></div>
+			</div>
 			<div className="row">
 				<div className="col-md-12">
 					<a className="linkAlignMobile" href="http://pages.exacttarget.com/page.aspx?QS=773ed3059447707d9d701ccb4b27e72ab11c8f42980a76838c0411c92774c29a">View as Mobile</a>
@@ -235,20 +235,20 @@ var Wizard = React.createClass({
     			$('#btnBack button').removeAttr('disabled');
     			$('#btnNext button').html('Schedule Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
     			break;
-    		}	
-    		case 3: location.hash = "#/send-email";
+    		}
+    		case 3: location.hash = "#/distributed-sending/send-email";
     	}
 	},
 	handleBack: function() {
 		if (this.state.step >= 2) this.state.step--;
 		switch (this.state.step) {
-    		case 1: {    			
+    		case 1: {
     			$('a[href^="#selectContent"]').click();
     			$('#btnBack button').attr('disabled','disabled');
     			$('#btnNext button').html('Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
-    		}	
-    	} 
-	},	
+    		}
+    	}
+	},
     render: function() {
 	return (
 		<div className="wizard">
@@ -264,10 +264,10 @@ var Wizard = React.createClass({
 						Define Content
 						</a>
 					</li>
-				</ul>				
+				</ul>
 				<div id="btnNext" className="pull-right text-right wiz-btn"><button onClick={this.handleNext} className="btn btn-default">Next&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></button></div>
 				<div id="btnBack" className="pull-right text-right wiz-btn"><button onClick={this.handleBack} className="btn btn-default">Back</button></div>
-				<div id="btnCancel" className="pull-right text-right wiz-btn"><Link to="/" className="btn btn-default">Cancel</Link></div>		
+				<div id="btnCancel" className="pull-right text-right wiz-btn"><Link to="/" className="btn btn-default">Cancel</Link></div>
 			</div>
 			<div className="wizard-content tab-content">
 			<div role="tabpanel" className="tab-pane active" id="selectContent">

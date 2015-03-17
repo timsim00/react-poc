@@ -41,11 +41,17 @@ var ContentAdmin = React.createClass({
   render: function() {
     return (
 	<div>
-		<div className="row col-md-12">
-		  <h2>Set Content Properties</h2>
+		<div className="col-md-6">
+		  <h2>Content Administration</h2>
 		</div>
-		<div className="row col-md-12">
-    <div className="row">
+    <div className="col-md-6 text-right">
+    <Link to="distributed-sending" className="btn btn-default">
+      <span className="glyphicon glyphicon-arrow-left" />
+      &nbsp;Back to Overview
+    </Link>
+    </div>
+		<div className="row">
+    <div className="col-md-12">
       <div className="col-md-4">
         <div>
           <ContentCategories />
