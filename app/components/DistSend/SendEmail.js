@@ -118,11 +118,13 @@ var Wizard = React.createClass({
 
 var StepSelectAudience = React.createClass({
   render: function() {
+  	var listspanstyle = { float:'left', padding:'7px' };
+  	var searchstyle = { 'margin-left':'-15px' };
     return (
 	<div  role="tabpanel" className="tab-pane active">
 		<div className="row">
 			<div className="col-md-1">
-				<div id="btnManageGroups" className="text-right"><Link to="/" className="btn btn-default">Manage Groups</Link></div>
+				<div id="btnManageGroups" className="text-right"><Link to="/client-management" className="btn btn-default">Manage Clients</Link></div>
 			</div>
 		</div>
 		<br/>
@@ -135,18 +137,12 @@ var StepSelectAudience = React.createClass({
 				</div>
 				<div className="col-md-7">
 					<div className="well row">
-						<div className="col-md-4">
-							<form className="form-inline" role="form">
-								<div className="form-group">
-									<label className="control-label col-sm-2" htmlFor="searchLists">Lists</label>
-									<div className="col-sm-3">
-										<input type="text" id="searchLists" className="form-control col-sm-4" placeholder="Search"/>
-									</div>
-								</div>
-							</form>
+						<span className="staticValue" style={listspanstyle}>Lists</span>
+						<div style={searchstyle} className="col-md-6">									
+							<SearchBar />									
 						</div>
-						<div className="col-md-2">
-							<div id="btnSelect" className="text-right"><Link to="/" className="pull-right btn btn-default" disabled="disabled">Select</Link></div>
+						<div className="col-md-2 pull-right">														
+							<div id="btnSelect" className="text-right"><Link to="/" className="btn btn-default" disabled="disabled">Select</Link></div>
 						</div>
 					</div>
 					<div className="well row">
@@ -209,6 +205,10 @@ var SubListNames = React.createClass({
     });
     return (
         <table className="table">
+			<tr>
+				<td className="list-header">Name</td>
+				<td className="list-header">Clients</td>
+			</tr>        
             { itemNodes }
         </table>
     );
@@ -311,6 +311,9 @@ var SelectedItemList = React.createClass({
 
 var StepSchedule = React.createClass({
   render: function() {
+  	var previewStyle = {
+  		'margin-top':'10px'
+  	};	
     return (
 	<div role="tabpanel" className="tab-pane">
 		<div className="col-md-12">
@@ -346,9 +349,11 @@ var StepSchedule = React.createClass({
 					<div>
 						<div className="staticLabel">Date Modified</div>
 						<div className="staticValue">2/25/2015 8:17 PM</div>
-					</div>
-					<img className="" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/mobileView.png" />
-				</div>
+					</div>																		
+					<div id="preview-web" height="100%" width="100%">
+						<iframe style={previewStyle} height="800px" width="100%" src="images/pagepreview.png" />
+					</div>					
+				</div>	
 			</div>
 		</div>
 	</div>
@@ -402,7 +407,7 @@ var FromNameDropdown = React.createClass({
         	<div>
             	<label className="">{this.props.data.title}</label>
             </div>
-            <div className="col-md-5">
+            <div className="col-md-6">
 				<select name="itemSelector" className="form-control">
 					{ itemNodes }
 				</select>

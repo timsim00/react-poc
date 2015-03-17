@@ -193,11 +193,11 @@ var HTMLView = React.createClass({
 							</div>
 						</div>
 					</div>
-					<div id="preview-mobile" className="tab-pane fade in">
-						<iframe height="800px" width="30%" className="col-md-12" src="http://pages.exacttarget.com/page.aspx?QS=773ed3059447707d9d701ccb4b27e72ab11c8f42980a76838c0411c92774c29a" />
+					<div id="preview-mobile" className="crop tab-pane fade in">
+						<iframe height="800px" width="30%" className="" src="images/pagepreview.png" />
 					</div>
 					<div id="preview-web" height="100%" width="100%" className="tab-pane fade in">
-						<iframe height="800px" width="100%" src="http://view.exacttarget.com/?j=fe6215727161077f7c17&m=fe6a1570706407787711&ls=fdf8117776640c7d771c7675&l=fe8e15797064027872&s=fe1c11717d6d03787c1172&jb=ffcf14&ju=fe2815747c620475761371&r=0" />
+						<iframe height="800px" width="100%" src="images/pagepreview.png" />
 					</div>					
 				</div>
 			</div>
