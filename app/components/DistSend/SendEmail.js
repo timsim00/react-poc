@@ -122,7 +122,7 @@ var StepSelectAudience = React.createClass({
 	<div  role="tabpanel" className="tab-pane active">
 		<div className="row">
 			<div className="col-md-1">
-				<div id="btnManageGroups" className="text-right"><Link to="/" className="btn btn-default">Manage Groups</Link></div>
+				<div id="btnManageGroups" className="text-right"><Link to="/client-management" className="btn btn-default">Manage Clients</Link></div>
 			</div>
 		</div>
 		<br/>
