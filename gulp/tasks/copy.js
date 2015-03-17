@@ -22,3 +22,10 @@ gulp.task('html', function () {
 		.pipe(plumber())
 		.pipe(gulp.dest(html.dest));
 });
+
+
+
+gulp.task('deploy', function() {
+  gulp.src('./build/**/*.*')
+	.pipe(gulp.dest('./heroku'));
+});
