@@ -51,8 +51,8 @@ var GridView = React.createClass({
 		})
 		} </tr>
 				</thead> {
-		data.map(function (row) {
-			return ( <tr> {
+		data.map(function (row, i) {
+			return ( <tr key={i}> {
 				row.map(function (r,i) {
 					return ( <td key={i}> {
 						r

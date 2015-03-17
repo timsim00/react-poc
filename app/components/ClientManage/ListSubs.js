@@ -121,7 +121,7 @@ var ListSubs = React.createClass({
         			</div>
         		</div>
         		<div className="col-md-4">
-        			<div className="members">
+        			<div className="members well">
         				<ItemList items={members} />
         			</div><br/><br/>
         			<button className="btn btn-default"> View Publication Members </button>

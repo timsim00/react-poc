@@ -1,29 +1,45 @@
-.folder {
-    padding-left: 8px
-}
+.folder-list {
+	.folder {
+		padding-left: 8px;
+	
+		.folder-head {
+			&.collapsed {
+				.glyphicon-folder-close {
 
-.folder-head.collapsed .glyphicon-folder-close {
+				}
+				
+				.glyphicon-folder-open {
+					display:none;
+				}
+				
+				~ .children {
+				  display:none;
+				}
+			}
+		
+			&.expanded {
+				.glyphicon-folder-close {
+					display:none;
+				}
+				
+				.glyphicon-folder-open {
 
-}
+				}
+				
+				~ .children {
 
-.folder-head.collapsed .glyphicon-folder-open {
-    display:none;
-}
-
-.folder-head.expanded .glyphicon-folder-close {
-    display:none;
-}
-
-.folder-head.expanded .glyphicon-folder-open {
-
-}
-
-.folder-head.collapsed ~ .children {
-  display:none
-}
-
-.folder-head.expanded ~ .children {
-
+				}
+			}
+			
+			.folder-name {
+				padding-left:0.5em;
+			}
+			
+			.folder-icon {
+				color: lighten(black, 50%);
+			}
+		}
+	}
 }
 
 .detail-box .well{
