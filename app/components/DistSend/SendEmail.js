@@ -175,17 +175,17 @@ var StepSelectAudience = React.createClass({
 /*** SUBSCRIBER LIST NAMES ***/
 
 var subnames = [
-	{ title: "Email - High Value", count: "8" },
-	{ title: "Email - Lower Value", count: "42" },
-	{ title: "High R and MF", count: "62" },
-	{ title: "High Value - Investment Focus", count: "14" }
+	{ title: "Email - High Value", count: "8", checked: "checked" },
+	{ title: "Email - Lower Value", count: "42", checked: "" },
+	{ title: "High R and MF", count: "62", checked: "" },
+	{ title: "High Value - Investment Focus", count: "14", checked: "" }
 ];
 
 var SubNameItem = React.createClass({
     render: function () {
         return (
         <tr>
-		   	<td className="list-column"><input type="checkbox"/>&nbsp;{ this.props.item.title }</td>
+		   	<td className="list-column"><input checked={ this.props.item.checked } type="checkbox"/>&nbsp;{ this.props.item.title }</td>
            	<td className="list-column">{ this.props.item.count }</td>
 	    </tr>
         );
@@ -219,6 +219,7 @@ var SubListNames = React.createClass({
 /*** SUBSCRIBER LIST ***/
 
 var subscribers = [
+<<<<<<< HEAD
 	{ title: "John Smith", email: "jsmith@gmail.com" },
 	{ title: "Sue James", email: "sjames@gmail.com" },
 	{ title: "Joe Jones", email: "jjones@gmail.com" },
@@ -228,12 +229,23 @@ var subscribers = [
 	{ title: "Erika Saarland", email: "esaarland@gmail.com" },
 	{ title: "Peter Paulson", email: "ppaulson@gmail.com" }
 ]
+=======
+	{ title: "John Smith", email: "jsmith@gmail.com", checked: "checked" },
+	{ title: "Sue James", email: "sjames@gmail.com", checked: "checked" },
+	{ title: "Joe Jones", email: "jjones@gmail.com", checked: "checked" },
+	{ title: "Fiona Chapman", email: "fchapman@gmail.com", checked: "checked" },
+	{ title: "Lilly Kennedy", email: "lkennedy@gmail.com", checked: "checked" },
+	{ title: "Bradford Hill", email: "bhill@gmail.com", checked: "checked" },
+	{ title: "Erika Saarland", email: "esaarland@gmail.com", checked: "checked" },
+	{ title: "Peter Paulson", email: "ppaulson@gmail.com", checked: "checked" }
+]  
+>>>>>>> 2debb44fecfb72a96a201ac9b22206cb9fccbc56
 
 var SubItem = React.createClass({
     render: function () {
       return (
           <tr>
-		      <td className="list-column"><input type="checkbox"/>&nbsp;{ this.props.item.title }</td>
+		      <td className="list-column"><input checked={ this.props.item.checked } type="checkbox"/>&nbsp;{ this.props.item.title }</td>
               <td className="list-column">{ this.props.item.email }</td>
 	      </tr>
       );

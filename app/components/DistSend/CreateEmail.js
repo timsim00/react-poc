@@ -148,7 +148,6 @@ var HTMLView = React.createClass({
     render: function() {
         return(
         <div>
-
 			<div className="col-md-12">
 				<div className="well">
 				<form className="form-horizontal" role="form">
@@ -177,14 +176,30 @@ var HTMLView = React.createClass({
 				<div id="btnSave" className="pull-right text-right wiz-btn"><button className="btn btn-default">Save</button></div>
 				<div id="btnTestSend" className="pull-right text-right wiz-btn"><button className="btn btn-default">Preview / Test Send</button></div>
 			</div>
-			<div className="row">
-				<div className="col-md-12">
-					<a className="linkAlignMobile" href="http://pages.exacttarget.com/page.aspx?QS=773ed3059447707d9d701ccb4b27e72ab11c8f42980a76838c0411c92774c29a">View as Mobile</a>
-					<a className="linkAlignWebpage" href="http://view.exacttarget.com/?j=fe6215727161077f7c17&m=fe6a1570706407787711&ls=fdf8117776640c7d771c7675&l=fe8e15797064027872&s=fe1c11717d6d03787c1172&jb=ffcf14&ju=fe2815747c620475761371&r=0">View as Webpage</a>
-				</div>
+			<div className="col-md-12">
+
 			</div>
-			<div className="row">
-				<img className="col-md-12" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/htmlLayout.png" />
+			<div className="col-md-12">
+				<ul className="nav nav-tabs">
+					<li className="active"><a data-toggle="tab" href="#edit">Edit</a></li>
+					<li><a data-toggle="tab" href="#preview-mobile">Preview Mobile</a></li>
+					<li><a data-toggle="tab" href="#preview-web">Preview Web</a></li>
+				</ul>
+				<div className="tab-content">
+					<div id="edit" className="tab-pane fade in active">
+						<div className="preview">
+							<div className="crop">
+								<img className="col-md-12" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/htmlLayout.png" />
+							</div>
+						</div>
+					</div>
+					<div id="preview-mobile" className="tab-pane fade in">
+						<iframe height="800px" width="30%" className="col-md-12" src="http://pages.exacttarget.com/page.aspx?QS=773ed3059447707d9d701ccb4b27e72ab11c8f42980a76838c0411c92774c29a" />
+					</div>
+					<div id="preview-web" height="100%" width="100%" className="tab-pane fade in">
+						<iframe height="800px" width="100%" src="http://view.exacttarget.com/?j=fe6215727161077f7c17&m=fe6a1570706407787711&ls=fdf8117776640c7d771c7675&l=fe8e15797064027872&s=fe1c11717d6d03787c1172&jb=ffcf14&ju=fe2815747c620475761371&r=0" />
+					</div>					
+				</div>
 			</div>
 		</div>
        );
