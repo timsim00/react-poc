@@ -306,6 +306,9 @@ var SelectedItemList = React.createClass({
 
 var StepSchedule = React.createClass({
   render: function() {
+  	var previewStyle = {
+  		'margin-top':'10px'
+  	};	
     return (
 	<div role="tabpanel" className="tab-pane">
 		<div className="col-md-12">
@@ -342,7 +345,9 @@ var StepSchedule = React.createClass({
 						<div className="staticLabel">Date Modified</div>
 						<div className="staticValue">2/25/2015 8:17 PM</div>
 					</div>																		
-					<img className="" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/mobileView.png" />
+					<div id="preview-web" height="100%" width="100%">
+						<iframe style={previewStyle} height="800px" width="100%" src="images/pagepreview.png" />
+					</div>					
 				</div>	
 			</div>
 		</div>		
@@ -397,7 +402,7 @@ var FromNameDropdown = React.createClass({
         	<div>
             	<label className="">{this.props.data.title}</label>
             </div>
-            <div className="col-md-5">
+            <div className="col-md-6">
 				<select name="itemSelector" className="form-control">
 					{ itemNodes }
 				</select>
