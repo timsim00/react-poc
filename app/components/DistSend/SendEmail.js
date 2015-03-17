@@ -219,17 +219,7 @@ var SubListNames = React.createClass({
 /*** SUBSCRIBER LIST ***/
 
 var subscribers = [
-<<<<<<< HEAD
-	{ title: "John Smith", email: "jsmith@gmail.com" },
-	{ title: "Sue James", email: "sjames@gmail.com" },
-	{ title: "Joe Jones", email: "jjones@gmail.com" },
-	{ title: "Fiona Chapman", email: "fchapman@gmail.com" },
-	{ title: "Lilly Kennedy", email: "lkennedy@gmail.com" },
-	{ title: "Bradford Hill", email: "bhill@gmail.com" },
-	{ title: "Erika Saarland", email: "esaarland@gmail.com" },
-	{ title: "Peter Paulson", email: "ppaulson@gmail.com" }
-]
-=======
+
 	{ title: "John Smith", email: "jsmith@gmail.com", checked: "checked" },
 	{ title: "Sue James", email: "sjames@gmail.com", checked: "checked" },
 	{ title: "Joe Jones", email: "jjones@gmail.com", checked: "checked" },
@@ -238,8 +228,7 @@ var subscribers = [
 	{ title: "Bradford Hill", email: "bhill@gmail.com", checked: "checked" },
 	{ title: "Erika Saarland", email: "esaarland@gmail.com", checked: "checked" },
 	{ title: "Peter Paulson", email: "ppaulson@gmail.com", checked: "checked" }
-]  
->>>>>>> 2debb44fecfb72a96a201ac9b22206cb9fccbc56
+]
 
 var SubItem = React.createClass({
     render: function () {
