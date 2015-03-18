@@ -10,7 +10,7 @@ var SearchButton = React.createClass({
     }
 });
 
-var data = [
+var subscriptions = [
     {
         title: "Market Insights - Monthly",
         content: "Monthly publication to share MS view on Market Conditions"
@@ -37,13 +37,13 @@ var data = [
     }
 ];
 
-var items = [
-	{title: "ALL MY CLIENTS"},
-	{title: "College Friends"},
-	{title: "International Clients"},
-	{title: "Clients Interested in Retirement"},
-	{title: "Country Club members"},
-	{title: "Matt's Top Clients"}
+var lists = [
+	{id: "all", title: "ALL MY CLIENTS"},
+	{id: "cf", title: "College Friends"},
+	{id: "ic", title: "International Clients"},
+	{id: "ciir", title: "Clients Interested in Retirement"},
+	{id: "ccm", title: "Country Club members"},
+	{id: "mtc", title: "Matt's Top Clients"}
 ];
 
 
@@ -98,8 +98,57 @@ var ChecklistPlus = React.createClass({
 
 
 var ListSubs = React.createClass({
+  onSelectedListsChange: function(e){
+	this.setState({selectedList: e[0], editedName: null});
+
+  },
+  onNameChange: function(v){
+  	this.setState({editedName: this.refs.groupName.getDOMNode().value});
+  },
+  deleteGroup: function(){
+  	if(this.state.selectedList && this.state.selectedList.id !== "all"){
+  		var selected = this.state.selectedList;
+  		var lists = this.state.lists.filter(function(l){return l.id !== selected.id;});
+  		this.setState({lists: lists});
+  	}
+  },
+  renameGroup: function(){
+  	if(this.state.selectedList && this.state.selectedList.id !== "all"){
+  		var edited = this.state.editedName;
+  		if(edited != null && edited != ''){
+  			var selected = this.state.selectedList;
+  			var matched = this.state.lists.filter(function(l){return l.id === selected.id;})[0];
+  			matched.title = edited;
+  			this.setState({lists: this.state.lists});
+  		}
+  	}
+  },
+  getInitialState: function(){
+  	var state = {};
+  	state.selectedList = null;
+  	state.lists = lists;
+  	return state;
+  },
   render: function() {
-    return (    
+  	var selectedName = "";
+  	if(this.state.selectedList){
+  		selectedName = this.state.selectedList.title;
+  	}
+  	if(this.state.editedName != null){
+  		selectedName = this.state.editedName;
+  	}
+  	
+  	var groupOperationClasses = "btn btn-primary";
+  	var groupAttr = "";
+  	if(this.state.selectedList && this.state.selectedList.id === "all"){
+  		groupOperationClasses += "disabled";
+  		groupAttr += "disabled";
+  		selectedName = "";
+  	}
+  	
+  	
+    return (
+        
         <div>
 	        <h2>Lists & Subscriptions</h2>
         	<div className="listsSubsMainContent container">
@@ -107,20 +156,20 @@ var ListSubs = React.createClass({
         			<div className="row">
         				<h3>Manage My Lists</h3>
         				<div className="manage-lists well">
-        					<ItemList items={items} />
+        					<ItemList items={this.state.lists} onChange={this.onSelectedListsChange}/>
         				</div>
         			</div>
 					<div className="row group-btns">
-						<div className="col-md-6"><button className="btn btn-primary">Delete Group </button></div>
+						<div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.deleteGroup}>Delete Group </button></div>
 						<div className="col-md-6"><button className="btn btn-primary">Manage Group </button></div>
 					</div>
 					<div className="row group-btns">
-						<div className="col-md-6"><button className="btn btn-primary">Rename Group: </button></div>
-						<div className="col-md-6"><input type="text" text="College Friends"/></div>
+						<div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.renameGroup}>Rename Group </button></div>
+						<div className="col-md-6"><input type="text" disabled={groupAttr} ref="groupName" value={selectedName} onChange={this.onNameChange}/></div>
 					</div>
         			<div className="row">
         				<h3>Subscriptions</h3>
-	        			<ChecklistPlus data={data}/>
+	        			<ChecklistPlus data={subscriptions}/>
         			</div>
         		</div>
         		<div className="col col-md-4">
@@ -134,7 +183,8 @@ var ListSubs = React.createClass({
 	        			<button className="btn btn-primary"> View Publication Members </button>
         			</div>
         		</div>
-        		<div className="col col-md-1">
+        		<div className="col btn-col col-md-2">
+        			<h3>&nbsp;</h3>
         			<div className="row">
         				<button className="btn btn-primary"> Remove from Group</button>
         			</div>
