@@ -30,20 +30,14 @@ var AppSwitcherDropDown = React.createClass({
     mixins: [Router.State],
     shouldComponentUpdate: function() {
       var current = this.getPath();
-      console.log("shouldComponentUpdatePRE:" + current);
       current = current.indexOf("/", 1) !== -1 ? current.substring(1, current.indexOf("/", 1)) : current.substring(1);
-      console.log("shouldComponentUpdate:" + current);
       var links = this.state;
       links.current = current === "" ? "distributed-sending" : current;
       return links;
     },
     getInitialState: function(){
-      console.log(this.props.data);
-
         var current = this.getPath();
-        console.log("init:" + current);
         current = current.indexOf("/", 1) !== -1 ? current.substring(1, current.indexOf("/", 1)) : current.substring(1);
-        console.log("init-substring:" + current);
         var links = {};
         links.navItems = this.props.data;
         links.current = current === "" ? "distributed-sending" : current;

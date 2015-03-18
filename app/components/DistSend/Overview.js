@@ -14,7 +14,24 @@ var ListCount = Shared.ListCount;
 var SubscriberCount = Shared.SubscriberCount;
 var GridView = require('../Shared/GridView');
 
+//data
+var data = require('../../data');
 
+var EmailGridData = data.emailData;
+EmailGridData.pageData = {
+    pageIndex: 0,
+    pageSize: 25,
+    items: 2,
+    pageSizeOptions: [25,50]
+}
+
+var SendsGridData = data.sendsData;
+SendsGridData.pageData = {
+    pageIndex: 0,
+    pageSize: 25,
+    items: 2,
+    pageSizeOptions: [25,50]
+}
 
 var recentSendData = {
     "subject": "Did you forget something?",
@@ -146,7 +163,7 @@ var OverviewTabs = React.createClass({
       <div>
         <ul className="nav nav-tabs" role="tablist">
           <li className="active"><a href="#email" data-toggle="tab">Emails</a></li>
-          <li><a className="disabled" href="#" data-toggle="tab">Sends</a></li>
+          <li><a href="#sends" data-toggle="tab">Sends</a></li>
         </ul>
         <div className="row">
          <div className="col-md-3">
@@ -154,8 +171,8 @@ var OverviewTabs = React.createClass({
          </div>
         </div>
         <div className="tab-content well">
-          <div className="tab-pane active" id="email"><GridView/></div>
-          <div className="tab-pane" id="sends"><GridView/></div>
+          <div className="tab-pane active" id="email"><GridView data={EmailGridData} /></div>
+          <div className="tab-pane" id="sends"><GridView data={SendsGridData} /></div>
         </div>
 
       </div>
