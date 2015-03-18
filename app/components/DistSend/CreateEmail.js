@@ -36,9 +36,9 @@ var folders = [
 var filterData = {
     title: "Filter By Type"
     ,items: [
-        { title: "Newsletters", id: "1" }
-        ,{ title: "Advice", id: "2" }
-        ,{ title: "Managed Communications", id: "3" }
+        { title: "Newsletters", id: "newsletter" }
+        ,{ title: "Advice", id: "advice" }
+        ,{ title: "Managed Communications", id: "managed" }
     ]
 };
 
@@ -97,47 +97,38 @@ var FilterByType = React.createClass({
 
 var EmailSelect = React.createClass({
   render: function() {
-  console.log("***");
-  	console.log(this.props.types);
+
     return (
     <div>
     	<h4>Retirement</h4>
     	<div className="well">
-			<RetirementThumbs />
+			<RetirementThumbs types={this.props.types}/>
     	</div>
     </div>
     );
   }
 });
 
+
+var thumbs = require("../../data").contentData;
 var RetirementThumbs = React.createClass({
     render: function() {
+	  	var types = this.props.types.map(function(t){return t.id});
+  		var thumbList = thumbs.filter(function(t){
+  			return t.category === "Retirement";
+  		}).filter(function(t){
+  			return types.length === 0 || types.indexOf(t.type) != -1;
+  		});
         return(
 		<div id="createEmail">
-			<div className="btn btn-default selectableEmailDivs">
-				  <label for="febNews">February Newsletter</label>
-				  <div>
-					 <img className="retirement-img" id="febNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
-					 </div>
-		   </div>
-		   <div className="btn btn-default selectableEmailDivs">
-			  <label for="marchNews">March Newsletter </label>
-			  <div>
-				 <img className="retirement-img" id="marchNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
-			   </div>
-		   </div>
-		   <div className="btn btn-default selectableEmailDivs">
-			  <label for="aprilNews">April Newsletter </label>
-			  <div>
-				 <img className="retirement-img" id="aprilNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
-			   </div>
-		   </div>
-		   <div className="btn btn-default selectableEmailDivs">
-			  <label for="mayNews">May Newsletter </label>
-			  <div>
-				 <img className="retirement-img" id="mayNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
-			   </div>
-		   </div>
+			{thumbList.map(function(t){
+				return(<div className="btn btn-default selectableEmailDivs">
+					<label htmlFor={t.id}>{t.title}</label>
+					<div>
+						<img className="retirement-img" id={t.id} src={t.imgUrl} height="220" width="200" />
+					</div>
+		   		</div>)
+			})}
 		</div>
        );
     }
@@ -213,7 +204,7 @@ var HTMLView = React.createClass({
 var Step1 = React.createClass({
   handleFilterChange: function(selected) {
   	//TODO consider extracting relevant values
-  	this.state.selected = selected;
+  	this.setState({selected : selected});
   },
   getInitialState: function(){
   	var state = {};
@@ -229,7 +220,7 @@ var Step1 = React.createClass({
 			<div>
 			  <ContentCategories />
 			</div>
-			<div className="Boo">
+			<div>
 			  <FilterByType data={filterData} onChange={that.handleFilterChange}/>
 			</div>
 		</div>
