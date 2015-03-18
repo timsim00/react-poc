@@ -41,3 +41,13 @@ exports.sendsData = {
        ]
   ]
 }
+
+exports.contentData = [
+	{category: "Retirement", type: "newsletter", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "febNews", title: "February Newsletter"},
+	{category: "Retirement", type: "newsletter", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "marchNews", title: "March Newsletter"},
+	{category: "Retirement", type: "newsletter", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "aprilNews", title: "April Newsletter"},
+	{category: "Retirement", type: "newsletter", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "mayNews", title: "May Newsletter"},
+	{category: "Retirement", type: "advice", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "advice1", title: "Advice v.1"},
+	{category: "Retirement", type: "advice", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "advice2", title: "Advice v.2"},
+	{category: "Retirement", type: "managed", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "mc1", title: "Communications 1"},
+];

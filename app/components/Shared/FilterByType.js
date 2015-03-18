@@ -17,7 +17,11 @@ var Item = module.exports.Item = React.createClass({
 var ItemList = module.exports.ItemList = React.createClass({
 	handleFilterChange: function(){
 		if(this.props.onChange){
-			var selected = this.state.data.items.filter(function(i){ return i.selected;});
+			var selected = this.state.data.items.filter(function(i){ 
+				return i.selected;
+			}).map(function(i){
+				return {id: i.id, name: i.title};
+			});
 			this.props.onChange(selected);
 		}
 	},

@@ -15,7 +15,7 @@ var Link = Router.Link;
 
 var SearchBar = require('../Shared/Shared').SearchBar;
 var FolderTree = require('../Shared/FolderTree');
-var TypeFilter = require('../Shared/FilterByType').ItemList;
+var FilterByType_ = require('../Shared/FilterByType').ItemList;
 
 var folders = [
     {
@@ -38,15 +38,25 @@ var folders = [
 var filterData = {
     title: "Filter By Type"
     ,items: [
-        { title: "Newsletters", id: "1" }
-        ,{ title: "Advice", id: "2" }
-        ,{ title: "Managed Communications", id: "3" }
+        { title: "Newsletters", id: "newsletter" }
+        ,{ title: "Advice", id: "advice" }
+        ,{ title: "Managed Communications", id: "managed" }
     ]
 };
 
 
 var ContentAdmin = React.createClass({
+  handleFilterChange: function(selectedTypes){
+  	this.setState({selectedTypes: selectedTypes});
+  },
+  getInitialState: function(){
+  	var state = {};
+  	state.selectedTypes = [];
+  	return state;
+  },
   render: function() {
+  	var types = this.state.selectedTypes;
+  	var that = this;
     return (
 	<div>
 		<div className="col-md-6">
@@ -64,12 +74,12 @@ var ContentAdmin = React.createClass({
         <div>
           <ContentCategories />
         </div>
-        <div className="Boo">
-          <FilterByType data={filterData}/>
+        <div>
+          <FilterByType data={filterData} onChange={that.handleFilterChange}/>
         </div>
       </div>
       <div className="col-md-8">
-        <EmailSelect/>
+        <EmailSelect types={types}/>
       </div>
     </div>
 		</div>
@@ -102,7 +112,7 @@ var FilterByType = React.createClass({
     <div>
       <h4>Filter By Type</h4>
       <div className="well">
-      	<TypeFilter data={filterData} />
+      	<FilterByType_ data={filterData} onChange={this.props.onChange} />
       </div>
     </div>
     );
@@ -117,47 +127,32 @@ var EmailSelect = React.createClass({
     <div>
     	<h4>Retirement</h4>
     	<div className="well">
-			<RetirementThumbs />
+			<RetirementThumbs types={this.props.types}/>
     	</div>
     </div>
     );
   }
 });
 
+var thumbs = require("../../data").contentData;
 var RetirementThumbs = React.createClass({
     render: function() {
+	  	var types = this.props.types.map(function(t){return t.id});
+  		var thumbList = thumbs.filter(function(t){
+  			return t.category === "Retirement";
+  		}).filter(function(t){
+  			return types.length === 0 || types.indexOf(t.type) != -1;
+  		});
         return(
-		<div id="contentAdmin">
-		   <table>
-			   <tr>
-				  <td><div className="btn btn-default selectableDivs">
-				  	  <label for="febNews">February Newsletter</label>
-					  <div>
-						 <img className="retirement-img" id="febNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
-						 </div>
-				  </div></td>
-				  <td><div className="btn btn-default selectableDivs">
-				      <label for="marchNews">March Newsletter </label>
-					  <div>
-						 <img className="retirement-img" id="marchNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
-					   </div>
-				  </div></td>
-			   </tr>
-			   <tr>
-				  <td><div className="btn btn-default selectableDivs">
-				      <label for="aprilNews">April Newsletter </label>
-					  <div>
-						 <img className="retirement-img" id="aprilNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
-					   </div>
-				  </div></td>
-				  <td><div className="btn btn-default selectableDivs">
-				      <label for="mayNews">May Newsletter </label>
-					  <div>
-						 <img className="retirement-img" id="mayNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
-					   </div>
-				  </div></td>
-			   </tr>
-		   </table>
+		<div id="createEmail">
+			{thumbList.map(function(t){
+				return(<div className="btn btn-default selectableEmailDivs">
+					<label htmlFor={t.id}>{t.title}</label>
+					<div>
+						<img className="retirement-img" id={t.id} src={t.imgUrl} height="220" width="200" />
+					</div>
+		   		</div>)
+			})}
 		</div>
        );
     }
