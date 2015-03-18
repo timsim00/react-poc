@@ -4,9 +4,9 @@ var Router = require('react-router');
 var Link = Router.Link;
 
 var menu =  {"items":[
-  {"name" : "Distributed Sending", "link":"distributed-sending", "icon" : "email"},
-  {"name" : "Manage Clients", "link":"client-management", "icon" : "groups"},
-  {"name" : "FA Administration",  "link":"fa-administration", "icon" : "contact"}
+  {"id": "distributed", "name" : "Distributed Sending", "link":"distributed-sending", "icon" : "email"},
+  {"id": "manage", "name" : "Manage Clients", "link":"client-management", "icon" : "groups"},
+  {"id": "faAdmin", "name" : "FA Administration",  "link":"fa-administration", "icon" : "contact"}
 ]};
 
 
@@ -57,10 +57,10 @@ var AppSwitcherDropDown = React.createClass({
               this.state.navItems.items.filter(function(e) {
                 return e.link === self.state.current;
               })
-              .map(function(navItem, i){
+              .map(function(navItem){
               var classes="s1icon s1icon-lg s1icon-s-" + navItem.icon;
               return(
-                <a key={i} className="dropdown-toggle" data-toggle="dropdown" >
+                <a key={navItem.id} className="dropdown-toggle" data-toggle="dropdown" >
                   <span className={classes}></span>&nbsp;{navItem.name}
                 </a>
               )
@@ -72,9 +72,9 @@ var AppSwitcherDropDown = React.createClass({
                 this.state.navItems.items.filter(function(e) {
                   return e.link !== self.state.current;
                 })
-                .map(function(navItem, i){
+                .map(function(navItem){
                 var classes="s1icon s1icon-lg s1icon-s-" + navItem.icon;
-                return(<li key={i}><Link to={navItem.link} onClick={self.clickHandler}><span className={classes}></span>&nbsp;{navItem.name}</Link></li>)
+                return(<li key={navItem.id}><Link to={navItem.link} onClick={self.clickHandler}><span className={classes}></span>&nbsp;{navItem.name}</Link></li>)
               })
               }
               </ul>
