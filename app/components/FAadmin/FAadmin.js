@@ -1,5 +1,9 @@
 var React = require('react');
 
+var ImageChooser_ = require('../Shared/ImageChooser');
+var ImageChooser = ImageChooser_.ImageChooser;
+var ImagePreview = ImageChooser_.ImagePreview;
+
 var FAadmin = React.createClass({
   render: function() {
     return (
@@ -62,16 +66,26 @@ var FAadmin = React.createClass({
 
   <div className="row">
     <div className="col-md-2 bold">Your Photo</div>
-    <div className="col-md-8 form-inline">
-      <div className="form-group">
-      <input type="text" className="form-control" placeholder="Photo" />&nbsp;<button type="button" className="btn btn-primary">Browse</button><br/>
-      <small>Dimensions should be up to 80px wide x 80px tall<br />
-        Supported file formats are .jpg and .gif</small>
-      </div>
+    <div className="col-md-8">
+      	<div className="col-md-6">
+      		<div className="row">
+				<ImageChooser />
+			</div>
+			<div className="row">
+				<small>
+					<div>Dimensions should be up to 80px wide x 80px tall</div>
+					<div>Supported file formats are .jpg and .gif</div>
+				</small>
+			</div>  
+		</div>
     </div>
-    <div className="col-md-3 col-md-offset-2">
-    <img data-src="holder.js/150x150" width="80" height="80" /><br />
-    <small>This photograph will show up on newsletters and personalized communications sent via email.</small>
+	</div>
+  <div className="row">
+    <div className="col-md-8 col-md-offset-2">
+    	<div className="col-md-2">
+    		<ImagePreview />
+    	</div>
+    	<div className="col-md-3 small">This photograph will show up on newsletters and personalized communications sent via email.</div>
     </div>
   </div>
 </div>

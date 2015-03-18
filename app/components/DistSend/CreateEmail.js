@@ -114,36 +114,30 @@ var RetirementThumbs = React.createClass({
     render: function() {
         return(
 		<div id="createEmail">
-		   <table>
-			   <tr>
-				  <td><div className="btn btn-default selectableEmailDivs">
-				  	  <label for="febNews">February Newsletter</label>
-					  <div>
-						 <img className="retirement-img" id="febNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
-						 </div>
-				  </div></td>
-				  <td><div className="btn btn-default selectableEmailDivs">
-				      <label for="marchNews">March Newsletter </label>
-					  <div>
-						 <img className="retirement-img" id="marchNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
-					   </div>
-				  </div></td>
-			   </tr>
-			   <tr>
-				  <td><div className="btn btn-default selectableEmailDivs">
-				      <label for="aprilNews">April Newsletter </label>
-					  <div>
-						 <img className="retirement-img" id="aprilNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
-					   </div>
-				  </div></td>
-				  <td><div className="btn btn-default selectableEmailDivs">
-				      <label for="mayNews">May Newsletter </label>
-					  <div>
-						 <img className="retirement-img" id="mayNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
-					   </div>
-				  </div></td>
-			   </tr>
-		   </table>
+			<div className="btn btn-default selectableEmailDivs">
+				  <label for="febNews">February Newsletter</label>
+				  <div>
+					 <img className="retirement-img" id="febNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
+					 </div>
+		   </div>
+		   <div className="btn btn-default selectableEmailDivs">
+			  <label for="marchNews">March Newsletter </label>
+			  <div>
+				 <img className="retirement-img" id="marchNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
+			   </div>
+		   </div>
+		   <div className="btn btn-default selectableEmailDivs">
+			  <label for="aprilNews">April Newsletter </label>
+			  <div>
+				 <img className="retirement-img" id="aprilNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
+			   </div>
+		   </div>
+		   <div className="btn btn-default selectableEmailDivs">
+			  <label for="mayNews">May Newsletter </label>
+			  <div>
+				 <img className="retirement-img" id="mayNews" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="220" width="200" />
+			   </div>
+		   </div>
 		</div>
        );
     }
