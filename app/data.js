@@ -40,4 +40,19 @@ exports.sendsData = {
        "0%"
        ]
   ]
-}
+};
+
+exports.recentSendData = {
+    "subject": "Did you forget something?",
+    "name": "Abandoned Cart - Low Value"
+};
+
+exports.recentModifiedData = {
+    "subject": "Check out our latest news",
+    "name": "Sample Email 1",
+    "dates" : {
+        "created": "2/20/15 12:06 PM",
+        "modified": "3/1/15 10:32 AM"
+    }
+
+};

@@ -33,20 +33,9 @@ SendsGridData.pageData = {
     pageSizeOptions: [25,50]
 }
 
-var recentSendData = {
-    "subject": "Did you forget something?",
-    "name": "Abandoned Cart - Low Value"
-}
+var recentSendData = data.recentSendData;
+var recentModifiedData = data.recentModifiedData;
 
-var recentModifiedData = {
-    "subject": "Check out our latest news",
-    "name": "Sample Email 1"
-}
-
-var dates = {
-    "created": "2/20/15 12:06 PM",
-    "modified": "3/1/15 10:32 AM"
-}
 
 var Overview = React.createClass({
   render: function() {
@@ -118,7 +107,7 @@ var MostRecentModify = React.createClass({
         </div>
         <div className="col-md-9">
           <EmailDetails data={recentModifiedData}/>
-          <LastModifiedDetails data={dates}/>
+          <LastModifiedDetails data={recentModifiedData.dates}/>
         </div>
         <div className="clearfix"></div>
       </div>
