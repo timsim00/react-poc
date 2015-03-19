@@ -7,13 +7,16 @@ var ImagePreview = ImageChooser_.ImagePreview;
 var FAadmin = React.createClass({
   render: function() {
     return (
+	
+	
+	<div>
+<h2>FA Personalization</h2>
 
-
-<div>
+    <div className="col-md-10 col-md-offset-2">
   <div className="row">
-    <div className="col-md-6 ">
+    
       <h2>Update your Financial Advisor Information</h2>
-    </div>
+    
     <div className="col-md-6 text-right">
       <button type="button" className="btn btn-primary">Edit</button>&nbsp;
       <button type="button" className="btn btn-primary">Update</button>
@@ -67,7 +70,7 @@ var FAadmin = React.createClass({
   <div className="row">
     <div className="col-md-2 bold">Your Photo</div>
     <div className="col-md-8">
-      	<div className="col-md-6">
+      	<div className="col-md-8">
       		<div className="row">
 				<ImageChooser />
 			</div>
@@ -75,6 +78,7 @@ var FAadmin = React.createClass({
 				<small>
 					<div>Dimensions should be up to 80px wide x 80px tall</div>
 					<div>Supported file formats are .jpg and .gif</div>
+					<br />
 				</small>
 			</div>  
 		</div>
@@ -82,12 +86,14 @@ var FAadmin = React.createClass({
 	</div>
   <div className="row">
     <div className="col-md-8 col-md-offset-2">
-    	<div className="col-md-2">
+    	<div className="col-md-3">
+		
     		<ImagePreview />
     	</div>
     	<div className="col-md-3 small">This photograph will show up on newsletters and personalized communications sent via email.</div>
     </div>
   </div>
+</div>
 </div>
 
 

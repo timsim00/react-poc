@@ -91,7 +91,7 @@ var ImagePreview = module.exports.ImagePreview = React.createClass({
 	render: function(){
 		return (
 			<div className="image-preview">
-				<img id="image-preview-placeholder" className="image-preview-holder" data-src="holder.js/150x150" width="80" height="80" />
+				<img id="image-preview-placeholder" className="image-preview-holder" data-src="holder.js/150x150" width="150" height="150" />
 				<table id="previewTable">
                     <thead id="columns"></thead>
                     <tbody id="previews"></tbody>
