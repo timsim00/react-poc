@@ -7,6 +7,7 @@ var Link = Router.Link;
 //components
 var FolderTree = require('../Shared/FolderTree');
 var SearchBar = require('../Shared/Shared').SearchBar;
+//var SubItem = require('../Shared/Shared').ItemList;
 
 
 //data
@@ -221,21 +222,22 @@ var SubListNames = React.createClass({
 var subscribers = [
 
 	{ title: "John Smith", email: "jsmith@gmail.com", checked: "checked" },
-	{ title: "Sue James", email: "sjames@gmail.com", checked: "checked" },
-	{ title: "Joe Jones", email: "jjones@gmail.com", checked: "checked" },
+	{ title: "Sue James", email: "sjames@gmail.com", checked: "checked"  },
+	{ title: "Joe Jones", email: "jjones@gmail.com",  "sentdate" : "03/12/2015" },
 	{ title: "Fiona Chapman", email: "fchapman@gmail.com", checked: "checked" },
-	{ title: "Lilly Kennedy", email: "lkennedy@gmail.com", checked: "checked" },
+	{ title: "Lilly Kennedy", email: "lkennedy@gmail.com", "sentdate" : "03/12/2015" },
 	{ title: "Bradford Hill", email: "bhill@gmail.com", checked: "checked" },
-	{ title: "Erika Saarland", email: "esaarland@gmail.com", checked: "checked" },
+	{ title: "Erika Saarland", email: "esaarland@gmail.com", "sentdate" : "03/12/2015" },
 	{ title: "Peter Paulson", email: "ppaulson@gmail.com", checked: "checked" }
 ]
 
 var SubItem = React.createClass({
     render: function () {
       return (
-          <tr>
-		      <td className="list-column"><input checked={ this.props.item.checked } type="checkbox"/>&nbsp;{ this.props.item.title }</td>
-              <td className="list-column">{ this.props.item.email }</td>
+         <tr>
+		      <td className={ this.props.item.sentdate ? "list-column disabledColor" : "list-column" } ><input checked={ this.props.item.checked } type="checkbox" disabled={ this.props.item.sentdate ? "disabled" : "" }  />&nbsp;{ this.props.item.title }</td>
+              <td className={ this.props.item.sentdate ? "list-column disabledColor" : "list-column" }>{ this.props.item.email }</td>
+		<td className={ this.props.item.sentdate ? "list-column disabledColor" : "list-column" }  >{ this.props.item.sentdate ? 'Sent: ' + this.props.item.sentdate : '' }</td>
 	      </tr>
       );
     }
