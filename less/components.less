@@ -236,9 +236,9 @@
 	margin: 5px;
 }
 
-.sub-list-name {
+/*.sub-list-name {
 	margin-right: 20px;
-}
+}*/
 
 .crop {
     width: 1200px;
@@ -259,7 +259,15 @@
 .itemLst {
 	.lbl {
 		/* Hack to force fixed width columns */
-		width: 278px;
+		width: 330px;
+	}
+	label {
+		width:100%;
+	}
+	.row {
+		div {
+			padding-right:20px;
+		}
 	}
 }
 
@@ -278,3 +286,42 @@
     margin-bottom: 20px;
     margin-right: 30px;
 }
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.image-preview {
+	img {
+		max-width:80px;
+		max-height:80px;
+	}
+}
+
+.disabledColor {
+	color : #D3D3D3;    
+}
+
+.zero-padding {
+	&>.col-md-6{
+		padding-left:0px;
+		padding-right:0px;
+	}
+}
+

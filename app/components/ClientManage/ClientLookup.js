@@ -3,14 +3,14 @@ var Shared = require('../Shared/Shared');
 
 
 var items = [
-  { title: "Publication 1"},
-  { title: "Publication 2"},
-  { title: "Publication 3"},
-  { title: "Publication 4" },
-  { title: "Publication 5" },
-  { title: "Publication 6"},
-  { title: "Publication 7"},
-  { title: "Publication 8" }
+  {id: "pub1", title: "Publication 1"},
+  {id: "pub2", title: "Publication 2"},
+  {id: "pub3", title: "Publication 3"},
+  {id: "pub4", title: "Publication 4" },
+  {id: "pub5", title: "Publication 5" },
+  {id: "pub6", title: "Publication 6"},
+  {id: "pub7", title: "Publication 7"},
+  {id: "pub8", title: "Publication 8" }
 ];
 
 var items2 = [
