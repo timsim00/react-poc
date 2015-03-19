@@ -4,10 +4,12 @@ var React = require('react'),
 
 var Link = Router.Link;
 
-//components
-var FolderTree = require('../Shared/FolderTree');
-var SearchBar = require('../Shared/Shared').SearchBar;
 
+//components
+var Shared = require('../Shared/Shared');
+var FolderTree = require('../Shared/FolderTree');
+var SearchBar = Shared.SearchBar;
+var ItemList = Shared.ItemList;
 
 //data
 var folders = [
@@ -145,12 +147,16 @@ var StepSelectAudience = React.createClass({
 							<div id="btnSelect" className="text-right"><Link to="/" className="btn btn-default" disabled="disabled">Select</Link></div>
 						</div>
 					</div>
-					<div className="well row">
-						<div className="well col-md-5 sub-list-name">
-							<SubListNames items={subnames} />
+					<div className="row zero-padding">
+						<div className="col-md-6">
+							<div className="well">
+								<ItemList items={subnames} header={subNameHeaders}/>
+							</div>
 						</div>
-						<div className="well col-md-6">
-							<SubscriberList items={subscribers} />
+						<div className="col-md-6">
+							<div className="well">
+								<ItemList items={subscribers} />
+							</div>
 						</div>
 					</div>
 				</div>
@@ -171,98 +177,26 @@ var StepSelectAudience = React.createClass({
 /*** SUBSCRIBER LIST NAMES ***/
 
 var subnames = [
-	{ title: "Email - High Value", count: "8", checked: "checked" },
-	{ title: "Email - Lower Value", count: "42", checked: "" },
-	{ title: "High R and MF", count: "62", checked: "" },
-	{ title: "High Value - Investment Focus", count: "14", checked: "" }
+	{ id:"1", title: "Email - High Value", data: [8], count: "8", checked: "checked" },
+	{ id:"2", title: "Email - Lower Value", data:[42],count: "42", checked: "" },
+	{ id:"3", title: "High R and MF", data:[62], count: "62", checked: "" },
+	{ id:"4", title: "High Value - Investment Focus", data:[14], count: "14", checked: "" }
 ];
 
-var SubNameItem = React.createClass({
-    render: function () {
-        return (
-        <tr>
-		   	<td className="list-column"><input checked={ this.props.item.checked } type="checkbox"/>&nbsp;{ this.props.item.title }</td>
-           	<td className="list-column">{ this.props.item.count }</td>
-	    </tr>
-        );
-    }
-});
-
-var SubListNames = React.createClass({
-  getInitialState: function(){
-    var itemList = this.props.items.map(function(item, i){
-      item.done = false;
-      // Unclock first item in the list
-      item.locked = (i == 0) ? false : true;
-      return item;
-    });
-    return {items:subnames};
-  },
-  render: function(){
-    var that = this;
-    var itemNodes = this.state.items.map(function (item, i) {
-    	return <SubNameItem item={item} order={i} clicked={that.whenClicked} />
-    });
-    return (
-        <table className="table">
-			<tr>
-				<td className="list-header">Name</td>
-				<td className="list-header">Clients</td>
-			</tr>        
-            { itemNodes }
-        </table>
-    );
-  }
-});
-
+var subNameHeaders= ["Name", "#Clients"];
 
 /*** SUBSCRIBER LIST ***/
 
 var subscribers = [
-
-	{ title: "John Smith", email: "jsmith@gmail.com", checked: "checked" },
-	{ title: "Sue James", email: "sjames@gmail.com", checked: "checked" },
-	{ title: "Joe Jones", email: "jjones@gmail.com", checked: "checked" },
-	{ title: "Fiona Chapman", email: "fchapman@gmail.com", checked: "checked" },
-	{ title: "Lilly Kennedy", email: "lkennedy@gmail.com", checked: "checked" },
-	{ title: "Bradford Hill", email: "bhill@gmail.com", checked: "checked" },
-	{ title: "Erika Saarland", email: "esaarland@gmail.com", checked: "checked" },
-	{ title: "Peter Paulson", email: "ppaulson@gmail.com", checked: "checked" }
+	{ id: 1, title: "John Smith", data: ["jsmith@gmail.com"], checked: "checked", selected: true, },
+	{ id: 2, title: "Sue James", data: ["sjames@gmail.com"], checked: "checked", selected: true  },
+	{ id: 3, title: "Joe Jones", data: ["jjones@gmail.com", "Sent 03/12/2015"], disabled: true },
+	{ id: 4, title: "Fiona Chapman", data: ["fchapman@gmail.com"], checked: "checked", selected: true },
+	{ id: 5, title: "Lilly Kennedy", data: ["lkennedy@gmail.com", "Sent 03/12/2015"], disabled: true },
+	{ id: 6, title: "Bradford Hill", data: ["bhill@gmail.com"], checked: "checked", selected: true },
+	{ id: 7, title: "Erika Saarland", data: ["esaarland@gmail.com", "Sent 03/12/2015"], disabled: true },
+	{ id: 8, title: "Peter Paulson", data: ["ppaulson@gmail.com"], checked: "checked", selected: true }
 ]
-
-var SubItem = React.createClass({
-    render: function () {
-      return (
-          <tr>
-		      <td className="list-column"><input checked={ this.props.item.checked } type="checkbox"/>&nbsp;{ this.props.item.title }</td>
-              <td className="list-column">{ this.props.item.email }</td>
-	      </tr>
-      );
-    }
-});
-
-var SubscriberList = React.createClass({
-  getInitialState: function(){
-    var itemList = this.props.items.map(function(item, i){
-      item.done = false;
-      // Unclock first item in the list
-      item.locked = (i == 0) ? false : true;
-      return item;
-    });
-    return {items:subscribers};
-  },
-  render: function(){
-    var that = this;
-    var itemNodes = this.state.items.map(function (item, i) {
-      return <SubItem item={item} order={i} clicked={that.whenClicked} />
-    });
-    return (
-        <table className="table">
-            { itemNodes }
-        </table>
-    );
-  }
-});
 
 
 /*** SELECTED LIST ***/

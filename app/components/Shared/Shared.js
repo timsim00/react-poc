@@ -3,30 +3,83 @@ var React = require('react');
 
 var Item = React.createClass({
 	__changeSelection: function(item) {
-        item.selected = !item.selected;
+		var newValue = !this.state.selected;
+        this.setState({selected: newValue});
+        item.selected = this.state.selected;
         if(this.props.onChange){
-        	this.props.onChange();
+        	this.props.onChange(item.id, newValue);
         }
+    },
+    getInitialState: function(){
+    	var state = {};
+    	state.selected = this.props.item.selected;
+    	state.disabled = this.props.item.disabled;
+    	return state;
+    },
+    getColumnClasses : function(){
+    	return "col-md-"+Math.floor(12/((this.props.columns||0) +1));
     },
     render: function () {
     	var classes;
-    	if(this.props.item.email && this.props.item.title){
-    		classes = "col-md-6";
-    	} else {
-    		classes = "col-md-12";
+    	var checked = "";
+    	var disabledAttr = "";
+    	var disabledClasses = "";
+    	var data = this.props.item.data;;
+    	if(!data){
+    		if(this.props.item.email){
+				data = [this.props.item.email]
+			} else {
+				data = [];
+			}
+		}
+
+    	classes = this.getColumnClasses();
+    	var columns = (this.props.columns||0)
+    	while(data.length < columns){
+    		data.push("");
     	}
+    	if(this.state.selected){
+    		checked = "checked";
+    	}
+    	
+    	if(this.state.disabled){
+    		disabledAttr = "disabled";
+    		disabledClasses= "disabledColor";
+    	}
+    	var lblClasses = [classes, disabledClasses].join(" ");
+    	
       return (
-			  <div className="form-group checkbox" key={this.props.key}>
-				<label>
-					<input type="checkbox" onChange={this.__changeSelection.bind(this, this.props.item)}/>
-					<div className="lbl">
-						<div className={classes}>{ this.props.item.title }</div>
-						<div className={classes}>{ this.props.item.email }</div>
-					</div>
-				</label>
+			  <div className="row checkbox">
+				<div className={lblClasses}>
+					<label>
+						<input type="checkbox" checked={checked} disabled={disabledAttr} onChange={this.__changeSelection.bind(this, this.props.item)}/>
+						{ this.props.item.title }
+					</label>
+				</div>
+				{data.map(function(d){
+					return(<div className={lblClasses}>{d}</div>)
+				})}
 			</div>
       );
     }
+});
+
+var Header = React.createClass({
+	getColumnClasses : function(){
+		if(!this.props.data){
+			return "list-header col-md-12";
+		}
+    	return "list-header col-md-"+Math.floor(12/(this.props.data.length||0));
+    },
+	render: function(){
+		var headers = this.props.data || [];
+		var classes = this.getColumnClasses();
+		return (<div className="row header">
+				{headers.map(function(h){
+					return (<div className={classes}>{h}</div>);
+				})}
+			</div>)
+	}
 });
 
 module.exports = {
@@ -57,10 +110,12 @@ module.exports = {
     }),
 
     "ItemList" : React.createClass({
-	  handleFilterChange: function(){
+	  handleFilterChange: function(key, newValue){
+		var selected = this.state.selected;
+		selected[key] = newValue;
 		if(this.props.onChange){
-			var selected = this.props.items.filter(function(i){ return i.selected;});
-			this.props.onChange(selected);
+			var selectedItems = this.props.items.filter(function(i){return selected[i.id];});
+			this.props.onChange(selectedItems);
 		}
 	  },
       getInitialState: function(){
@@ -71,15 +126,39 @@ module.exports = {
           item.locked = (i == 0) ? false : true;
           return item;
         });
-        return {items:itemList};
+        var selected = {};
+        this.props.items.filter(function(i){
+        	return i.selected;
+        }).forEach(function(i){
+        	selected[i.id] = true;
+        });
+        return {items:itemList, selected: selected};
       },
       render: function(){
         var that = this;
+        //Counts additional columns (title is special)
+        var columns = this.props.items.reduce(function(max, current){
+        	var count;
+        	if(current.data){
+        		count = current.data.length;
+        	} else if(current.email) {
+        		count = 1;
+        	} else {
+        		count = 0;
+        	}
+        	
+        	if(count > max){
+        		max = count;
+        	}
+        	return max;
+        },0);
+
         var itemNodes = this.props.items.map(function (item) {
-          return <Item item={item} key={item.id} onChange={that.handleFilterChange} />
+          return <Item item={item} key={item.id} columns={columns} onChange={that.handleFilterChange} />
         });
         return (
             <div className="itemLst">
+            	<Header data={this.props.header} />
                 { itemNodes }
             </div>
         );
