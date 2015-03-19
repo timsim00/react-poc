@@ -202,18 +202,18 @@ var HTMLView = React.createClass({
 /****  WIZARD *****/
 
 var Step1 = React.createClass({
-  handleFilterChange: function(selected) {
+  handleFilterChange: function(selectedTypes) {
   	//TODO consider extracting relevant values
-  	this.setState({selected : selected});
+  	this.setState({selectedTypes : selectedTypes});
   },
   getInitialState: function(){
   	var state = {};
-  	state.selected = [];
+  	state.selectedTypes = [];
   	return state;
   },
   render: function() {
   	var that = this;
-  	var types = this.state.selected;
+  	var types = this.state.selectedTypes;
     return (
 	<div className="row">
 		<div className="col-md-4">
