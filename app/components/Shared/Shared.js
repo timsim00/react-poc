@@ -34,7 +34,7 @@ var Item = React.createClass({
 		}
 
     	classes = this.getColumnClasses();
-    	var columns = (this.props.columns||0)
+    	var columns = (this.props.columns||0);
     	while(data.length < columns){
     		data.push("");
     	}

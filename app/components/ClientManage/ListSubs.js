@@ -99,8 +99,6 @@ var ChecklistPlus = React.createClass({
 
 var ListSubs = React.createClass({
   onSelectedListsChange: function(e){
-  console.log("Selected Change...");
-  console.log(e);
 	this.setState({selectedList: e[0], editedName: null});
 
   },
