@@ -56,7 +56,7 @@ exports.recentModifiedData = {
     }
 
 };
-}
+
 
 exports.contentData = [
 	{category: "Retirement", type: "newsletter", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "febNews", title: "February Newsletter"},
