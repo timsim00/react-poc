@@ -347,9 +347,7 @@ var HTMLView = React.createClass({
 				<div className="tab-content">
 					<div id="edit" className="tab-pane fade in active">
 						<div className="preview">
-							<div className="crop">
-								<img className="col-md-12" src="http://image.exct.net/lib/fe6a1570706407787711/m/1/htmlLayout.png" />
-							</div>
+							<iframe className="col-md-12" height="800px" width="100%" frameBorder="0" src="https://test-editor.herokuapp.com/" />
 						</div>
 					</div>
 					<div id="preview-mobile" className="crop tab-pane fade in">
