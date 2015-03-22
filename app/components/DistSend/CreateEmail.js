@@ -81,7 +81,6 @@ var Wizard = React.createClass({
 	},
 	handleNext: function() {
 		if (this.state.step <= 4) this.state.step++;
-		console.log('next to',this.state.step);
 		switch (this.state.step) {
     		case 2: {
     			$('a[href^="#stepDefineContent"]').click();
@@ -101,9 +100,7 @@ var Wizard = React.createClass({
     	}
 	},
 	handleBack: function() {
-		console.log('back from',this.state.step);
 		if (this.state.step >= 2) this.state.step--;
-		console.log('back to',this.state.step);
 		switch (this.state.step) {
     		case 1: {
     			$('a[href^="#stepSelectContent"]').click();
