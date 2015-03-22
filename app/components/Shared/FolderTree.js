@@ -1,7 +1,10 @@
-var React = require('react');
+var React = require('react'),
+	$ = require('jquery'),
+    PubSub = require('pubsub-js');
 
-jQuery("html").on("click", ".folder-head", function(){
+jQuery("html").on("click", ".folder-head", function(e){
     jQuery(this).toggleClass("collapsed").toggleClass("expanded");
+    PubSub.publish( 'Folder-Selected', e.target.innerHTML );	
 });
 
 

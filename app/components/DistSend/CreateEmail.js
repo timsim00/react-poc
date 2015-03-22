@@ -1,6 +1,7 @@
 var React = require('react'),
     Router = require('react-router'),
-    $ = require('jquery');
+    $ = require('jquery'),
+    PubSub = require('pubsub-js');
 
 jQuery("html").on("click.selectableEmailDivs", ".selectableEmailDivs", function(){
     jQuery(this).toggleClass("active");
@@ -74,9 +75,12 @@ var CreateEmail = React.createClass({
 /****  WIZARD *****/
 
 var Wizard = React.createClass({
+	subscriptions: {},
 	getInitialState: function() {
 		return {
-			step: 1
+			step: 1, 
+			btnNextDisabled: true,
+			tabs: "disabled"
 		}
 	},
 	handleNext: function() {
@@ -118,33 +122,76 @@ var Wizard = React.createClass({
     		}    		
     	}
 	},
+	handleTabClick: function(e) {
+		//console.log(this.state.btnNextDisabled);
+		$('#btnNext button').html('Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
+		$('#btnBack button').removeAttr('disabled');
+		switch ($(e.target)[0].hash) {
+			case "#stepSelectContent": {
+				this.state.step = 1;
+				$('#btnBack button').attr('disabled','disabled');
+				break;
+			}		
+			case "#stepDefineContent": {
+				this.state.step = 2;
+				break;
+			}
+			case "#stepSelectAudience": {
+				this.state.step = 3;
+				break;
+			}
+			case "#stepSchedule": {
+				this.state.step = 4;
+				$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
+				break;
+			}						
+		}
+	},	
+	handleLiClick: function(e) {
+		console.log('handleLiClick');
+		e.preventDefault();  //haven't yet found anything that works.
+		e.stopPropagation();
+	},
+	handleContentSelected: function(msg, data) {
+		this.setState({btnNextDisabled: false, tabs: ''});		
+	},
+	componentDidMount: function() {
+		//subscribe to next disable state event
+		var token = PubSub.subscribe( 'Content-Selected', this.handleContentSelected );
+		this.subscriptions['Content-Selected'] = token;
+	},
+	componentWillUnmount: function() {
+		//un-subscribe to next disable state event
+		PubSub.unsubscribe( subscriptions['Content-Selected'] );
+	},
     render: function() {
+    var that = this;  
 	return (
 		<div className="wizard">
 			<div className="wizard-header navbar navbar-default">
 				<ul className="nav navbar-nav navbar-left">
 					<li key="0" className="active">
-						<a className="inactive-step" href="#stepSelectContent" data-toggle="tab" onClick={this.handleBack}>
+						<a className="inactive-step" href="#stepSelectContent" data-toggle="tab" onClick={this.handleTabClick}>
 						Select Content
 						</a>
 					</li>
-					<li key="1">
-						<a className="inactive-step" href="#stepDefineContent" data-toggle="tab" onClick={this.handleNext}>
+					<li key="1" className={this.state.tabs}>
+						<a className="inactive-step" href="#stepDefineContent" data-toggle="tab" onClick={this.handleTabClick}>
 						Define Content
 						</a>
 					</li>
-					<li key="2">
-						<a className="inactive-step" href="#stepSelectAudience" data-toggle="tab" onClick={this.handleBack}>
+					<li key="2" className={this.state.tabs}>
+						<a className="inactive-step" href="#stepSelectAudience" data-toggle="tab" onClick={this.handleTabClick}>
 						Select Audience
 						</a>
 					</li>
-					<li key="3">
-						<a className="inactive-step" href="#stepSchedule" data-toggle="tab" onClick={this.handleNext}>
+					<li key="3" className={this.state.tabs}>
+						<a className="inactive-step" href="#stepSchedule" data-toggle="tab" onClick={this.handleTabClick}>
 						Schedule
 						</a>
 					</li>					
 				</ul>
-				<div id="btnNext" className="pull-right text-right wiz-btn"><button onClick={this.handleNext} className="btn btn-default">Next&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></button></div>
+				<div id="btnNext" className="pull-right text-right wiz-btn"><button disabled={this.state.btnNextDisabled} onClick={this.handleNext} className="btn btn-default">Next&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></button></div>
 				<div id="btnBack" className="pull-right text-right wiz-btn"><button onClick={this.handleBack} className="btn btn-default">Back</button></div>
 				<div id="btnCancel" className="pull-right text-right wiz-btn"><Link to="/" className="btn btn-default">Cancel</Link></div>
 			</div>
@@ -172,34 +219,35 @@ var Wizard = React.createClass({
 
 
 var StepSelectContent = React.createClass({
-  handleFilterChange: function(selectedTypes) {
-  	//TODO consider extracting relevant values
-  	this.setState({selectedTypes : selectedTypes});
-  },
-  getInitialState: function(){
-  	var state = {};
-  	state.selectedTypes = [];
-  	return state;
-  },
-  render: function() {
-  	var that = this;
-  	var types = this.state.selectedTypes;
-    return (
-	<div className="row">
-		<div className="col-md-4">
-			<div>
-			  <ContentCategories />
+	subscriptions: {},
+    handleFilterChange: function(selectedTypes) {
+  		//TODO consider extracting relevant values
+  		this.setState({selectedTypes : selectedTypes});
+    },  
+    getInitialState: function(){
+  		var state = {};
+  		state.selectedTypes = [];
+  		return state;
+    },
+    render: function() {
+		var that = this;
+		var types = this.state.selectedTypes;
+		return (
+		<div className="row">
+			<div className="col-md-4">
+				<div>
+				  <ContentCategories />
+				</div>
+				<div>
+				  <FilterByType data={filterData} onChange={that.handleFilterChange}/>
+				</div>
 			</div>
-			<div>
-			  <FilterByType data={filterData} onChange={that.handleFilterChange}/>
+			<div className="col-md-8">
+				<EmailSelect types={types}/>
 			</div>
 		</div>
-		<div className="col-md-8">
-			<EmailSelect types={types}/>
-		</div>
-	</div>
-    );
-  }
+		);
+    }
 });
 
 
@@ -210,9 +258,6 @@ var ContentCategories = React.createClass({
     return (
     <div>
     	<h4>Content Categories</h4>
-    	<div className="searchbar">
-      		<SearchBar />
-    	</div>
     	<div className="well">
         	<FolderTree folders={folders} />
     	</div>
@@ -243,17 +288,39 @@ var FilterByType = React.createClass({
 /****  Email Select ****/
 
 var EmailSelect = React.createClass({
-  render: function() {
-
-    return (
-    <div>
-    	<h4>Retirement</h4>
-    	<div className="well">
-			<RetirementThumbs types={this.props.types}/>
-    	</div>
-    </div>
-    );
-  }
+	subscriptions: {},
+	handleFolderSelected: function(msg, data) {
+		this.setState({FolderName: data});
+	},
+	componentDidMount: function() {
+		//subscribe to next disable state event
+		var token = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
+		this.subscriptions['Folder-Selected'] = token;
+	},
+	componentWillUnmount: function() {
+		//un-subscribe to next disable state event
+		PubSub.unsubscribe( subscriptions['Folder-Selected'] );
+	},	
+    getInitialState: function(){
+		return { FolderName: "Retirement" };
+    },	
+    render: function() {
+    	var searchStyle = {'padding-top':'10px;'};
+		return (
+		<div>
+			<div className="col-md-12">		
+				<h4 className="col-md-2">{ this.state.FolderName }</h4>		
+				<div  className="col-md-4 pull-right" style={searchStyle} >
+					<SearchBar />
+				</div>
+				
+			</div>	
+			<div className="well">
+				<RetirementThumbs types={this.props.types}/>
+			</div>
+		</div>
+		);
+    }
 });
 
 
@@ -262,22 +329,63 @@ var EmailSelect = React.createClass({
 
 var thumbs = require("../../data").contentData;
 var RetirementThumbs = React.createClass({
+	subscriptions: {},
+	getInitialState: function() {
+		return {
+			selectedId: null,
+			category: "Retirement"
+		}
+	},
+	handleThumbClick: function(e) {
+		e.preventDefault();
+		var $ele = $(e.target);
+		if (!$ele.hasClass('selectableEmailDivs')) $ele = $ele.closest('.selectableEmailDivs');
+		var thisId = $ele.data('reactid');
+		var $check = $ele.find('.selected-indicator');
+		
+		if (this.state.selectedId) {
+			var $prev = $('*[data-reactid="'+ this.state.selectedId +'"]');
+			$prev.removeClass('active');
+			$prev.find('.selected-indicator').addClass('hidden');
+		}
+		this.state.selectedId = thisId;
+		$ele.addClass('active');
+		$check.addClass('content-selected').removeClass('hidden');	
+		
+		PubSub.publish( 'Content-Selected', thisId );	
+	},
+	handleFolderSelected: function(msg, data) {
+		this.setState({category: data});
+	},
+	componentDidMount: function() {
+		//subscribe to next disable state event
+		var token = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
+		this.subscriptions['Folder-Selected'] = token;
+	},
+	componentWillUnmount: function() {
+		//un-subscribe to next disable state event
+		PubSub.unsubscribe( subscriptions['Folder-Selected'] );
+	},	
     render: function() {
+    	var that = this;
 	  	var types = this.props.types.map(function(t){return t.id});
+	  	//var selectedStyle = {visibility:"hidden"};
   		var thumbList = thumbs.filter(function(t){
-  			return t.category === "Retirement";
-  		}).filter(function(t){
-  			return types.length === 0 || types.indexOf(t.type) != -1;
-  		});
+  				return t.category === that.state.category;
+  			}).filter(function(t){
+  				return types.length === 0 || types.indexOf(t.type) != -1;
+  			});
         return(
 		<div id="createEmail">
 			{thumbList.map(function(t){
-				return(<div className="btn btn-default selectableEmailDivs">
-					<label htmlFor={t.id}>{t.title}</label>
+				return(
+				<div onClick={that.handleThumbClick} className="btn btn-default selectableEmailDivs">
+					<label htmlFor={t.id}>{t.title}</label><div className="selected-indicator hidden fa fa-check fa-lg" />
 					<div>
 						<img className="retirement-img" id={t.id} src={t.imgUrl} height="220" width="200" />
 					</div>
-		   		</div>)
+		   		</div>
+		   		)
 			})}
 		</div>
        );
@@ -512,14 +620,30 @@ var StepSchedule = React.createClass({
 		</div>
 		<div className="col-md-12">
 			<div className="col-md-6">
-				<div className="staticLabel">Subject</div>
-				<div className="staticValue">Get out on an Hike NOW!</div>
-				<br/>
-				<div className="staticLabel">Email Name</div>
-				<div className="staticValue">Simple - Guide to Incredible Hikes</div>
-				<br/>
-				<div className="staticLabel">Audience</div>
-				<div className="staticValue">High Value - Investment Focus</div>
+				<div className="row">
+					<div className="col-md-6">
+						<div className="staticLabel">Subject</div>
+						<div className="staticValue">Get out on an Hike NOW!</div>
+						<br/>
+						<div className="staticLabel">Email Name</div>
+						<div className="staticValue">Simple - Guide to Incredible Hikes</div>
+						<br/>
+						<div className="staticLabel">Audience</div>
+						<div className="staticValue">High Value - Investment Focus</div>
+					</div>
+					<div className="col-md-6">
+						<div className="date-created">
+							<div className="staticLabel">Date Created</div>
+							<div className="staticValue">2/25/2015 8:17 PM</div>
+						</div>
+						<div>
+							<div className="staticLabel">Date Modified</div>
+							<div className="staticValue">2/25/2015 8:17 PM</div>
+						</div>
+					</div>
+				</div>
+				<br/>	
+				<br/>					
 				<hr className="divider"/>
 				<div>
 					<label className="">From Name</label>
@@ -530,18 +654,7 @@ var StepSchedule = React.createClass({
 				<Radios data={radiodata} />
 			</div>
 			<div className="col-md-6">
-				<div className="well">
-					<div className="staticLabel">Subject</div>
-					<div className="staticValue">Get out on an Hike NOW!</div>
-					<br/>
-					<div className="date-created">
-						<div className="staticLabel">Date Created</div>
-						<div className="staticValue">2/25/2015 8:17 PM</div>
-					</div>
-					<div>
-						<div className="staticLabel">Date Modified</div>
-						<div className="staticValue">2/25/2015 8:17 PM</div>
-					</div>																		
+				<div className="well">																		
 					<div id="preview-web" height="100%" width="100%">
 						<iframe style={previewStyle} height="800px" width="100%" src="images/pagepreview.png" />
 					</div>					
@@ -609,7 +722,7 @@ var FromNameDropdown = React.createClass({
     
     return (
 			<div className="input-group-btn select" id="select1">
-				<button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span className="selected">Select a value</span> <span className="caret"></span></button>
+				<button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span className="selected">Select a sender</span> <span className="caret"></span></button>
 				<ul className="dropdown-menu option" role="menu" aria-labelledby="dropdownMenu1">
 					{ itemNodes }
 				</ul>
@@ -653,7 +766,6 @@ var Radios = React.createClass({
   },
   render: function(){
     var that = this;
-    console.log(this.state);
     var itemNodes = this.state.data.items.map(function (item, i) {
       return <RadioItem item={item} order={i} />
     });
