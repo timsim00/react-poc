@@ -20,25 +20,7 @@ var FolderTree = require('../Shared/FolderTree');
 var FilterByType_ = require('../Shared/FilterByType').ItemList;
 var Container =  require('../Shared/Container');
 
-
-var folders = [
-    {
-        name: "Shared Emails",
-        folders: [
-            {
-                name: "Newsletters",
-                folders: [
-                    {name: "Retirement"},
-                    {name: "Mortgage"}
-                 ]
-            },
-            {name: "Webinars"},
-            {name: "Whitepapers"},
-            {name: "Series 7 Approved"},
-    ]},
-    { name: "Shared Templates"}
-];
-
+var folders = require("../../data/folders");
 
 
 var filterData = {
@@ -283,7 +265,7 @@ var FilterByType = React.createClass({
 var EmailSelect = React.createClass({
 	subscriptions: {},
 	handleFolderSelected: function(msg, data) {
-		this.setState({FolderName: data});
+		this.setState({FolderName: data.name});
 	},
 	componentDidMount: function() {
 		//subscribe to next disable state event
@@ -301,11 +283,11 @@ var EmailSelect = React.createClass({
     	var searchStyle = {'padding-top':'10px;'};
 		return (
 		<Container title={ this.state.FolderName }>
-				<div className="row col-md-4 pull-right" style={searchStyle} >
-					<SearchBar />
-				</div>
-        <div className="clearfix"></div>
-				<RetirementThumbs types={this.props.types}/>
+			<div className="row col-md-4 pull-right" style={searchStyle} >
+				<SearchBar />
+			</div>
+			<div className="clearfix"></div>
+			<RetirementThumbs types={this.props.types}/>
 		</Container>
 		);
     }
@@ -321,7 +303,7 @@ var RetirementThumbs = React.createClass({
 	getInitialState: function() {
 		return {
 			selectedId: null,
-			category: "Retirement"
+			category: 7
 		}
 	},
 	handleThumbClick: function(e) {
@@ -343,7 +325,7 @@ var RetirementThumbs = React.createClass({
 		PubSub.publish( 'Content-Selected', thisId );
 	},
 	handleFolderSelected: function(msg, data) {
-		this.setState({category: data});
+		this.setState({category: data.id});
 	},
 	componentDidMount: function() {
 		//subscribe to next disable state event
