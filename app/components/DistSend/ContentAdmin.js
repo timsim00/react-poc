@@ -4,11 +4,6 @@ var React = require('react'),
     ReactTagsInput = require('react-tagsinput')
     
 
-jQuery("html").on("click.selectableDivs", ".selectableDivs", function(){
-    console.log(jQuery(this));
-    jQuery(this).toggleClass("active");
-    console.log(jQuery(this));
-});
 
 
 
@@ -141,50 +136,51 @@ var selectedEmails = [
 	{ id: 2, title: "December" }
 ]
 
-var validateTag = function (tag) {
-  return tag !== "" && !/_/.test(tag); // lets not allow underscore in our tags.
-};
 
-var keyCodes = [13, 9, 32]; // add tags when keys Enter (13), Tab (9) or Space (32) is down.
-
-{/*
-var ContentTags = React.createClass({
-  getInitialState: function () {
-    return {
-      text: ""
-    };
-  }
-
-  , onChange: function (tags) {
-    this.setState({
-      text: tags.join(", ")
-    });
-  }
-
-  , render: function () {
-    var source = this.state.text;
-    return (
-      <div>
-        <label>Content Tags</label>
-        <ReactTagsInput validate={validateTag} onChange={this.onChange} addKeys={[13, 9, 32]} />
-      </div>
-    );
-  }
-});
-*/}
 
 var MyModal = React.createClass({
+  getNextId : (function(){
+	  var id = 0;
+	  return function(){
+		  return id++;
+	  };
+  })(),
+  	
+  getInitialState: function(){
+  	var state = {};
+  	state.tags = [];
+  	return state;
+  }, 
+  addTag : function () {
+	this.state.tags.push({id: this.getNextId(), value: this.refs.tagname.getDOMNode().value});  
+  	this.setState({tags: this.state.tags});
+  },
+  removeTag : function (id) {
+	var filteredArray = this.state.tags.filter(function(t){
+		return t.id !== id;
+	});
+	console.log(filteredArray);
+  	this.setState({tags:filteredArray});
+  },
   render: function() {
+    var self = this;
     return (
         <Modal {...this.props} bsStyle="primary" title="Set Selected Content Properties" animation={false}>
 
-	  <div className="col-md-12 ">
+	  <div >
              
-	     <div id="selectedEmails" className="col-md-4 well listBoxNoChecks">
-	        <label htmlFor="selectedEmails">Selected Emails</label>
-		<ItemList items={selectedEmails} />
+	     <div id="selectedTags" className="col-md-8">
+	        <div className = " well input-group" >
+	           <input type="text" className="form-control" aria-label="..." placeholder="tagname" id="tagname" ref="tagname" />
+                   <div className="input-group-btn" >
+                     <button type="button" className="btn btn-default" onClick={this.addTag}>Add</button>
+                   </div> 
+		</div>
+		<div>
+		     { this.state.tags.map(function(tag) { return <button className="btn btn-default"> { tag.value } <span className="glyphicon glyphicon-remove-circle" onClick={self.removeTag.bind(self, tag.id)} /> </button> }) } 
+		</div>
 	     </div>
-	     <div id="selectedEntitlements" className="well col-md-8">
+	     <div id="selectedEntitlements" className="well col-md-4">
                 <label htmlFor="selectedEntitlements">Set Email Entitlements</label>
 		<ItemList items={entitlements} />
 	     </div>
@@ -205,11 +201,9 @@ var EmailSelect = React.createClass({
     <div>
     	<h4>Retirement</h4>
     	<div className="well">
-			<RetirementThumbs types={this.props.types}/>
+	    <RetirementThumbs types={this.props.types}/>
     	</div>
-	<ModalTrigger modal={<MyModal />}>
-	  <button className="btn btn-default" type="button">Select</button>
-	</ModalTrigger>
+
     </div>
     );
   }
@@ -227,11 +221,13 @@ var RetirementThumbs = React.createClass({
         return(
 		<div id="createEmail">
 			{thumbList.map(function(t){
-				return(<div className="btn btn-default selectableEmailDivs">
+				return(<div className="btn btn-default selectableDivs">
 					<label htmlFor={t.id}>{t.title}</label>
-					<div>
-						<img className="retirement-img" id={t.id} src={t.imgUrl} height="220" width="200" />
-					</div>
+					<ModalTrigger modal={<MyModal />}>
+					  <div>
+					  	<img className="retirement-img" id={t.id} src={t.imgUrl} height="220" width="200" />
+					  </div>
+    					</ModalTrigger>
 		   		</div>)
 			})}
 		</div>
