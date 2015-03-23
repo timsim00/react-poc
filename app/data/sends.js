@@ -3,7 +3,7 @@ module.exports = [{
     "sentDate": "February 14th, 2015 07:44:36",
     "status": "complete",
     "subscribers": 21,
-    "opens": 28,
+    "opens": 15,
     "bounces": "0",
     "clicks": 19
 }, {
@@ -75,7 +75,7 @@ module.exports = [{
     "sentDate": "February 28th, 2015 05:47:06",
     "status": "complete",
     "subscribers": 24,
-    "opens": 25,
+    "opens": 12,
     "bounces": "0",
     "clicks": 15
 }, {
@@ -115,7 +115,7 @@ module.exports = [{
     "sentDate": "March 21st, 2015 06:55:41",
     "status": "complete",
     "subscribers": 45,
-    "opens": 43,
+    "opens": 35,
     "bounces": "0",
     "clicks": 16
 }, {
@@ -171,9 +171,9 @@ module.exports = [{
     "sentDate": "March 6th, 2015 21:27:45",
     "status": "complete",
     "subscribers": 16,
-    "opens": 44,
+    "opens": 6,
     "bounces": "0",
-    "clicks": 16
+    "clicks": 8
 }, {
     "email": 2,
     "sentDate": "March 2nd, 2015 04:24:01",
@@ -211,7 +211,7 @@ module.exports = [{
     "sentDate": "March 10th, 2015 04:30:04",
     "status": "complete",
     "subscribers": 28,
-    "opens": 41,
+    "opens": 13,
     "bounces": "0",
     "clicks": 18
 }, {
@@ -219,7 +219,7 @@ module.exports = [{
     "sentDate": "March 19th, 2015 01:59:23",
     "status": "complete",
     "subscribers": 18,
-    "opens": 37,
+    "opens": 11,
     "bounces": "0",
     "clicks": 18
 }, {
@@ -227,7 +227,7 @@ module.exports = [{
     "sentDate": "February 8th, 2015 14:04:52",
     "status": "complete",
     "subscribers": 18,
-    "opens": 34,
+    "opens": 12,
     "bounces": "0",
     "clicks": 16
 }, {
@@ -251,9 +251,9 @@ module.exports = [{
     "sentDate": "March 21st, 2015 19:22:41",
     "status": "complete",
     "subscribers": 15,
-    "opens": 47,
+    "opens": 4,
     "bounces": "0",
-    "clicks": 17
+    "clicks": 5
 }, {
     "email": 7,
     "sentDate": "February 10th, 2015 12:44:35",
@@ -283,7 +283,7 @@ module.exports = [{
     "sentDate": "February 27th, 2015 23:25:37",
     "status": "complete",
     "subscribers": 43,
-    "opens": 43,
+    "opens": 22,
     "bounces": "0",
     "clicks": 6
 }, {
@@ -339,7 +339,7 @@ module.exports = [{
     "sentDate": "February 5th, 2015 05:14:07",
     "status": "complete",
     "subscribers": 15,
-    "opens": 37,
+    "opens": 8,
     "bounces": "0",
     "clicks": 15
 }, {
@@ -363,7 +363,7 @@ module.exports = [{
     "sentDate": "February 26th, 2015 17:24:35",
     "status": "complete",
     "subscribers": 36,
-    "opens": 43,
+    "opens": 23,
     "bounces": "0",
     "clicks": 17
 }, {
@@ -379,7 +379,7 @@ module.exports = [{
     "sentDate": "February 7th, 2015 10:12:02",
     "status": "complete",
     "subscribers": 26,
-    "opens": 43,
+    "opens": 17,
     "bounces": "0",
     "clicks": 14
 }, {
@@ -395,7 +395,7 @@ module.exports = [{
     "sentDate": "March 12th, 2015 09:06:19",
     "status": "complete",
     "subscribers": 19,
-    "opens": 28,
+    "opens": 11,
     "bounces": "0",
     "clicks": 18
 }, {
@@ -475,7 +475,7 @@ module.exports = [{
     "sentDate": "February 22nd, 2015 20:17:55",
     "status": "complete",
     "subscribers": 32,
-    "opens": 47,
+    "opens": 20,
     "bounces": "0",
     "clicks": 15
 }, {
@@ -499,7 +499,7 @@ module.exports = [{
     "sentDate": "March 9th, 2015 23:20:55",
     "status": "complete",
     "subscribers": 33,
-    "opens": 40,
+    "opens": 14,
     "bounces": "0",
     "clicks": 17
 }, {
@@ -627,7 +627,7 @@ module.exports = [{
     "sentDate": "March 10th, 2015 20:51:38",
     "status": "complete",
     "subscribers": 37,
-    "opens": 48,
+    "opens": 27,
     "bounces": "0",
     "clicks": 10
 }, {
@@ -643,7 +643,7 @@ module.exports = [{
     "sentDate": "February 21st, 2015 14:01:06",
     "status": "complete",
     "subscribers": 27,
-    "opens": 42,
+    "opens": 17,
     "bounces": "0",
     "clicks": 11
 }, {
@@ -659,7 +659,7 @@ module.exports = [{
     "sentDate": "February 20th, 2015 06:05:04",
     "status": "complete",
     "subscribers": 15,
-    "opens": 35,
+    "opens": 9,
     "bounces": "0",
     "clicks": 5
 }, {
