@@ -109,7 +109,7 @@
 #myContactsPanel {
 
   height: 600px;
-  overflow-y:scroll;
+  overflow:scroll;
 
 }
 
@@ -177,7 +177,7 @@
 
 .listsSubsMainContent {
 	.members {
-		/* height: 615px; */
+		height: 615px;
 		overflow: auto;
 	}
 
@@ -202,11 +202,6 @@
 				}
 			}
 		}
-	}
-	
-	.editable-list {
-		padding-left:15px;
-		padding-right:15px;
 	}
 }
 
@@ -262,17 +257,16 @@
 }
 
 .itemLst {
+	.lbl {
+		/* Hack to force fixed width columns */
+		width: 330px;
+	}
 	label {
 		width:100%;
 	}
 	.row {
 		div {
 			padding-right:20px;
-		}
-	}
-	&.no-check{
-		input[type="checkbox"] {
-			display: none;
 		}
 	}
 }
@@ -370,4 +364,3 @@
 .modal-title {
   color: #fff !important;
 }
-
