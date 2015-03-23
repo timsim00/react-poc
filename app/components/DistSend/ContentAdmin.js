@@ -66,17 +66,18 @@ var ContentAdmin = React.createClass({
   	var that = this;
     return (
 	<div>
-		<div className="col-md-6">
-		  <h2>Content Administration</h2>
-		</div>
-    <div className="col-md-6 text-right">
-    <Link to="distributed-sending" className="btn btn-default">
-      <span className="glyphicon glyphicon-arrow-left" />
-      &nbsp;Back to Overview
-    </Link>
+    <div className="row pageTitle">
+  		<div className="col-md-6">
+  		  <h2>Content Administration</h2>
+  		</div>
+      <div className="col-md-6 text-right">
+      <Link to="distributed-sending" className="btn btn-default">
+        <span className="glyphicon glyphicon-arrow-left" />
+        &nbsp;Back to Overview
+      </Link>
+      </div>
     </div>
 		<div className="row">
-    <div className="col-md-12">
       <div className="col-md-4">
         <div>
           <ContentCategories />
@@ -88,7 +89,6 @@ var ContentAdmin = React.createClass({
       <div className="col-md-8">
         <EmailSelect types={types}/>
       </div>
-    </div>
 		</div>
 	</div>
     );
