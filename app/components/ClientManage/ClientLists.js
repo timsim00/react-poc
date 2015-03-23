@@ -1,5 +1,6 @@
 var React = require('react');
 var Shared = require('../Shared/Shared');
+var CheckListPlus = Shared.CheckListPlus;
 
 //data
 var items = [
@@ -32,56 +33,22 @@ var items = [
 var SearchBar = Shared.SearchBar;
 var ItemList = Shared.ItemList;
 
-//TEMP DATA
-var lists = [
-	{id: "all", title: "ALL MY CLIENTS"},
-	{id: "cf", title: "College Friends"},
-	{id: "ic", title: "International Clients"},
-	{id: "ciir", title: "Clients Interested in Retirement"},
-	{id: "ccm", title: "Country Club members"},
-	{id: "mtc", title: "Matt's Top Clients"}
-];
+var lists = require("../../data/lists");
+var subscriptions = require("../../data/publications");
 
-//TEMP DATA
-var subscriptions = [
-    {
-    	id:1,
-        title: "Market Insights - Monthly",
-        content: "Monthly publication to share MS view on Market Conditions"
-    },
-    {
-    	id:2,
-        title: "Global Investment Committee Weekly",
-        content: "Weekly publication from the MS Investment Committee on GlobalMarkets"
-    },
-    {
-    	id:3,
-        title: "Retirement Planning Today - Monthly",
-        content: "Retirement updates on a Monthly and Semi-Monthy Basis"
-    },
-    {
-    	id:4,
-        title: "World Point of View - Weekly",
-        content: "MS View of the World-wide Markets"
-    },
-    {
-    	id:5,
-        title: "Investor Advisors Daily - Daily",
-        content: "Daily updates from the MS Advisor Team on Investment Conditions"
-    },
-    {
-    	id:6,
-        title: "On the Market",
-        content: "Daily Advice and Predictions on the Market for the day"
-    }
-];
+var checkedTest = [0,3,4];
 
 var ClientLists = React.createClass({
   onSelectedListsChange: function(lists){
+  	this.setState({selectedLists: lists});
+  },
+  getInitialState: function(){
+  	var state = {selectedLists: [], selectedSubscriptions: []};
+  	return state;
   },
   render: function() {
     return (
-      <div>
+      <div className="container">
       	<h2>Manage Client Lists</h2>
         <div className="row">
           <div className="col-md-6">
@@ -105,7 +72,13 @@ var ClientLists = React.createClass({
               </div>
             </div>
             <div className="row">
-              Subscriptions
+              <h3>Subscriptions</h3>
+              <div className="well">
+              	<CheckListPlus data={subscriptions} selected={checkedTest}/>
+              </div>
+            </div>
+            <div className="row">
+            	<button className="btn btn-primary">Save</button>
             </div>
           </div>
         </div>

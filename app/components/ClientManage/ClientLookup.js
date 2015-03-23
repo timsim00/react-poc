@@ -1,7 +1,6 @@
 var React = require('react');
 var Shared = require('../Shared/Shared');
 
-
 var items = [
   {id: "pub1", title: "Publication 1"},
   {id: "pub2", title: "Publication 2"},

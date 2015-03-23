@@ -2,6 +2,13 @@ var React = require('react'),
 		moment = require('moment');
 
 
+var createLookup = function(list){
+	return list.reduce(function(lookup, current){
+		lookup[current] = true;
+		return lookup;
+	}, {});
+}
+
 var Item = React.createClass({
 	__changeSelection: function(item) {
 		var newValue = !this.state.selected;
@@ -48,13 +55,14 @@ var Item = React.createClass({
     		disabledClasses= "disabledColor";
     	}
     	var lblClasses = [classes, disabledClasses].join(" ");
-
+    	var text = this.props.item.title || this.props.item.name;
+    	
       return (
 			  <div key={this.props.item.id} className="row checkbox">
 				<div className={lblClasses}>
 					<label>
-						<input type="checkbox" checked={checked} disabled={disabledAttr} onChange={this.__changeSelection.bind(this, this.props.item)}/>
-						{ this.props.item.title }
+						<input type="checkbox" key={this.props.item.id} checked={checked} disabled={disabledAttr} onChange={this.__changeSelection.bind(this, this.props.item)}/>
+						{ text }
 					</label>
 				</div>
 				{data.map(function(d){
@@ -81,6 +89,14 @@ var Header = React.createClass({
 				})}
 			</div>)
 	}
+});
+
+var SearchButton = React.createClass({
+    render: function(){
+        return (<div className="search-button">
+            <span className="glyphicon glyphicon-search" />
+        </div>)
+    }
 });
 
 module.exports = {
@@ -251,5 +267,49 @@ module.exports = {
         </div>
         );
       }
-    })
+    }),
+    
+    "CheckListPlus": React.createClass({
+    	getInitialState: function(){
+    		var state = {};
+    		state.selected = createLookup(this.props.selected || []);
+    		return state;
+    	},
+      	onSelectChange: function(id){
+			this.state.selected[id] = this.refs[id].getDOMNode().checked;
+			this.setState({selected: this.state.selected});
+			if(this.props.onChange){
+				var self = this;
+				var selected = Object.keys(this.state.selected).filter(function(id){ return self.state.selected[id];})
+				this.props.onChange(selected);
+			}
+      },
+	  render: function() {
+	  	var selectedLookup = this.state.selected;
+	  	var self = this;
+		return (
+			<div className="checkLst">
+			  {this.props.data.map(function(datum, index){
+			  	 var text = datum.title || datum.name;
+			  	 var checked = "";
+			  	 if(selectedLookup[datum.id]){
+			  	 	checked ="checked";
+			  	 }	
+				  return (<div className="form-group" key={datum.id}>
+					  <label>
+					  	<input type="checkbox" ref={datum.id} checked={checked} onChange={self.onSelectChange.bind(self, datum.id)} />
+						<div className="item">
+							<div>{text}</div>
+							<div className="itemInner">{datum.content}</div>
+						</div>
+						<div className="actions">
+							<SearchButton />
+						</div>
+					  </label>
+				  </div>);
+			  })}
+		</div>
+		);
+	}
+})
 };
