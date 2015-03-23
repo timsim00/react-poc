@@ -1,6 +1,7 @@
 var React = require('react');
 var Shared = require('../Shared/Shared');
 var ItemList = Shared.ItemList;
+var EditableList = require("../Shared/EditableList");
 
 var SearchButton = React.createClass({
     render: function(){
@@ -48,28 +49,28 @@ var lists = [
 
 
 var members = [
-  { title: "John Smith", email: "jsmith@gmail.com" },
-  { title: "Sue James", email: "sjames@gmail.com" },
-  { title: "Joe Jones", email: "jjones@gmail.com" },
-  { title: "Fiona Chapman", email: "fchapman@gmail.com" },
-  { title: "Lilly Kennedy", email: "lkennedy@gmail.com" },
-  { title: "Bradford Hill", email: "bhill@gmail.com" },
-  { title: "Erika Saarland", email: "esaarland@gmail.com" },
-  { title: "Peter Paulson", email: "ppaulson@gmail.com" },
-  { title: "Thomas Neal", email: "tneal@gmail.com" },
-  { title: "Jim Barber", email: "jbarber@gmail.com" },
-  { title: "Tina Smothers", email: "tsmothers@gmail.com" },
-  { title: "Billy June", email: "bjune@gmail.com" },
-  { title: "John Jacobs", email: "jjacobs@gmail.com" },
-  { title: "Joe Cobbs", email: "jcobbs@gmail.com" },
-  { title: "Dexter Dodgers", email: "ddodgers@gmail.com" },
-  { title: "Parker Peeps", email: "ppeeps@gmail.com" },
-  { title: "Valerie Watts", email: "vwatts@gmail.com" },
-  { title: "Vann Johnson", email: "vjohnson@gmail.com" },
-  { title: "Chris Michaels", email: "cmichaels@gmail.com" },
-  { title: "Brittany Johns", email: "bjohns@gmail.com" },
-  { title: "Jeff Woods", email: "jwoods@gmail.com" },
-  { title: "Kevin Woodard", email: "kwoodard@gmail.com" }
+  { id:1, title: "John Smith", email: "jsmith@gmail.com" },
+  { id:2, title: "Sue James", email: "sjames@gmail.com" },
+  { id:3, title: "Joe Jones", email: "jjones@gmail.com" },
+  { id:4, title: "Fiona Chapman", email: "fchapman@gmail.com" },
+  { id:5, title: "Lilly Kennedy", email: "lkennedy@gmail.com" },
+  { id:6, title: "Bradford Hill", email: "bhill@gmail.com" },
+  { id:7, title: "Erika Saarland", email: "esaarland@gmail.com" },
+  { id:8, title: "Peter Paulson", email: "ppaulson@gmail.com" },
+  { id:9, title: "Thomas Neal", email: "tneal@gmail.com" },
+  { id:10, title: "Jim Barber", email: "jbarber@gmail.com" },
+  { id:11, title: "Tina Smothers", email: "tsmothers@gmail.com" },
+  { id:12, title: "Billy June", email: "bjune@gmail.com" },
+  { id:13, title: "John Jacobs", email: "jjacobs@gmail.com" },
+  { id:14, title: "Joe Cobbs", email: "jcobbs@gmail.com" },
+  { id:15, title: "Dexter Dodgers", email: "ddodgers@gmail.com" },
+  { id:16, title: "Parker Peeps", email: "ppeeps@gmail.com" },
+  { id:17, title: "Valerie Watts", email: "vwatts@gmail.com" },
+  { id:18, title: "Vann Johnson", email: "vjohnson@gmail.com" },
+  { id:19, title: "Chris Michaels", email: "cmichaels@gmail.com" },
+  { id:20, title: "Brittany Johns", email: "bjohns@gmail.com" },
+  { id:21, title: "Jeff Woods", email: "jwoods@gmail.com" },
+  { id:22, title: "Kevin Woodard", email: "kwoodard@gmail.com" }
 ];
 
 var ChecklistPlus = React.createClass({
@@ -99,8 +100,6 @@ var ChecklistPlus = React.createClass({
 
 var ListSubs = React.createClass({
   onSelectedListsChange: function(e){
-  console.log("Selected Change...");
-  console.log(e);
 	this.setState({selectedList: e[0], editedName: null});
 
   },
@@ -148,13 +147,15 @@ var ListSubs = React.createClass({
   		selectedName = "";
   	}
   	
+  	//TODO generate from central data store.
+  	var selected = [1,4,5,7,9,11,15];
   	
     return (
         
         <div>
-	        <h2>Lists & Subscriptions</h2>
+	        <h2>List Management</h2>
         	<div className="listsSubsMainContent container">
-        		<div className="col col-md-5">
+        		<div className="col col-md-6">
         			<div className="row">
         				<h3>Manage My Lists</h3>
         				<div className="manage-lists well">
@@ -169,32 +170,13 @@ var ListSubs = React.createClass({
 						<div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.renameGroup}>Rename Group </button></div>
 						<div className="col-md-6"><input type="text" disabled={groupAttr} ref="groupName" value={selectedName} onChange={this.onNameChange}/></div>
 					</div>
-        			<div className="row">
-        				<h3>Subscriptions</h3>
-	        			<ChecklistPlus data={subscriptions}/>
-        			</div>
         		</div>
-        		<div className="col col-md-4">
+        		<div className="col col-md-6">
         			<div className="row">
-        			<h3>Members</h3>
-						<div className="members well">
-							<ItemList items={members} />
-						</div>
-        			</div>
-        			<div className="row">
-	        			<button className="btn btn-primary"> View Publication Members </button>
-        			</div>
-        		</div>
-        		<div className="col btn-col col-md-2">
-        			<h3>&nbsp;</h3>
-        			<div className="row">
-        				<button className="btn btn-primary"> Remove from Group</button>
-        			</div>
-        			<div className="row">
-        				<button className="btn btn-primary"> Add to Publication</button>
-        			</div>
-        			<div className="row">
-        				<button className="btn btn-primary"> Remove from Publication</button>
+        				<h3>  Members </h3>
+        				<div className="members well">
+		        			<EditableList source={members} selected={selected} />
+	        			</div>
         			</div>
         		</div>
         	</div>
