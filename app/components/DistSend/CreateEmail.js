@@ -436,20 +436,12 @@ var HTMLView = React.createClass({
 			<div className="col-md-12">
 				<ul className="nav nav-tabs">
 					<li className="active"><a data-toggle="tab" href="#edit">Edit</a></li>
-					<li><a data-toggle="tab" href="#preview-mobile">Preview Mobile</a></li>
-					<li><a data-toggle="tab" href="#preview-web">Preview Web</a></li>
 				</ul>
 				<div className="tab-content">
 					<div id="edit" className="tab-pane fade in active">
 						<div className="preview">
 							<iframe className="col-md-12" height="800px" width="100%" frameBorder="0" src="https://test-editor.herokuapp.com/" />
 						</div>
-					</div>
-					<div id="preview-mobile" className="crop tab-pane fade in">
-						<iframe height="800px" width="30%" className="" src="images/pagepreview.png" />
-					</div>
-					<div id="preview-web" height="100%" width="100%" className="tab-pane fade in">
-						<iframe height="800px" width="100%" src="images/pagepreview.png" />
 					</div>
 				</div>
 			</div>
