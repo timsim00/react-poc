@@ -56,7 +56,7 @@ var Item = React.createClass({
     	}
     	var lblClasses = [classes, disabledClasses].join(" ");
     	var text = this.props.item.title || this.props.item.name;
-    	
+
       return (
 			  <div key={this.props.item.id} className="row checkbox">
 				<div className={lblClasses}>
@@ -116,7 +116,7 @@ module.exports = {
         return (
         <div id="emailPreview">
             <div className="text-center email-preview">
-                <img src="http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png" height="75" width="50" />
+                <img src={'./images/' + this.props.imageUrl} height="75"  />
             </div>
              <div className="text-center">
                  <button className="btn btn-xs btn-primary">View</button>
@@ -191,15 +191,15 @@ module.exports = {
               <div className="row">
                 <div className="col-md-4">
                   <div className="tracking-detail">Unique Opens</div>
-                  <div>578</div>
+                  <div>{this.props.data.opens}</div>
                 </div>
                 <div className="col-md-4">
                   <div className="tracking-detail">Unique Clicks</div>
-                  <div>43</div>
+                  <div>{this.props.data.clicks}</div>
                 </div>
                 <div className="col-md-4">
                   <div className="tracking-detail">Total Bounces</div>
-                  <div>0</div>
+                  <div>{this.props.data.bounces}</div>
                 </div>
               </div>
                 );
@@ -258,17 +258,17 @@ module.exports = {
          <div className="row modify-details">
               <div className="col-md-6">
               <h5>Created</h5>
-              <div>{moment(this.props.data.createDate).format("M/D/YY h:MM A")}</div>
+              <div>{this.props.data.createDate}</div>
               </div>
               <div className="col-md-6">
               <h5>Modified</h5>
-              <div>{moment(this.props.data.modifiedDate).format("M/D/YY h:MM A")}</div>
+              <div>{this.props.data.modifiedDate}</div>
               </div>
         </div>
         );
       }
     }),
-    
+
     "CheckListPlus": React.createClass({
     	getInitialState: function(){
     		var state = {};
@@ -294,7 +294,7 @@ module.exports = {
 			  	 var checked = "";
 			  	 if(selectedLookup[datum.id]){
 			  	 	checked ="checked";
-			  	 }	
+			  	 }
 				  return (<div className="form-group" key={datum.id}>
 					  <label>
 					  	<input type="checkbox" ref={datum.id} checked={checked} onChange={self.onSelectChange.bind(self, datum.id)} />

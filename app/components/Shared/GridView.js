@@ -30,6 +30,7 @@ var GridView = React.createClass({
                 );
               })
 		        }
+            <th>Actions</th>
           </tr>
 				</thead>
         {this.props.data.rows.map(function (row,i) {

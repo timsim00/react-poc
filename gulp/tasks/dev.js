@@ -20,4 +20,4 @@ gulp.task('dev', function () {
 
 });
 
-gulp.task('default',['less', 'watch'], function() {});
+gulp.task('default',['html','fonts','images','icons','less', 'watch'], function() {});

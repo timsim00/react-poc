@@ -15,7 +15,7 @@ var config = {
 		dest: dest + 'css'
 	},
 	images: {
-		src: dest + '/images/*.*',
+		src: src + 'app/images/*.*',
 		dest: dest + '/images'
 	},
 	icons: {
@@ -38,7 +38,7 @@ var config = {
 		dest: dest + "/fonts"
 	},
 	html: {
-		src: src + '/**/*.html',
+		src: src + 'app/index.html',
 		dest: dest + '/'
 	}
 };

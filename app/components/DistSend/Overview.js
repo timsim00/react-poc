@@ -18,29 +18,8 @@ var GridView = require('../Shared/GridView');
 var Container =  require('../Shared/Container');
 
 //data
-var data = require('../../data');
 var lists = require('../../data/lists');
 var clients = require('../../data/clients');
-
-var EmailGridData = data.emailData;
-EmailGridData.pageData = {
-    pageIndex: 0,
-    pageSize: 25,
-    items: 2,
-    pageSizeOptions: [25,50]
-}
-
-var SendsGridData = data.sendsData;
-SendsGridData.pageData = {
-    pageIndex: 0,
-    pageSize: 25,
-    items: 2,
-    pageSizeOptions: [25,50]
-}
-
-var recentSendData = data.recentSendData;
-var recentModifiedData = data.recentModifiedData;
-
 
 var Overview = React.createClass({
   getInitialState: function() {
@@ -53,13 +32,30 @@ var Overview = React.createClass({
       return moment(b.sentDate).unix() - moment(a.sentDate).unix();
     });
 
+    _.map(sortedEmails, function(obj) {
+      obj.createDate = moment(obj.createDate).format("M/D/YY h:MM A");
+      obj.modifiedDate = moment(obj.modifiedDate).format("M/D/YY h:MM A");
+    });
+
+    _.map(sortedSends, function(obj) {
+      obj.sentDate = moment(obj.sentDate).format("M/D/YY h:MM A");
+    });
+
+    var emailHash = _.reduce(sortedEmails, function(memo, extended, key){
+      memo[extended.id] = extended;
+      return memo;
+    }, {});
+
+    var sortedSendDetails = _.map(sortedSends, function(base){
+        return _.extend(base, emailHash[base.email]);
+    });
+
     var pageData = {
         pageIndex: 0,
         pageSize: 25,
         items: 2,
         pageSizeOptions: [25,50]
     };
-
 
     var emailCols = [
       {data:"name", col:"Name"},
@@ -80,10 +76,10 @@ var Overview = React.createClass({
     ]
 
     result.emails = {"rows":sortedEmails, "columns": emailCols, "pageData": pageData};
-    result.sends = {"rows":sortedSends, "columns": sendCols, "pageData": pageData};
+    result.sends = {"rows":sortedSendDetails, "columns": sendCols, "pageData": pageData};
 
     result.lastModified = sortedEmails[0];
-    result.lastSend = sortedSends[0];
+    result.lastSend = sortedSendDetails[0];
 
     return result;
   },
@@ -106,7 +102,7 @@ var Overview = React.createClass({
         </div>
         <div className="row">
           <div className="col-md-4 detail-box">
-            <MostRecentSend email={this.state.lastModified} />
+            <MostRecentSend email={this.state.lastSend} />
           </div>
           <div className="col-md-4 detail-box">
             <MostRecentModify email={this.state.lastModified} />
@@ -130,18 +126,17 @@ var MostRecentSend = React.createClass({
     return (
     <Container title="Most Recent Send">
         <div className="col-md-3">
-          <EmailPreview/>
+          <EmailPreview imageUrl={this.props.email.previewImage} />
         </div>
         <div className="col-md-9">
-          <EmailDetails data={recentSendData}/>
-          <TrackingDetails/>
+          <EmailDetails data={this.props.email} />
+          <TrackingDetails data={this.props.email} />
         </div>
         <div className="clearfix"></div>
     </Container>
     );
   }
 });
-
 
 var MostRecentModify = React.createClass({
   getInitialState : function() {
@@ -152,7 +147,7 @@ var MostRecentModify = React.createClass({
     return (
     <Container title="Recent Modified Email">
         <div className="col-md-3">
-          <EmailPreview/>
+          <EmailPreview imageUrl={this.props.email.previewImage} />
         </div>
         <div className="col-md-9">
           <EmailDetails data={this.props.email} />

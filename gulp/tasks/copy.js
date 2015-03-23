@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
 	  plumber = require('gulp-plumber'),
 	  fonts = require('../config.js').fonts,
+		images = require('../config.js').images,
     icons = require('../config.js').icons,
 	  html = require('../config.js').html;
 
@@ -23,6 +24,11 @@ gulp.task('html', function () {
 		.pipe(gulp.dest(html.dest));
 });
 
+gulp.task('images', function () {
+	gulp.src(images.src)
+		.pipe(plumber())
+		.pipe(gulp.dest(images.dest));
+});
 
 
 gulp.task('deploy', function() {
