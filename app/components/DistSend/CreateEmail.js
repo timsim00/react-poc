@@ -162,7 +162,7 @@ var Wizard = React.createClass({
 	},
 	componentWillUnmount: function() {
 		//un-subscribe to next disable state event
-		PubSub.unsubscribe( subscriptions['Content-Selected'] );
+		PubSub.unsubscribe( this.subscriptions['Content-Selected'] );
 	},
     render: function() {
     var that = this;  
@@ -299,7 +299,7 @@ var EmailSelect = React.createClass({
 	},
 	componentWillUnmount: function() {
 		//un-subscribe to next disable state event
-		PubSub.unsubscribe( subscriptions['Folder-Selected'] );
+		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
 	},	
     getInitialState: function(){
 		return { FolderName: "Retirement" };
@@ -364,7 +364,7 @@ var RetirementThumbs = React.createClass({
 	},
 	componentWillUnmount: function() {
 		//un-subscribe to next disable state event
-		PubSub.unsubscribe( subscriptions['Folder-Selected'] );
+		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
 	},	
     render: function() {
     	var that = this;
