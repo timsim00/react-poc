@@ -13,6 +13,7 @@ var LastModifiedDetails = Shared.LastModifiedDetails;
 var ListCount = Shared.ListCount;
 var SubscriberCount = Shared.SubscriberCount;
 var GridView = require('../Shared/GridView');
+var Container =  require('../Shared/Container');
 
 //data
 var data = require('../../data');
@@ -33,20 +34,9 @@ SendsGridData.pageData = {
     pageSizeOptions: [25,50]
 }
 
-var recentSendData = {
-    "subject": "Did you forget something?",
-    "name": "Abandoned Cart - Low Value"
-}
+var recentSendData = data.recentSendData;
+var recentModifiedData = data.recentModifiedData;
 
-var recentModifiedData = {
-    "subject": "Check out our latest news",
-    "name": "Sample Email 1"
-}
-
-var dates = {
-    "created": "2/20/15 12:06 PM",
-    "modified": "3/1/15 10:32 AM"
-}
 
 var Overview = React.createClass({
   render: function() {
@@ -89,9 +79,7 @@ var Overview = React.createClass({
 var MostRecentSend = React.createClass({
   render: function() {
     return (
-    <div>
-    <h4>Most Recent Send</h4>
-      <div className="well">
+    <Container title="Most Recent Send">
         <div className="col-md-3">
           <EmailPreview/>
         </div>
@@ -100,8 +88,7 @@ var MostRecentSend = React.createClass({
           <TrackingDetails/>
         </div>
         <div className="clearfix"></div>
-      </div>
-    </div>
+    </Container>
     );
   }
 });
@@ -110,19 +97,16 @@ var MostRecentSend = React.createClass({
 var MostRecentModify = React.createClass({
   render: function() {
     return (
-    <div>
-    <h4>Most Recent Modified Email</h4>
-      <div className="well">
+    <Container title="Recent Modified Email">
         <div className="col-md-3">
           <EmailPreview/>
         </div>
         <div className="col-md-9">
           <EmailDetails data={recentModifiedData}/>
-          <LastModifiedDetails data={dates}/>
+          <LastModifiedDetails data={recentModifiedData.dates}/>
         </div>
         <div className="clearfix"></div>
-      </div>
-    </div>
+    </Container>
     );
   }
 });
@@ -130,9 +114,7 @@ var MostRecentModify = React.createClass({
 var SubscriberOverview = React.createClass({
   render: function() {
     return (
-    <div>
-    <h4>Subscribers</h4>
-    <div className="well" id="subscriber-overview">
+    <Container title="Subscribers" class="subscriber-overview">
       <div className="col-md-6">
         <ListCount/>
       </div>
@@ -145,14 +127,13 @@ var SubscriberOverview = React.createClass({
         	 <button className="btn btn-sm btn-primary btn-xs">Manage Subscribers</button>&nbsp;
         	  <div className="btn-group">
         	  	  <button className="btn btn-sm btn-primary btn-xs">Add Subscribers</button>
-  			  <button type="button" className="btn btn-xs btn-primary dropdown-toggle" aria-expanded="false">
-  				<span className="caret"></span>
-  			  </button>
-  		  </div>
+  			        <button type="button" className="btn btn-xs btn-primary dropdown-toggle" aria-expanded="false">
+  				            <span className="caret"></span>
+  			        </button>
+  		      </div>
         </div>
       </div>
-    </div>
-    </div>
+    </Container>
     );
   }
 });
@@ -165,11 +146,13 @@ var OverviewTabs = React.createClass({
           <li className="active"><a href="#email" data-toggle="tab">Emails</a></li>
           <li><a href="#sends" data-toggle="tab">Sends</a></li>
         </ul>
+        <br/>
         <div className="row">
          <div className="col-md-3">
           <SearchBar/>
          </div>
         </div>
+        <br/>
         <div className="tab-content well">
           <div className="tab-pane active" id="email"><GridView data={EmailGridData} /></div>
           <div className="tab-pane" id="sends"><GridView data={SendsGridData} /></div>

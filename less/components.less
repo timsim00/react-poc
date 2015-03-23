@@ -50,7 +50,7 @@
 }
 
 .detail-box .well{
-  min-height:175px;
+  min-height:200px;
 }
 
 .counts {
@@ -131,7 +131,7 @@
 	margin-right: 30px;
 }
 
-#subscriber-overview {
+.subscriber-overview {
   position:relative;
 }
 
@@ -236,9 +236,9 @@
 	margin: 5px;
 }
 
-.sub-list-name {
+/*.sub-list-name {
 	margin-right: 20px;
-}
+}*/
 
 .crop {
     width: 1200px;
@@ -259,7 +259,15 @@
 .itemLst {
 	.lbl {
 		/* Hack to force fixed width columns */
-		width: 278px;
+		width: 330px;
+	}
+	label {
+		width:100%;
+	}
+	.row {
+		div {
+			padding-right:20px;
+		}
 	}
 }
 
@@ -299,6 +307,47 @@
     display: block;
 }
 
+.image-preview {
+	img {
+		max-width:80px;
+		max-height:80px;
+	}
+}
+
 .disabledColor {
-	color : #D3D3D3;    
+	color : #D3D3D3;
+}
+
+.zero-padding {
+	&>.col-md-6{
+		padding-left:0px;
+		padding-right:0px;
+	}
+}
+.listBoxNoChecks input[type=checkbox] {
+     display:none;
+}
+
+.content-selected {
+	float: right;
+	color: green;
+	visibility: visible;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.titlebar{
+	&.navbar {
+		min-height:0;
+	}
+	margin: -19px -19px 19px -19px;
+	padding: 10px;
+	&> h4{
+		margin:0;
+		padding:0;
+		color:white;
+		font-weight: bold;
+	}
 }

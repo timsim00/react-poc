@@ -1,5 +1,8 @@
 var React = require('react'),
-    Router = require('react-router')
+    Router = require('react-router'),
+    ReactBootstrap = require('react-bootstrap'),
+    ReactTagsInput = require('react-tagsinput')
+
 
 jQuery("html").on("click.selectableDivs", ".selectableDivs", function(){
     console.log(jQuery(this));
@@ -10,12 +13,16 @@ jQuery("html").on("click.selectableDivs", ".selectableDivs", function(){
 
 
 var Link = Router.Link;
+var ModalTrigger = ReactBootstrap.ModalTrigger;
+var Modal = ReactBootstrap.Modal;
 
 //components
 
 var SearchBar = require('../Shared/Shared').SearchBar;
 var FolderTree = require('../Shared/FolderTree');
 var FilterByType_ = require('../Shared/FilterByType').ItemList;
+var ItemList =  require('../Shared/Shared').ItemList;
+var Container =  require('../Shared/Container');
 
 var folders = [
     {
@@ -92,15 +99,10 @@ var ContentAdmin = React.createClass({
 var ContentCategories = React.createClass({
   render: function() {
     return (
-    <div>
-    	<h4>Content Categories</h4>
-    	<div className="searchbar">
-      		<SearchBar />
-    	</div>
-    	<div className="well">
+    <Container title="Content Categories">
+      		<SearchBar /><br /><br />
         	<FolderTree folders={folders} />
-    	</div>
-    </div>
+    </Container>
     );
   }
 
@@ -109,15 +111,84 @@ var ContentCategories = React.createClass({
 var FilterByType = React.createClass({
   render: function() {
     return (
-    <div>
-      <h4>Filter By Type</h4>
-      <div className="well">
+    <Container title="Filter By Type">
       	<FilterByType_ data={filterData} onChange={this.props.onChange} />
-      </div>
-    </div>
+    </Container>
     );
   }
 
+});
+
+
+var entitlements = [
+	{ id: 1, title: "High Net Worth" },
+	{ id: 2, title: "Series 7" },
+	{ id: 3, title: "Mortgage" },
+	{ id: 4, title: "Retirement" },
+	{ id: 5, title: "Investing" },
+	{ id: 6, title: "Options" }
+];
+
+var selectedEmails = [
+	{ id: 1, title: "October" },
+	{ id: 2, title: "December" }
+]
+
+var validateTag = function (tag) {
+  return tag !== "" && !/_/.test(tag); // lets not allow underscore in our tags.
+};
+
+var keyCodes = [13, 9, 32]; // add tags when keys Enter (13), Tab (9) or Space (32) is down.
+
+{/*
+var ContentTags = React.createClass({
+  getInitialState: function () {
+    return {
+      text: ""
+    };
+  }
+
+  , onChange: function (tags) {
+    this.setState({
+      text: tags.join(", ")
+    });
+  }
+
+  , render: function () {
+    var source = this.state.text;
+    return (
+      <div>
+        <label>Content Tags</label>
+        <ReactTagsInput validate={validateTag} onChange={this.onChange} addKeys={[13, 9, 32]} />
+      </div>
+    );
+  }
+});
+*/}
+
+var MyModal = React.createClass({
+  render: function() {
+    return (
+        <Modal {...this.props} bsStyle="primary" title="Set Selected Content Properties" animation={false}>
+
+	  <div className="col-md-12 ">
+
+	     <div id="selectedEmails" className="col-md-4 well listBoxNoChecks">
+	        <label htmlFor="selectedEmails">Selected Emails</label>
+		<ItemList items={selectedEmails} />
+	     </div>
+	     <div id="selectedEntitlements" className="well col-md-8">
+                <label htmlFor="selectedEntitlements">Set Email Entitlements</label>
+		<ItemList items={entitlements} />
+	     </div>
+	  </div>
+          <div className="modal-footer">
+            <button className="btn btn-default" type="button" onClick={this.props.onRequestHide}>Save</button>
+            <button className="btn btn-default" type="button" onClick={this.props.onRequestHide}>Cancel</button>
+          </div>
+        </Modal>
+      );
+  }
 });
 
 
@@ -125,10 +196,12 @@ var EmailSelect = React.createClass({
   render: function() {
     return (
     <div>
-    	<h4>Retirement</h4>
-    	<div className="well">
-			<RetirementThumbs types={this.props.types}/>
-    	</div>
+      <Container title="Retirement">
+			     <RetirementThumbs types={this.props.types}/>
+    	</Container>
+	<ModalTrigger modal={<MyModal />}>
+	  <button className="btn btn-default" type="button">Select</button>
+	</ModalTrigger>
     </div>
     );
   }
