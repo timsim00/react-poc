@@ -42,7 +42,7 @@ var Overview = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="row">
+        <div className="row pageTitle">
           <div className="col-md-6"><h2>Overview</h2></div>
           <div className="col-md-6 text-right">
             <Link to="content-admin" className="btn btn-default">

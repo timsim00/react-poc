@@ -58,7 +58,7 @@ var CreateEmail = React.createClass({
   render: function() {
     return (
 	<div>
-    <div className="row">
+    <div className="row pageTitle">
   		<div className="col-md-12">
   		  <h2>Create / Send Email</h2>
   		</div>
@@ -257,12 +257,9 @@ var StepSelectContent = React.createClass({
 var ContentCategories = React.createClass({
   render: function() {
     return (
-    <div>
-    	<h4>Content Categories</h4>
-    	<div className="well">
-        	<FolderTree folders={folders} />
-    	</div>
-    </div>
+    <Container title="Content Categories">
+      <FolderTree folders={folders} />
+    </Container>
     );
   }
 
@@ -274,12 +271,9 @@ var ContentCategories = React.createClass({
 var FilterByType = React.createClass({
   render: function() {
     return (
-    <div>
-      <h4>Filter By Type</h4>
-      <div className="well">
+    <Container title="Filter By Type">
       	<FilterByType_ data={filterData} onChange={this.props.onChange} />
-      </div>
-    </div>
+    </Container>
     );
   }
 
@@ -308,18 +302,13 @@ var EmailSelect = React.createClass({
     render: function() {
     	var searchStyle = {'padding-top':'10px;'};
 		return (
-		<div>
-			<div className="col-md-12">
-				<h4 className="col-md-2">{ this.state.FolderName }</h4>
-				<div  className="col-md-4 pull-right" style={searchStyle} >
+		<Container title={ this.state.FolderName }>
+				<div className="row col-md-4 pull-right" style={searchStyle} >
 					<SearchBar />
 				</div>
-
-			</div>
-			<div className="well">
+        <div className="clearfix"></div>
 				<RetirementThumbs types={this.props.types}/>
-			</div>
-		</div>
+		</Container>
 		);
     }
 });
