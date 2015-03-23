@@ -1,6 +1,7 @@
 var React = require('react'),
     Router = require('react-router'),
-    moment = require('moment');
+    moment = require('moment'),
+    _ = require('lodash');
 
 var Link = Router.Link;
 
@@ -43,14 +44,51 @@ var recentModifiedData = data.recentModifiedData;
 
 var Overview = React.createClass({
   getInitialState: function() {
+    var result = {};
+
     var sortedEmails = this.props.emails.sort(function(a,b){
       return moment(b.modifiedDate).unix() - moment(a.modifiedDate).unix();
     });
-    var result = {};
+    var sortedSends = this.props.sends.sort(function(a,b){
+      return moment(b.sentDate).unix() - moment(a.sentDate).unix();
+    });
+
+    var pageData = {
+        pageIndex: 0,
+        pageSize: 25,
+        items: 2,
+        pageSizeOptions: [25,50]
+    };
+
+
+    var emailCols = [
+      {data:"name", col:"Name"},
+      {data:"subject", col:"Subject"},
+      {data:"createDate", col:"Created"},
+      {data:"modifiedDate", col:"Last Modified"}
+    ];
+
+    var sendCols = [
+      {data:"name", col:"Email Name"},
+      {data:"subject", col:"Subject"},
+      {data:"sentDate", col:"Sent On"},
+      {data:"status", col:"Status"},
+      {data:"subscribers", col:"Subscribers"},
+      {data:"opens", col:"Opens"},
+      {data:"clicks", col:"Clicks"},
+      {data:"bounces", col:"Bounced"},
+    ]
+
+    result.emails = {"rows":sortedEmails, "columns": emailCols, "pageData": pageData};
+    result.sends = {"rows":sortedSends, "columns": sendCols, "pageData": pageData};
+
     result.lastModified = sortedEmails[0];
+    result.lastSend = sortedSends[0];
+
     return result;
   },
   render: function() {
+  console.log(this.state);
     return (
       <div>
         <div className="row pageTitle">
@@ -68,7 +106,7 @@ var Overview = React.createClass({
         </div>
         <div className="row">
           <div className="col-md-4 detail-box">
-            <MostRecentSend  />
+            <MostRecentSend email={this.state.lastModified} />
           </div>
           <div className="col-md-4 detail-box">
             <MostRecentModify email={this.state.lastModified} />
@@ -78,7 +116,7 @@ var Overview = React.createClass({
           </div>
         </div>
         <div>
-          <OverviewTabs/>
+          <OverviewTabs emails={this.state.emails} sends={this.state.sends} />
         </div>
       </div>
     );
@@ -169,8 +207,8 @@ var OverviewTabs = React.createClass({
         </div>
         <br/>
         <div className="tab-content well">
-          <div className="tab-pane active" id="email"><GridView data={EmailGridData} /></div>
-          <div className="tab-pane" id="sends"><GridView data={SendsGridData} /></div>
+          <div className="tab-pane active" id="email"><GridView data={this.props.emails} /></div>
+          <div className="tab-pane" id="sends"><GridView data={this.props.sends} /></div>
         </div>
 
       </div>

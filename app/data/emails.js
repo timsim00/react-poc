@@ -36,7 +36,7 @@ module.exports = [{
 }, {
     id: 4,
     name: "Retirement Newsletter - February",
-    subject: "We have news the will change your retirement plans",
+    subject: "We have news that will change your retirement plans",
     preheader: "Check out our Retirement News",
     previewImage: "poc-67508-email-thmb.jpg",
     createDate: "January 28, 2015 11:31:21 AM",
@@ -48,7 +48,7 @@ module.exports = [{
 }, {
     id: 5,
     name: "Retirement Newsletter - January",
-    subject: "We have news the will change your retirement plans",
+    subject: "We have news that will change your retirement plans",
     preheader: "Check out our Retirement News",
     previewImage: "poc-67509-email-thmb.jpg",
     createDate: "January 8, 2015 11:34:39 AM",
@@ -60,7 +60,7 @@ module.exports = [{
 }, {
     id: 6,
     name: "Retirement Newsletter - December",
-    subject: "We have news the will change your retirement plans",
+    subject: "We have news that will change your retirement plans",
     preheader: "Check out our Retirement News",
     previewImage: "poc-67511-email-thmb.jpg",
     createDate: "December 15, 2014 11:35:01 AM",
@@ -72,7 +72,7 @@ module.exports = [{
 }, {
     id: 7,
     name: "Retirement Newsletter - November",
-    subject: "We have news the will change your retirement plans",
+    subject: "We have news that will change your retirement plans",
     preheader: "Check out our Retirement News",
     previewImage: "poc-67512-email-thmb.jpg",
     createDate: "November 15, 2015 11:35:21 AM",

@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     babelify = require('babelify'),
     notify = require('gulp-notify'),
     uglify = require('gulp-uglify'),
+    plumber = require('gulp-plumber'),
     streamify = require('gulp-streamify'),
     gulpif = require('gulp-if'),
     config = require('../config').scripts;
@@ -18,8 +19,8 @@ var dependencies = config.deps;
 gulp.task('browserify', function () {
   return browserify(config.src)
   .transform(babelify)
-  .transform(reactify)
   .bundle()
+  .pipe(plumber())
   .pipe(source('main.js'))
   .pipe(gulp.dest(config.dest));
 });

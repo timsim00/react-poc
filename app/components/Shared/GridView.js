@@ -1,4 +1,5 @@
-var React = require('react');
+var React = require('react'),
+    _ = require('lodash');
 
 var Pagination = require("./Pagination.js").Pagination;
 
@@ -15,26 +16,34 @@ var Actions = React.createClass({
 
 var GridView = React.createClass({
   render: function() {
+    var self = this;
     return (
     	<div>
 		 <div className="grid">
 			<table className="table">
 				<thead>
 					<tr>
-						{this.props.data.columns.map(function(c,i){
-							return (<th key={i}> {c} </th> )
-		})
-		} </tr>
-				</thead> {
-    this.props.data.rows.map(function (row, i) {
-			return ( <tr key={i}> {
-				row.map(function (r,i) {
-					return ( <td key={i}> {
-						r
-					} </td>)
-					})}
-          <td><Actions /></td>
-          </tr> )
+						{this.props.data.columns.map(function(c){
+
+  							return (
+                  <th key={c.data}>{c.col}</th>
+                );
+              })
+		        }
+          </tr>
+				</thead>
+        {this.props.data.rows.map(function (row,i) {
+  			return (
+          <tr key={i}>
+            {self.props.data.columns.map(function(c){
+              return (
+                  <td key={c.data}>{row[c.data]}</td>
+                );
+              })
+            }
+            <td><Actions /></td>
+            </tr>
+          )
 				})
 			} </table>
 		</div>
