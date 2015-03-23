@@ -493,9 +493,6 @@ var StepSelectAudience = React.createClass({
 						<div style={searchstyle} className="col-md-6">
 							<SearchBar />
 						</div>
-						<div className="col-md-2 pull-right">
-							<div id="btnSelect" className="text-right"><Link to="/" className="btn btn-default" disabled="disabled">Select</Link></div>
-						</div>
 					</div>
 					<div className="row zero-padding">
 						<div id="SubscriberListContainer" className="col-md-6" style={subNamesStyle}>
@@ -527,7 +524,7 @@ var StepSelectAudience = React.createClass({
 /*** SUBSCRIBER LIST NAMES ***/
 
 var subnames = [
-	{ id:"1", title: "Email - High Value", data: [8], count: "8", checked: "checked" },
+	{ id:"1", title: "Email - High Value", data: [8], count: "8", checked: "checked", selected: true },
 	{ id:"2", title: "Email - Lower Value", data:[42],count: "42", checked: "" },
 	{ id:"3", title: "High R and MF", data:[62], count: "62", checked: "" },
 	{ id:"4", title: "High Value - Investment Focus", data:[14], count: "14", checked: "" }
@@ -578,7 +575,7 @@ var SubscriberListContainer = React.createClass({
 /*** SUBSCRIBER LIST ***/
 
 var subscribers = [
-	{ id: 1, title: "John Smith", data: ["jsmith@gmail.com"], checked: "checked", selected: true, },
+	{ id: 1, title: "John Smith", data: ["jsmith@gmail.com"], checked: "checked", selected: true },
 	{ id: 2, title: "Sue James", data: ["sjames@gmail.com"], checked: "checked", selected: true  },
 	{ id: 3, title: "Joe Jones", data: ["jjones@gmail.com", "Sent 03/12/2015"], disabled: true },
 	{ id: 4, title: "Fiona Chapman", data: ["fchapman@gmail.com"], checked: "checked", selected: true },
@@ -586,7 +583,7 @@ var subscribers = [
 	{ id: 6, title: "Bradford Hill", data: ["bhill@gmail.com"], checked: "checked", selected: true },
 	{ id: 7, title: "Erika Saarland", data: ["esaarland@gmail.com", "Sent 03/12/2015"], disabled: true },
 	{ id: 8, title: "Peter Paulson", data: ["ppaulson@gmail.com"], checked: "checked", selected: true }
-]
+];
 
 
 /*** SELECTED LIST ***/
@@ -608,22 +605,35 @@ var SelectedItemList = React.createClass({
     var itemList = this.props.items.map(function(item, i){
     	return item;
     });
-    return {items:selectednames};
+    return {items:selectednames, excludes:subscribers};
   },
   render: function(){
     var that = this;
     var itemNodes = this.state.items.map(function (item, i) {
       return <SelectedItem item={item} order={i} clicked={that.whenClicked} />
     });
+    var excluded = this.state.excludes.map(function (item, i) {
+    	if (item.disabled) {
+      		return <SelectedItem item={item} order={i} clicked={that.whenClicked} />
+      	}
+    });    
     return (
        <div>
-            <label>Selected Audiences</label>
+            <label>Selected Audience</label>
             <div className="well">
                <ul className="list-group">
                  { itemNodes }
                 </ul>
             </div>
-            Audience Count:  {8}
+            Selected Count:  {5}
+            <hr className="divider"/>
+            <label>Excluded Audience (recent sends)</label>
+            <div className="well">
+               <ul className="list-group">
+                 { excluded }
+                </ul>
+            </div>
+            Excluded Count:  {3}            
       </div>
 
     );
