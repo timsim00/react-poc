@@ -154,11 +154,13 @@ var OverviewTabs = React.createClass({
           <li className="active"><a href="#email" data-toggle="tab">Emails</a></li>
           <li><a href="#sends" data-toggle="tab">Sends</a></li>
         </ul>
+        <br/>
         <div className="row">
          <div className="col-md-3">
           <SearchBar/>
          </div>
         </div>
+        <br/>
         <div className="tab-content well">
           <div className="tab-pane active" id="email"><GridView data={EmailGridData} /></div>
           <div className="tab-pane" id="sends"><GridView data={SendsGridData} /></div>

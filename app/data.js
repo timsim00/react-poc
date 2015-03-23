@@ -65,4 +65,7 @@ exports.contentData = [
 	{category: "Retirement", type: "advice", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "advice1", title: "Advice v.1"},
 	{category: "Retirement", type: "advice", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "advice2", title: "Advice v.2"},
 	{category: "Retirement", type: "managed", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "mc1", title: "Communications 1"},
+	{category: "Mortgage", type: "managed", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "mortgage1", title: "ReFi Opportunity"},
+	{category: "Mortgage", type: "managed", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "mortgage1", title: "Reverse Mortgage"},
+	{category: "Mortgage", type: "managed", imgUrl: "http://image.exct.net/lib/fe6a1570706407787711/m/1/investorinsight.png", id: "mortgage1", title: "Home Equity Loan"}
 ];
