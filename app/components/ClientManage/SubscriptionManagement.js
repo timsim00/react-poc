@@ -13,26 +13,32 @@ var SearchButton = React.createClass({
 
 var subscriptions = [
     {
+    	id:1,
         title: "Market Insights - Monthly",
         content: "Monthly publication to share MS view on Market Conditions"
     },
     {
+    	id:2,
         title: "Global Investment Committee Weekly",
         content: "Weekly publication from the MS Investment Committee on GlobalMarkets"
     },
     {
+    	id:3,
         title: "Retirement Planning Today - Monthly",
         content: "Retirement updates on a Monthly and Semi-Monthy Basis"
     },
     {
+    	id:4,
         title: "World Point of View - Weekly",
         content: "MS View of the World-wide Markets"
     },
     {
+    	id:5,
         title: "Investor Advisors Daily - Daily",
         content: "Daily updates from the MS Advisor Team on Investment Conditions"
     },
     {
+    	id:6,
         title: "On the Market",
         content: "Daily Advice and Predictions on the Market for the day"
     }
