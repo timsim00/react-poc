@@ -12,13 +12,14 @@ var Link = Router.Link;
 
 //components
 
-var SearchBar = require('../Shared/Shared').SearchBar;
-var FolderTree = require('../Shared/FolderTree');
-var FilterByType_ = require('../Shared/FilterByType').ItemList;
-
 var Shared = require('../Shared/Shared');
 var SearchBar = Shared.SearchBar;
 var ItemList = Shared.ItemList;
+
+var FolderTree = require('../Shared/FolderTree');
+var FilterByType_ = require('../Shared/FilterByType').ItemList;
+var Container =  require('../Shared/Container');
+
 
 var folders = [
     {
@@ -57,7 +58,7 @@ var CreateEmail = React.createClass({
   render: function() {
     return (
 	<div>
-    <div className="row">
+    <div className="row pageTitle">
   		<div className="col-md-12">
   		  <h2>Create / Send Email</h2>
   		</div>
@@ -78,7 +79,7 @@ var Wizard = React.createClass({
 	subscriptions: {},
 	getInitialState: function() {
 		return {
-			step: 1, 
+			step: 1,
 			btnNextDisabled: true,
 			tabs: "disabled"
 		}
@@ -90,17 +91,17 @@ var Wizard = React.createClass({
     			$('a[href^="#stepDefineContent"]').click();
     			$('#btnBack button').removeAttr('disabled');
     			break;
-    		} 
+    		}
     		case 3: {
     			$('a[href^="#stepSelectAudience"]').click();
     			break;
-    		}    		 		
+    		}
     		case 4: {
     			$('a[href^="#stepSchedule"]').click();
     			$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
     			break;
     		}
-    		case 5: location.hash = "#/";    		
+    		case 5: location.hash = "#/";
     	}
 	},
 	handleBack: function() {
@@ -114,12 +115,12 @@ var Wizard = React.createClass({
     		case 2: {
     			$('a[href^="#stepDefineContent"]').click();
     			break;
-    		}    		
+    		}
     		case 3: {
     			$('a[href^="#stepSelectAudience"]').click();
     			$('#btnNext button').html('Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
     			break;
-    		}    		
+    		}
     	}
 	},
 	handleTabClick: function(e) {
@@ -131,7 +132,7 @@ var Wizard = React.createClass({
 				this.state.step = 1;
 				$('#btnBack button').attr('disabled','disabled');
 				break;
-			}		
+			}
 			case "#stepDefineContent": {
 				this.state.step = 2;
 				break;
@@ -144,16 +145,16 @@ var Wizard = React.createClass({
 				this.state.step = 4;
 				$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
 				break;
-			}						
+			}
 		}
-	},	
+	},
 	handleLiClick: function(e) {
 		console.log('handleLiClick');
 		e.preventDefault();  //haven't yet found anything that works.
 		e.stopPropagation();
 	},
 	handleContentSelected: function(msg, data) {
-		this.setState({btnNextDisabled: false, tabs: ''});		
+		this.setState({btnNextDisabled: false, tabs: ''});
 	},
 	componentDidMount: function() {
 		//subscribe to next disable state event
@@ -165,7 +166,7 @@ var Wizard = React.createClass({
 		PubSub.unsubscribe( this.subscriptions['Content-Selected'] );
 	},
     render: function() {
-    var that = this;  
+    var that = this;
 	return (
 		<div className="wizard">
 			<div className="wizard-header navbar navbar-default">
@@ -189,7 +190,7 @@ var Wizard = React.createClass({
 						<a className="inactive-step" href="#stepSchedule" data-toggle="tab" onClick={this.handleTabClick}>
 						Schedule
 						</a>
-					</li>					
+					</li>
 				</ul>
 				<div id="btnNext" className="pull-right text-right wiz-btn"><button disabled={this.state.btnNextDisabled} onClick={this.handleNext} className="btn btn-default">Next&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></button></div>
 				<div id="btnBack" className="pull-right text-right wiz-btn"><button onClick={this.handleBack} className="btn btn-default">Back</button></div>
@@ -207,7 +208,7 @@ var Wizard = React.createClass({
 			</div>
 			<div role="tabpanel" className="tab-pane" id="stepSchedule">
 				<StepSchedule />
-			</div>			
+			</div>
 		</div>
 	</div>
 	);
@@ -223,7 +224,7 @@ var StepSelectContent = React.createClass({
     handleFilterChange: function(selectedTypes) {
   		//TODO consider extracting relevant values
   		this.setState({selectedTypes : selectedTypes});
-    },  
+    },
     getInitialState: function(){
   		var state = {};
   		state.selectedTypes = [];
@@ -256,12 +257,9 @@ var StepSelectContent = React.createClass({
 var ContentCategories = React.createClass({
   render: function() {
     return (
-    <div>
-    	<h4>Content Categories</h4>
-    	<div className="well">
-        	<FolderTree folders={folders} />
-    	</div>
-    </div>
+    <Container title="Content Categories">
+      <FolderTree folders={folders} />
+    </Container>
     );
   }
 
@@ -273,12 +271,9 @@ var ContentCategories = React.createClass({
 var FilterByType = React.createClass({
   render: function() {
     return (
-    <div>
-      <h4>Filter By Type</h4>
-      <div className="well">
+    <Container title="Filter By Type">
       	<FilterByType_ data={filterData} onChange={this.props.onChange} />
-      </div>
-    </div>
+    </Container>
     );
   }
 
@@ -300,25 +295,20 @@ var EmailSelect = React.createClass({
 	componentWillUnmount: function() {
 		//un-subscribe to next disable state event
 		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
-	},	
+	},
     getInitialState: function(){
 		return { FolderName: "Retirement" };
-    },	
+    },
     render: function() {
     	var searchStyle = {'padding-top':'10px;'};
 		return (
-		<div>
-			<div className="col-md-12">		
-				<h4 className="col-md-2">{ this.state.FolderName }</h4>		
-				<div  className="col-md-4 pull-right" style={searchStyle} >
+		<Container title={ this.state.FolderName }>
+				<div className="row col-md-4 pull-right" style={searchStyle} >
 					<SearchBar />
 				</div>
-				
-			</div>	
-			<div className="well">
+        <div className="clearfix"></div>
 				<RetirementThumbs types={this.props.types}/>
-			</div>
-		</div>
+		</Container>
 		);
     }
 });
@@ -342,7 +332,7 @@ var RetirementThumbs = React.createClass({
 		if (!$ele.hasClass('selectableEmailDivs')) $ele = $ele.closest('.selectableEmailDivs');
 		var thisId = $ele.data('reactid');
 		var $check = $ele.find('.selected-indicator');
-		
+
 		if (this.state.selectedId) {
 			var $prev = $('*[data-reactid="'+ this.state.selectedId +'"]');
 			$prev.removeClass('active');
@@ -350,9 +340,9 @@ var RetirementThumbs = React.createClass({
 		}
 		this.state.selectedId = thisId;
 		$ele.addClass('active');
-		$check.addClass('content-selected').removeClass('hidden');	
-		
-		PubSub.publish( 'Content-Selected', thisId );	
+		$check.addClass('content-selected').removeClass('hidden');
+
+		PubSub.publish( 'Content-Selected', thisId );
 	},
 	handleFolderSelected: function(msg, data) {
 		this.setState({category: data});
@@ -365,7 +355,7 @@ var RetirementThumbs = React.createClass({
 	componentWillUnmount: function() {
 		//un-subscribe to next disable state event
 		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
-	},	
+	},
     render: function() {
     	var that = this;
 	  	var types = this.props.types.map(function(t){return t.id});
@@ -460,7 +450,7 @@ var HTMLView = React.createClass({
 					</div>
 					<div id="preview-web" height="100%" width="100%" className="tab-pane fade in">
 						<iframe height="800px" width="100%" src="images/pagepreview.png" />
-					</div>					
+					</div>
 				</div>
 			</div>
 		</div>
@@ -510,10 +500,10 @@ var StepSelectAudience = React.createClass({
 				<div className="col-md-7">
 					<div className="well row">
 						<span className="staticValue" style={listspanstyle}>Lists</span>
-						<div style={searchstyle} className="col-md-6">									
-							<SearchBar />									
+						<div style={searchstyle} className="col-md-6">
+							<SearchBar />
 						</div>
-						<div className="col-md-2 pull-right">														
+						<div className="col-md-2 pull-right">
 							<div id="btnSelect" className="text-right"><Link to="/" className="btn btn-default" disabled="disabled">Select</Link></div>
 						</div>
 					</div>
@@ -658,7 +648,7 @@ var StepSchedule = React.createClass({
   render: function() {
   	var previewStyle = {
   		'marginTop':'10px'
-  	};	
+  	};
     return (
 	<div role="tabpanel" className="tab-pane">
 		<div className="col-md-12">
@@ -689,23 +679,23 @@ var StepSchedule = React.createClass({
 						</div>
 					</div>
 				</div>
-				<br/>	
-				<br/>					
+				<br/>
+				<br/>
 				<hr className="divider"/>
 				<div>
 					<label className="">From Name</label>
-				</div>								
+				</div>
 				<FromNameDropdown data={dropdowndata} />
 				<br/>
 				<hr className="divider"/>
 				<Radios data={radiodata} />
 			</div>
 			<div className="col-md-6">
-				<div className="well">																		
+				<div className="well">
 					<div id="preview-web" height="100%" width="100%">
 						<iframe style={previewStyle} height="800px" width="100%" src="images/pagepreview.png" />
-					</div>					
-				</div>	
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -727,7 +717,7 @@ var dropdowndata = {
         { title: "Peter Paulson", email: "ppaulson@gmail.com" },
         { title: "Thomas Neal", email: "tneal@gmail.com" }
     ]
-};	
+};
 
 var DropDownItem = React.createClass({
 	handleClick: function(e) {
@@ -738,7 +728,7 @@ var DropDownItem = React.createClass({
 		var o = $(node).attr('id');
 		$('#'+i+' .selected').attr('id',o);
 		$('#'+i+' .selected').text(v);
-	},	
+	},
     render: function () {
     	var drop_down_a = { 'border-bottom':'0', 'padding-top':'0px', 'padding-bottom':'0px' };
         return (
@@ -765,8 +755,8 @@ var FromNameDropdown = React.createClass({
     var that = this;
     var itemNodes = this.state.data.items.map(function (item, i) {
       return <DropDownItem item={item} order={i} />
-    });    
-    
+    });
+
     return (
 			<div className="input-group-btn select" id="select1">
 				<button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span className="selected">Select a sender</span> <span className="caret"></span></button>

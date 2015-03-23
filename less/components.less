@@ -46,11 +46,11 @@
 	>.folder{
 		padding-left: 0px;
 		padding-top: 0px;
+		cursor:pointer;
 	}
 }
-
 .detail-box .well{
-  min-height:175px;
+  min-height:200px;
 }
 
 .counts {
@@ -131,7 +131,7 @@
 	margin-right: 30px;
 }
 
-#subscriber-overview {
+.subscriber-overview {
   position:relative;
 }
 
@@ -315,7 +315,7 @@
 }
 
 .disabledColor {
-	color : #D3D3D3;    
+	color : #D3D3D3;
 }
 
 .zero-padding {
@@ -336,4 +336,31 @@
 
 .hidden {
 	visibility: hidden;
+}
+
+.titlebar{
+	&.navbar {
+		min-height:0;
+	}
+	margin: -19px -19px 19px -19px;
+	padding: 10px;
+	&> h4{
+		margin:0;
+		padding:0;
+		color:white;
+		font-weight: bold;
+	}
+}
+
+.pageTitle {
+	& h2 {
+		margin:0;
+		padding: 0;
+		line-height: 30px;
+	}
+	padding: 20px inherit;
+}
+
+.modal-title {
+  color: #fff !important;
 }

@@ -2,7 +2,7 @@ var React = require('react'),
     Router = require('react-router'),
     ReactBootstrap = require('react-bootstrap'),
     ReactTagsInput = require('react-tagsinput')
-    
+
 
 jQuery("html").on("click.selectableDivs", ".selectableDivs", function(){
     console.log(jQuery(this));
@@ -21,7 +21,8 @@ var Modal = ReactBootstrap.Modal;
 var SearchBar = require('../Shared/Shared').SearchBar;
 var FolderTree = require('../Shared/FolderTree');
 var FilterByType_ = require('../Shared/FilterByType').ItemList;
-var ItemList =  require('../Shared/Shared').ItemList
+var ItemList =  require('../Shared/Shared').ItemList;
+var Container =  require('../Shared/Container');
 
 var folders = [
     {
@@ -65,17 +66,18 @@ var ContentAdmin = React.createClass({
   	var that = this;
     return (
 	<div>
-		<div className="col-md-6">
-		  <h2>Content Administration</h2>
-		</div>
-    <div className="col-md-6 text-right">
-    <Link to="distributed-sending" className="btn btn-default">
-      <span className="glyphicon glyphicon-arrow-left" />
-      &nbsp;Back to Overview
-    </Link>
+    <div className="row pageTitle">
+  		<div className="col-md-6">
+  		  <h2>Content Administration</h2>
+  		</div>
+      <div className="col-md-6 text-right">
+      <Link to="distributed-sending" className="btn btn-default">
+        <span className="glyphicon glyphicon-arrow-left" />
+        &nbsp;Back to Overview
+      </Link>
+      </div>
     </div>
 		<div className="row">
-    <div className="col-md-12">
       <div className="col-md-4">
         <div>
           <ContentCategories />
@@ -87,7 +89,6 @@ var ContentAdmin = React.createClass({
       <div className="col-md-8">
         <EmailSelect types={types}/>
       </div>
-    </div>
 		</div>
 	</div>
     );
@@ -98,15 +99,10 @@ var ContentAdmin = React.createClass({
 var ContentCategories = React.createClass({
   render: function() {
     return (
-    <div>
-    	<h4>Content Categories</h4>
-    	<div className="searchbar">
-      		<SearchBar />
-    	</div>
-    	<div className="well">
+    <Container title="Content Categories">
+      		<SearchBar /><br /><br />
         	<FolderTree folders={folders} />
-    	</div>
-    </div>
+    </Container>
     );
   }
 
@@ -115,12 +111,9 @@ var ContentCategories = React.createClass({
 var FilterByType = React.createClass({
   render: function() {
     return (
-    <div>
-      <h4>Filter By Type</h4>
-      <div className="well">
+    <Container title="Filter By Type">
       	<FilterByType_ data={filterData} onChange={this.props.onChange} />
-      </div>
-    </div>
+    </Container>
     );
   }
 
@@ -179,7 +172,7 @@ var MyModal = React.createClass({
         <Modal {...this.props} bsStyle="primary" title="Set Selected Content Properties" animation={false}>
 
 	  <div className="col-md-12 ">
-             
+
 	     <div id="selectedEmails" className="col-md-4 well listBoxNoChecks">
 	        <label htmlFor="selectedEmails">Selected Emails</label>
 		<ItemList items={selectedEmails} />
@@ -203,10 +196,9 @@ var EmailSelect = React.createClass({
   render: function() {
     return (
     <div>
-    	<h4>Retirement</h4>
-    	<div className="well">
-			<RetirementThumbs types={this.props.types}/>
-    	</div>
+      <Container title="Retirement">
+			     <RetirementThumbs types={this.props.types}/>
+    	</Container>
 	<ModalTrigger modal={<MyModal />}>
 	  <button className="btn btn-default" type="button">Select</button>
 	</ModalTrigger>

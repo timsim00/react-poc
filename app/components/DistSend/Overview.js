@@ -13,6 +13,7 @@ var LastModifiedDetails = Shared.LastModifiedDetails;
 var ListCount = Shared.ListCount;
 var SubscriberCount = Shared.SubscriberCount;
 var GridView = require('../Shared/GridView');
+var Container =  require('../Shared/Container');
 
 //data
 var data = require('../../data');
@@ -41,7 +42,7 @@ var Overview = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="row">
+        <div className="row pageTitle">
           <div className="col-md-6"><h2>Overview</h2></div>
           <div className="col-md-6 text-right">
             <Link to="content-admin" className="btn btn-default">
@@ -78,9 +79,7 @@ var Overview = React.createClass({
 var MostRecentSend = React.createClass({
   render: function() {
     return (
-    <div>
-    <h4>Most Recent Send</h4>
-      <div className="well">
+    <Container title="Most Recent Send">
         <div className="col-md-3">
           <EmailPreview/>
         </div>
@@ -89,8 +88,7 @@ var MostRecentSend = React.createClass({
           <TrackingDetails/>
         </div>
         <div className="clearfix"></div>
-      </div>
-    </div>
+    </Container>
     );
   }
 });
@@ -99,9 +97,7 @@ var MostRecentSend = React.createClass({
 var MostRecentModify = React.createClass({
   render: function() {
     return (
-    <div>
-    <h4>Most Recent Modified Email</h4>
-      <div className="well">
+    <Container title="Recent Modified Email">
         <div className="col-md-3">
           <EmailPreview/>
         </div>
@@ -110,8 +106,7 @@ var MostRecentModify = React.createClass({
           <LastModifiedDetails data={recentModifiedData.dates}/>
         </div>
         <div className="clearfix"></div>
-      </div>
-    </div>
+    </Container>
     );
   }
 });
@@ -119,9 +114,7 @@ var MostRecentModify = React.createClass({
 var SubscriberOverview = React.createClass({
   render: function() {
     return (
-    <div>
-    <h4>Subscribers</h4>
-    <div className="well" id="subscriber-overview">
+    <Container title="Subscribers" class="subscriber-overview">
       <div className="col-md-6">
         <ListCount/>
       </div>
@@ -134,14 +127,13 @@ var SubscriberOverview = React.createClass({
         	 <button className="btn btn-sm btn-primary btn-xs">Manage Subscribers</button>&nbsp;
         	  <div className="btn-group">
         	  	  <button className="btn btn-sm btn-primary btn-xs">Add Subscribers</button>
-  			  <button type="button" className="btn btn-xs btn-primary dropdown-toggle" aria-expanded="false">
-  				<span className="caret"></span>
-  			  </button>
-  		  </div>
+  			        <button type="button" className="btn btn-xs btn-primary dropdown-toggle" aria-expanded="false">
+  				            <span className="caret"></span>
+  			        </button>
+  		      </div>
         </div>
       </div>
-    </div>
-    </div>
+    </Container>
     );
   }
 });
