@@ -36,7 +36,7 @@ var EditListModal = React.createClass({
 			return i;
 		});
 		return (
-			<Modal {...this.props} onRequestHide={this.onHide} bsStyle="primary">
+			<Modal {...this.props} onRequestHide={this.onHide} bsStyle="default">
 				<div className="modal-body">
 					<ItemList items={items} onChange={this.onSelectionChange} />
 				</div>
@@ -79,7 +79,7 @@ var EditableList = React.createClass({
 			<div className="row">
 				<div className="pull-right">{this.state.a}
 					<ModalTrigger modal={<EditListModal source={source} selected={selected} onClose={this.handleHide} />}>
-      					<Button bsStyle="primary">Edit</Button>
+      					<Button bsStyle="default">Edit</Button>
     				</ModalTrigger>
 				</div>
 			</div>

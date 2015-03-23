@@ -10,42 +10,15 @@ var SearchButton = React.createClass({
         </div>)
     }
 });
-
-var subscriptions = [
-    {
-        title: "Market Insights - Monthly",
-        content: "Monthly publication to share MS view on Market Conditions"
-    },
-    {
-        title: "Global Investment Committee Weekly",
-        content: "Weekly publication from the MS Investment Committee on GlobalMarkets"
-    },
-    {
-        title: "Retirement Planning Today - Monthly",
-        content: "Retirement updates on a Monthly and Semi-Monthy Basis"
-    },
-    {
-        title: "World Point of View - Weekly",
-        content: "MS View of the World-wide Markets"
-    },
-    {
-        title: "Investor Advisors Daily - Daily",
-        content: "Daily updates from the MS Advisor Team on Investment Conditions"
-    },
-    {
-        title: "On the Market",
-        content: "Daily Advice and Predictions on the Market for the day"
-    }
-];
-
-var lists = [
-	{id: "all", title: "ALL MY CLIENTS"},
-	{id: "cf", title: "College Friends"},
-	{id: "ic", title: "International Clients"},
-	{id: "ciir", title: "Clients Interested in Retirement"},
-	{id: "ccm", title: "Country Club members"},
-	{id: "mtc", title: "Matt's Top Clients"}
-];
+var lists = require("../../data/lists");
+// var lists = [
+// 	{id: "all", title: "ALL MY CLIENTS"},
+// 	{id: "cf", title: "College Friends"},
+// 	{id: "ic", title: "International Clients"},
+// 	{id: "ciir", title: "Clients Interested in Retirement"},
+// 	{id: "ccm", title: "Country Club members"},
+// 	{id: "mtc", title: "Matt's Top Clients"}
+// ];
 
 
 var members = [
@@ -139,7 +112,7 @@ var ListSubs = React.createClass({
   		selectedName = this.state.editedName;
   	}
   	
-  	var groupOperationClasses = "btn btn-primary";
+  	var groupOperationClasses = "btn btn-default";
   	var groupAttr = "";
   	if(this.state.selectedList && this.state.selectedList.id === "all"){
   		groupOperationClasses += "disabled";
@@ -164,7 +137,7 @@ var ListSubs = React.createClass({
         			</div>
 					<div className="row group-btns">
 						<div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.deleteGroup}>Delete Group </button></div>
-						<div className="col-md-6"><button className="btn btn-primary">Manage Group </button></div>
+						<div className="col-md-6"><button className="btn btn-default">Manage Group </button></div>
 					</div>
 					<div className="row group-btns">
 						<div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.renameGroup}>Rename Group </button></div>
