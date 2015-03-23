@@ -492,6 +492,12 @@ var StepSelectAudience = React.createClass({
   	var listspanstyle = { float:'left', padding:'7px' };
   	var searchstyle = { 'margin-left':'-15px' };
   	var subNamesStyle = { 'padding-right':'10px' };
+  	var subscriberListStyle = {	
+  		'-webkit-transition': 'all 0.5s ease;',
+		'-moz-transition': 'all 0.5s ease;',
+		'-o-transition': 'all 0.5s ease;',
+		'transition': 'all 0.5s ease;'
+	}
     return (
 	<div  role="tabpanel" className="tab-pane active">
 		<div className="row">
@@ -512,12 +518,12 @@ var StepSelectAudience = React.createClass({
 						</div>
 					</div>
 					<div className="row zero-padding">
-						<div className="col-md-6" style={subNamesStyle}>
+						<div id="SubscriberListContainer" className="col-md-6" style={subNamesStyle}>
 							<div className="well">
-								<ItemList items={subnames} header={subNameHeaders}/>
+								<SubscriberListContainer />								
 							</div>
 						</div>
-						<div className="col-md-6">
+						<div id="SubscriberContainer" className="col-md-6" style={ subscriberListStyle }>
 							<div className="well">
 								<ItemList items={subscribers} />
 							</div>
@@ -548,6 +554,47 @@ var subnames = [
 ];
 
 var subNameHeaders= ["Name", "#Clients"];
+
+/*** SUBSCRIBER LIST CONTAINER ***/
+
+var SubscriberListContainer = React.createClass({
+	subscriptions: {},
+	handleFolderSelected: function(msg, data) {
+		console.log('folder:',data, 'visible:',this.state.isVisible);
+		if (data == 'All Clients' && this.state.isVisible) {
+			//hide SubscriberListContainer
+			$('#SubscriberListContainer').addClass('hide');
+			$('#SubscriberContainer').removeClass('col-md-6').addClass('col-md-12');
+			this.state.isVisible = false;
+		} else if (data != 'All Clients' && !this.state.isVisible) {
+			//show SubscriberListContainer			
+			$('#SubscriberContainer').removeClass('col-md-12').addClass('col-md-6');
+			setTimeout(function() {
+				$('#SubscriberListContainer').removeClass('hide');
+			}, 500);	
+			this.state.isVisible = true;
+		}
+		this.setState({FolderName: data});
+	},
+	componentDidMount: function() {
+		//subscribe to next disable state event
+		var token = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
+		this.subscriptions['Folder-Selected'] = token;
+	},
+	componentWillUnmount: function() {
+		//un-subscribe to next disable state event
+		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
+	},	
+    getInitialState: function(){
+		return { FolderName: 'Lists', isVisible: true };
+    },	
+    render: function() {
+		return (
+		<ItemList items={subnames} header={subNameHeaders}/>
+		);
+    }
+});
+
 
 /*** SUBSCRIBER LIST ***/
 
