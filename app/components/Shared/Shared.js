@@ -34,7 +34,7 @@ var Item = React.createClass({
 		}
 
     	classes = this.getColumnClasses();
-    	var columns = (this.props.columns||0)
+    	var columns = (this.props.columns||0);
     	while(data.length < columns){
     		data.push("");
     	}
@@ -49,7 +49,7 @@ var Item = React.createClass({
     	var lblClasses = [classes, disabledClasses].join(" ");
     	
       return (
-			  <div className="row checkbox">
+			  <div key={this.props.item.id} className="row checkbox">
 				<div className={lblClasses}>
 					<label>
 						<input type="checkbox" checked={checked} disabled={disabledAttr} onChange={this.__changeSelection.bind(this, this.props.item)}/>
@@ -152,12 +152,15 @@ module.exports = {
         	}
         	return max;
         },0);
-
+		var rootClasses = "itemLst";
+		if(this.props.noCheck){
+			rootClasses +=" no-check";
+		}
         var itemNodes = this.props.items.map(function (item) {
           return <Item item={item} key={item.id} columns={columns} onChange={that.handleFilterChange} />
         });
         return (
-            <div className="itemLst">
+            <div className={rootClasses}>
             	<Header data={this.props.header} />
                 { itemNodes }
             </div>
