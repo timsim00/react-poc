@@ -1,4 +1,4 @@
-module.exports.clients = {
+module.exports = {
     [{
         "firstName": "Cairo",
         "lastName": "Nolan",

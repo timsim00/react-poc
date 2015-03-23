@@ -1,13 +1,4 @@
-module.exports.lists = [
-  {"id": 1, "name":"College Friends"},
-  {"id": 2, "name":"International Clients"},
-  {"id": 3, "name":"Clients Interested in Retirement"},
-  {"id": 4, "name":"Country Club members"},
-  {"id": 5, "name":"Matt's Top Clients"}
-];
-
-
-module.exports.publications = [
+module.exports = [
   {"id": 1, "name":"Market Insights - Monthly", "description": "Monthly publication to share MS view on Market Conditions" },
   {"id": 2, "name":"Global Investment Committee Weekly", "description":"Weekly publication from the MS Investment Committee on GlobalMarkets"},
   {"id": 3, "name":"Retirement Planning Today - Monthlyt", "description":"Retirement updates on a Monthly and Semi-Monthy Basis"},
