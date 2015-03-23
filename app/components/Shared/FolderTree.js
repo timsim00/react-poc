@@ -4,7 +4,7 @@ var React = require('react'),
 
 jQuery("html").on("click", ".folder-head", function(e){
     jQuery(this).toggleClass("collapsed").toggleClass("expanded");
-    PubSub.publish( 'Folder-Selected', e.target.innerHTML );	
+    PubSub.publish( 'Folder-Selected', e.target.innerHTML );
 });
 
 
@@ -39,7 +39,6 @@ var createFolder = function(data, index){
 
 var FolderTree = React.createClass({
   handleClick: function(e){
-      console.log(e);
   },
   render: function() {
     return (

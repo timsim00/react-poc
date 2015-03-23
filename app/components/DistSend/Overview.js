@@ -1,5 +1,6 @@
 var React = require('react'),
-    Router = require('react-router');
+    Router = require('react-router'),
+    moment = require('moment');
 
 var Link = Router.Link;
 
@@ -17,6 +18,8 @@ var Container =  require('../Shared/Container');
 
 //data
 var data = require('../../data');
+var lists = require('../../data/lists');
+var clients = require('../../data/clients');
 
 var EmailGridData = data.emailData;
 EmailGridData.pageData = {
@@ -39,6 +42,14 @@ var recentModifiedData = data.recentModifiedData;
 
 
 var Overview = React.createClass({
+  getInitialState: function() {
+    var sortedEmails = this.props.emails.sort(function(a,b){
+      return moment(b.modifiedDate).unix() - moment(a.modifiedDate).unix();
+    });
+    var result = {};
+    result.lastModified = sortedEmails[0];
+    return result;
+  },
   render: function() {
     return (
       <div>
@@ -57,10 +68,10 @@ var Overview = React.createClass({
         </div>
         <div className="row">
           <div className="col-md-4 detail-box">
-            <MostRecentSend/>
+            <MostRecentSend  />
           </div>
           <div className="col-md-4 detail-box">
-            <MostRecentModify/>
+            <MostRecentModify email={this.state.lastModified} />
           </div>
           <div className="col-md-4 detail-box">
             <SubscriberOverview/>
@@ -95,6 +106,10 @@ var MostRecentSend = React.createClass({
 
 
 var MostRecentModify = React.createClass({
+  getInitialState : function() {
+    console.log(this.props.email)
+    return {};
+  },
   render: function() {
     return (
     <Container title="Recent Modified Email">
@@ -102,8 +117,8 @@ var MostRecentModify = React.createClass({
           <EmailPreview/>
         </div>
         <div className="col-md-9">
-          <EmailDetails data={recentModifiedData}/>
-          <LastModifiedDetails data={recentModifiedData.dates}/>
+          <EmailDetails data={this.props.email} />
+          <LastModifiedDetails data={this.props.email} />
         </div>
         <div className="clearfix"></div>
     </Container>
@@ -116,10 +131,10 @@ var SubscriberOverview = React.createClass({
     return (
     <Container title="Subscribers" class="subscriber-overview">
       <div className="col-md-6">
-        <ListCount/>
+        <ListCount data={lists} />
       </div>
       <div className="col-md-6">
-        <SubscriberCount/>
+        <SubscriberCount data={clients} />
       </div>
       <div className="clearfix"></div>
       <div className="row" id="subscriber-buttons">

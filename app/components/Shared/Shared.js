@@ -1,4 +1,5 @@
-var React = require('react');
+var React = require('react'),
+		moment = require('moment');
 
 
 var Item = React.createClass({
@@ -41,13 +42,13 @@ var Item = React.createClass({
     	if(this.state.selected){
     		checked = "checked";
     	}
-    	
+
     	if(this.state.disabled){
     		disabledAttr = "disabled";
     		disabledClasses= "disabledColor";
     	}
     	var lblClasses = [classes, disabledClasses].join(" ");
-    	
+
       return (
 			  <div key={this.props.item.id} className="row checkbox">
 				<div className={lblClasses}>
@@ -146,7 +147,7 @@ module.exports = {
         	} else {
         		count = 0;
         	}
-        	
+
         	if(count > max){
         		max = count;
         	}
@@ -190,22 +191,32 @@ module.exports = {
       }),
 
       "ListCount" : React.createClass({
+				getInitialState: function() {
+					var lists = this.props.data;
+					var listCount = lists.length;
+					return {"count" : listCount };
+				},
         render: function() {
           return (
            <div className="counts text-center">
             <span className="title"><small>Lists</small></span>
-            <span className="count">8</span>
+            <span className="count">{this.state.count}</span>
           </div>
           );
         }
       }),
 
     "SubscriberCount" : React.createClass({
+			getInitialState: function() {
+				var clients = this.props.data;
+				var clientCount = clients.length;
+				return {"count" : clientCount };
+			},
       render: function() {
         return (
          <div className="counts text-center">
           <span className="title"><small>Subscribers</small></span>
-          <span className="count">180,718</span>
+          <span className="count">{this.state.count}</span>
         </div>
         );
       }
@@ -231,11 +242,11 @@ module.exports = {
          <div className="row modify-details">
               <div className="col-md-6">
               <h5>Created</h5>
-              <div>{this.props.data.created}</div>
+              <div>{moment(this.props.data.createDate).format("M/D/YY h:MM A")}</div>
               </div>
               <div className="col-md-6">
               <h5>Modified</h5>
-              <div>{this.props.data.modified}</div>
+              <div>{moment(this.props.data.modifiedDate).format("M/D/YY h:MM A")}</div>
               </div>
         </div>
         );

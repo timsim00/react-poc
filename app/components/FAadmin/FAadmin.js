@@ -21,7 +21,7 @@ var FAdetail = React.createClass({
         return e.type !== "Your Photo";
       }).map(function(item){
         return (
-          <div className="row">
+          <div className="row" key={item.type}>
             <div className="col-md-2 bold">{item.type}</div>
             <div className="col-md-8">{item.value}</div>
           </div>
@@ -74,8 +74,8 @@ var FAadmin = React.createClass({
             <h2>Update your Financial Advisor Information</h2>
           </div>
           <div className="col-md-6 text-right">
-            <button type="button" className="btn btn-primary">Edit</button>&nbsp;
-            <button type="button" className="btn btn-primary">Update</button>
+            <button type="button" className="btn btn-default">Edit</button>&nbsp;
+            <button type="button" className="btn btn-default">Update</button>
           </div>
         </div>
         <Container title="Your Details">

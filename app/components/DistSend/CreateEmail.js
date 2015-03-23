@@ -124,7 +124,6 @@ var Wizard = React.createClass({
     	}
 	},
 	handleTabClick: function(e) {
-		//console.log(this.state.btnNextDisabled);
 		$('#btnNext button').html('Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
 		$('#btnBack button').removeAttr('disabled');
 		switch ($(e.target)[0].hash) {
@@ -149,7 +148,6 @@ var Wizard = React.createClass({
 		}
 	},
 	handleLiClick: function(e) {
-		console.log('handleLiClick');
 		e.preventDefault();  //haven't yet found anything that works.
 		e.stopPropagation();
 	},
@@ -474,7 +472,7 @@ var StepSelectAudience = React.createClass({
   	var listspanstyle = { float:'left', padding:'7px' };
   	var searchstyle = { 'margin-left':'-15px' };
   	var subNamesStyle = { 'padding-right':'10px' };
-  	var subscriberListStyle = {	
+  	var subscriberListStyle = {
   		'-webkit-transition': 'all 0.5s ease;',
 		'-moz-transition': 'all 0.5s ease;',
 		'-o-transition': 'all 0.5s ease;',
@@ -499,7 +497,7 @@ var StepSelectAudience = React.createClass({
 					<div className="row zero-padding">
 						<div id="SubscriberListContainer" className="col-md-6" style={subNamesStyle}>
 							<div className="well">
-								<SubscriberListContainer />								
+								<SubscriberListContainer />
 							</div>
 						</div>
 						<div id="SubscriberContainer" className="col-md-6" style={ subscriberListStyle }>
@@ -539,18 +537,17 @@ var subNameHeaders= ["Name", "#Clients"];
 var SubscriberListContainer = React.createClass({
 	subscriptions: {},
 	handleFolderSelected: function(msg, data) {
-		console.log('folder:',data, 'visible:',this.state.isVisible);
 		if (data == 'All Clients' && this.state.isVisible) {
 			//hide SubscriberListContainer
 			$('#SubscriberListContainer').addClass('hide');
 			$('#SubscriberContainer').removeClass('col-md-6').addClass('col-md-12');
 			this.state.isVisible = false;
 		} else if (data != 'All Clients' && !this.state.isVisible) {
-			//show SubscriberListContainer			
+			//show SubscriberListContainer
 			$('#SubscriberContainer').removeClass('col-md-12').addClass('col-md-6');
 			setTimeout(function() {
 				$('#SubscriberListContainer').removeClass('hide');
-			}, 500);	
+			}, 500);
 			this.state.isVisible = true;
 		}
 		this.setState({FolderName: data});
@@ -563,10 +560,10 @@ var SubscriberListContainer = React.createClass({
 	componentWillUnmount: function() {
 		//un-subscribe to next disable state event
 		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
-	},	
+	},
     getInitialState: function(){
 		return { FolderName: 'Lists', isVisible: true };
-    },	
+    },
     render: function() {
 		return (
 		<ItemList items={subnames} header={subNameHeaders}/>
