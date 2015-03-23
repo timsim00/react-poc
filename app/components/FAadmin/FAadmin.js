@@ -32,7 +32,6 @@ var FAdetail = React.createClass({
   }
 });
 
-
 var FAphoto = React.createClass({
   render: function() {
       return (
