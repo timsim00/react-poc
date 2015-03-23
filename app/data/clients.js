@@ -1,5 +1,4 @@
-module.exports = {
-    [{
+module.exports = [{
         "firstName": "Cairo",
         "lastName": "Nolan",
         "emailAddress": "Donec.nibh@fermentummetusAenean.ca",
@@ -599,5 +598,4 @@ module.exports = {
         "emailAddress": "volutpat@risusNuncac.net",
         "lists": [2, 8],
         "publications": [4]
-    }]
-};
+    }];

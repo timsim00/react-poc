@@ -5,9 +5,7 @@ var React = require('react'),
 
 
 jQuery("html").on("click.selectableDivs", ".selectableDivs", function(){
-    console.log(jQuery(this));
     jQuery(this).toggleClass("active");
-    console.log(jQuery(this));
 });
 
 

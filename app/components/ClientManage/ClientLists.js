@@ -78,7 +78,6 @@ var subscriptions = [
 
 var ClientLists = React.createClass({
   onSelectedListsChange: function(lists){
-  	console.log(lists);
   },
   render: function() {
     return (
