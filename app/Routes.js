@@ -11,7 +11,8 @@ var App = require('./App'),
     ClientManagement = require('./components/ClientManage/ClientManagement'),
     ClientLookup = require('./components/ClientManage/ClientLookup'),
     ClientLists = require('./components/ClientManage/ClientLists'),
-    ListSubs = require('./components/ClientManage/ListSubs'),
+    ListManagement = require('./components/ClientManage/ListManagement'),
+    SubscriptionManagement = require('./components/ClientManage/SubscriptionManagement'),
     FAadmin = require('./components/FAadmin/FAadmin');
 
 
@@ -24,7 +25,8 @@ var routes = (
     <Route name="client-management" handler={ClientManagement}>
       <DefaultRoute name="lookup" handler={ClientLookup}/>
       <Route name="manage" handler={ClientLists}/>
-      <Route name="lists-subscriptions" handler={ListSubs}/>
+      <Route name="lists" handler={ListManagement}/>
+      <Route name="subscriptions" handler={SubscriptionManagement}/>
     </Route>
 
     <Route name="fa-administration" handler={FAadmin}/>
