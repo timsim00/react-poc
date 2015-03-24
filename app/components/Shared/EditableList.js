@@ -67,6 +67,14 @@ var EditableList = React.createClass({
 			this.saveItems(items);
 		}
 	},
+	componentWillReceiveProps: function(nextProps){
+		var newState = {};
+		if(this.props.source === nextProps.source){
+			newState.source = nextProps.source;
+		}
+		newState.selected = nextProps.selected;
+		this.setState(newState);
+	},
 	render: function(){
 		var source = this.props.source; //probably fine as props -- shouldn't change
 		var selected = this.state.selected; //might need to be based on state
@@ -82,7 +90,12 @@ var EditableList = React.createClass({
     					<Button bsStyle="default">Edit</Button>
   				</ModalTrigger>
 			</div>
-			<ItemList items={selectedItems} noCheck={true}/>
+			<div className="clearfix" />
+			<div>
+				{selectedItems.map(function(i){
+					return <div className="row"><div className="col-md-6">{i.name}</div><div className="col-md-6">{i.email}</div></div>
+				})}
+			</div>
 		</div>
 		);
 	}

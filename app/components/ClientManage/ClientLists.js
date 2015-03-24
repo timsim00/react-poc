@@ -65,8 +65,10 @@ var ClientLists = React.createClass({
 		userValues.publications = this.state.selectedUser.publications || [];
 	}
 	console.log(userValues.lists);
+	var listCopy = lists.map(function(l){
+		return {id: l.id, name: l.name, selected: (userValues.lists.indexOf(l.id) !== -1)};
+	});
     return (
-      <div>
         <div className="row">
           <div className="col-md-6">
 			<Container title="My Clients" class="clientManagePanel">
@@ -101,21 +103,19 @@ var ClientLists = React.createClass({
 					</div>
 				</div>
             </Container>
-            <!-- Email -->
-				<Container title="Lists">
-					<ItemList items={lists} onChange={this.onSelectedListsChange}/>
-				</Container>
-				<Container title="Subscriptions">
-					<CheckListPlus data={subscriptions} selected={userValues.publications} onChange={this.onSelectedPublicationsChange}/>
-				</Container>
-				<div className="row">
-					<div className="col-md-12 text-center">
-						<button className="btn btn-primary">Save</button>
-					</div>
+			<Container title="Lists">
+				<ItemList items={listCopy} onChange={this.onSelectedListsChange}/>
+			</Container>
+			<Container title="Subscriptions">
+				<CheckListPlus data={subscriptions} selected={userValues.publications} onChange={this.onSelectedPublicationsChange}/>
+			</Container>
+			<div className="row">
+				<div className="col-md-12 text-center">
+					<button className="btn btn-primary">Save</button>
 				</div>
 			</div>
-        </div>
-      </div>
+		</div>
+    </div>
     );
   }
 

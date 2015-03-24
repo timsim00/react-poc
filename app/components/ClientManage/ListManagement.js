@@ -13,33 +13,11 @@ var SearchButton = React.createClass({
         </div>)
     }
 });
+
 var lists = require("../../data/lists");
 var clients = require("../../data/clients");
 
-// var members = [
-//   { id:1, title: "John Smith", email: "jsmith@gmail.com" },
-//   { id:2, title: "Sue James", email: "sjames@gmail.com" },
-//   { id:3, title: "Joe Jones", email: "jjones@gmail.com" },
-//   { id:4, title: "Fiona Chapman", email: "fchapman@gmail.com" },
-//   { id:5, title: "Lilly Kennedy", email: "lkennedy@gmail.com" },
-//   { id:6, title: "Bradford Hill", email: "bhill@gmail.com" },
-//   { id:7, title: "Erika Saarland", email: "esaarland@gmail.com" },
-//   { id:8, title: "Peter Paulson", email: "ppaulson@gmail.com" },
-//   { id:9, title: "Thomas Neal", email: "tneal@gmail.com" },
-//   { id:10, title: "Jim Barber", email: "jbarber@gmail.com" },
-//   { id:11, title: "Tina Smothers", email: "tsmothers@gmail.com" },
-//   { id:12, title: "Billy June", email: "bjune@gmail.com" },
-//   { id:13, title: "John Jacobs", email: "jjacobs@gmail.com" },
-//   { id:14, title: "Joe Cobbs", email: "jcobbs@gmail.com" },
-//   { id:15, title: "Dexter Dodgers", email: "ddodgers@gmail.com" },
-//   { id:16, title: "Parker Peeps", email: "ppeeps@gmail.com" },
-//   { id:17, title: "Valerie Watts", email: "vwatts@gmail.com" },
-//   { id:18, title: "Vann Johnson", email: "vjohnson@gmail.com" },
-//   { id:19, title: "Chris Michaels", email: "cmichaels@gmail.com" },
-//   { id:20, title: "Brittany Johns", email: "bjohns@gmail.com" },
-//   { id:21, title: "Jeff Woods", email: "jwoods@gmail.com" },
-//   { id:22, title: "Kevin Woodard", email: "kwoodard@gmail.com" }
-// ];
+
 var members = clients.map(function(m){
 	return {id: m.id, name: [m.firstName, m.lastName].join(" "), email: m.emailAddress};
 });
@@ -79,7 +57,7 @@ var ListSubs = React.createClass({
   },
   getInitialState: function(){
   	var state = {};
-  	state.selectedList = lists[0];
+  	state.selectedList = null;
   	state.lists = lists;
   	return state;
   },
@@ -101,14 +79,14 @@ var ListSubs = React.createClass({
   		selectedName = "";
   	}
 
-  	//TODO generate from central data store.
-  	var selected = clients.filter(function(m){
-  		return self.state.selectedList == null || m.lists.indexOf(self.state.selectedList.id) !== -1;
-  	}).map(function(m){
-  		return m.id;
-  	});  	
-  	
-  	console.log(selected);
+  	var selected = []; 
+  	if(self.state.selectedList){
+		selected = clients.filter(function(m){
+			return m.lists.indexOf(self.state.selectedList.id) !== -1;
+		}).map(function(m){
+			return m.id;
+		});  	
+  	}
   	
     return (
         <div>
@@ -135,7 +113,7 @@ var ListSubs = React.createClass({
         		</div>
         		<div className="col-md-6">
               	<Container title="List Memebers">
-		        		<EditableList source={members} selected={selected} />
+		        	<EditableList source={members} selected={selected} />
         		</Container>
         	</div>
         </div>
