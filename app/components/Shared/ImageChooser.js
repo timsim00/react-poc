@@ -11,7 +11,7 @@ jQuery(document).ready( function() {
     jQuery('.btn-file :file').on('fileselect', function(event, numFiles, label) {
         jQuery("#fileName").text(label);
     });
-    
+
     jQuery("#chooseFiles").on("change", function(){
     	if(chooseFiles.files.length > 0){
 			jQuery("#image-preview-placeholder").hide();
@@ -22,12 +22,12 @@ jQuery(document).ready( function() {
         	var image = jQuery("<img />");
         	image.attr("id", "img_"+index);
         	jQuery("#imagePreviews").append(image);
-        	
+
         	oFReader.addEventListener("load", function (evt) {
                  image.attr("src", evt.target.result);
                  this.removeEventListener("load");
              }, false);
- 
+
              oFReader.readAsDataURL(file);
         });
     });
@@ -36,13 +36,13 @@ jQuery(document).ready( function() {
 var ImageChooser = module.exports.ImageChooser = React.createClass({
     render: function() {
        return(
-           <div id="imagesDiv" className="rounded form-group">
+        <div id="imagesDiv" className="rounded form-group">
                 <span className="btn btn-primary btn-file col-md-3">
 					Browse <input type="file" id="chooseFiles" multiple="multiple" accept="image/*" />
 				</span>
 				<span id="fileName" className="col-md-6"></span>
-            </div>
-       ); 
+        </div>
+       );
     }
 });
 
@@ -51,8 +51,8 @@ var ImagePreview = module.exports.ImagePreview = React.createClass({
 	render: function(){
 		return (
 			<div id="imagePreviews" className="image-preview">
-                <img id="image-preview-placeholder" className="image-preview-holder" data-src="holder.js/80x80" />
-            </div>
+        <img id="image-preview-placeholder" className="image-preview-holder" src={'./images/' + this.props.imageUrl} />
+      </div>
 		);
 	}
 })

@@ -51,11 +51,11 @@ var FAphoto = React.createClass({
             </div>
           </div>
           </div>
-        </div>
+        </div><br/>
         <div className="row">
           <div className="col-md-8 col-md-offset-2">
             <div className="col-md-2">
-              <ImagePreview />
+              <ImagePreview imageUrl={this.props.imageUrl}/>
             </div>
             <div className="col-md-3 small">This photograph will show up on newsletters and personalized communications sent via email.</div>
           </div>
@@ -74,13 +74,12 @@ var FAadmin = React.createClass({
             <h2>Update your Financial Advisor Information</h2>
           </div>
           <div className="col-md-6 text-right">
-            <button type="button" className="btn btn-default">Edit</button>&nbsp;
-            <button type="button" className="btn btn-default">Update</button>
+            <button type="button" className="btn btn-default">Edit</button>
           </div>
         </div>
         <Container title="Your Details">
-          <FAdetail data={data} />
-          <FAphoto />
+          <FAdetail data={data.data} />
+          <FAphoto imageUrl={data.imageUrl}/>
         </Container>
       </div>
     );
