@@ -511,12 +511,12 @@ var subNameHeaders= ["Name", "#Clients"];
 var SubscriberListContainer = React.createClass({
 	subscriptions: {},
 	handleFolderSelected: function(msg, data) {
-		if (data == 'All Clients' && this.state.isVisible) {
+		if (data.name == 'All Clients' && this.state.isVisible) {
 			//hide SubscriberListContainer
 			$('#SubscriberListContainer').addClass('hide');
 			$('#SubscriberContainer').removeClass('col-md-6').addClass('col-md-12');
 			this.state.isVisible = false;
-		} else if (data != 'All Clients' && !this.state.isVisible) {
+		} else if (data.name != 'All Clients' && !this.state.isVisible) {
 			//show SubscriberListContainer
 			$('#SubscriberContainer').removeClass('col-md-12').addClass('col-md-6');
 			setTimeout(function() {
