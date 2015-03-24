@@ -101,11 +101,15 @@ var SearchButton = React.createClass({
 
 module.exports = {
   "SearchBar" : React.createClass({
+  	 onChange: function(){
+  	 	if(this.props.onChange){
+  	 		this.props.onChange(this.refs.search.getDOMNode().value);
+  	 	}
+  	 }, 
      render: function() {
        return (
-        <div className="input-group input-group-sm">
-         <input type="text" className="form-control" placeholder="Search" />
-         <span className="input-group-addon" id="sizing-addon1">Search</span>
+        <div>
+         <input type="text" ref="search" className="form-control" placeholder="Search" onChange={this.onChange}/>
        </div>
        );
      }

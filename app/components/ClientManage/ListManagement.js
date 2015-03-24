@@ -2,6 +2,7 @@ var React = require('react');
 var Shared = require('../Shared/Shared');
 var ItemList = Shared.ItemList;
 var EditableList = require("../Shared/EditableList");
+var CheckListPlus = Shared.CheckListPlus;
 
 var SearchButton = React.createClass({
     render: function(){
@@ -11,15 +12,6 @@ var SearchButton = React.createClass({
     }
 });
 var lists = require("../../data/lists");
-// var lists = [
-// 	{id: "all", title: "ALL MY CLIENTS"},
-// 	{id: "cf", title: "College Friends"},
-// 	{id: "ic", title: "International Clients"},
-// 	{id: "ciir", title: "Clients Interested in Retirement"},
-// 	{id: "ccm", title: "Country Club members"},
-// 	{id: "mtc", title: "Matt's Top Clients"}
-// ];
-
 
 var members = [
   { id:1, title: "John Smith", email: "jsmith@gmail.com" },
@@ -45,30 +37,6 @@ var members = [
   { id:21, title: "Jeff Woods", email: "jwoods@gmail.com" },
   { id:22, title: "Kevin Woodard", email: "kwoodard@gmail.com" }
 ];
-
-var ChecklistPlus = React.createClass({
-  render: function() {
-    return (
-        <div className="checkLst well">
-          {this.props.data.map(function(datum, index){
-              var chkbxId = "chk_"+index;
-              return (<div className="form-group" key={index}>
-                  <label>
-                  <input id={chkbxId} type="checkbox" />
-                      <div className="item">
-                          <div>{datum.title}</div>
-                          <div className="itemInner">{datum.content}</div>
-                      </div>
-                      <div className="actions">
-                          <SearchButton />
-                      </div>
-                  </label>
-              </div>);
-          })}
-    </div>
-    );
-  }
-});
 
 
 var ListSubs = React.createClass({
@@ -127,10 +95,10 @@ var ListSubs = React.createClass({
         
         <div>
 	        <h2>List Management</h2>
-        	<div className="listsSubsMainContent container">
+        	<div className="listsSubsMainContent">
         		<div className="col col-md-6">
         			<div className="row">
-        				<h3>Manage My Lists</h3>
+        				<h3>Manage Lists</h3>
         				<div className="manage-lists well">
         					<ItemList items={this.state.lists} onChange={this.onSelectedListsChange}/>
         				</div>

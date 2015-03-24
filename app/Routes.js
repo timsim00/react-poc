@@ -9,7 +9,6 @@ var App = require('./App'),
     CreateEmail = require('./components/DistSend/CreateEmail'),
     ContentAdmin = require('./components/DistSend/ContentAdmin'),
     ClientManagement = require('./components/ClientManage/ClientManagement'),
-    ClientLookup = require('./components/ClientManage/ClientLookup'),
     ClientLists = require('./components/ClientManage/ClientLists'),
     ListManagement = require('./components/ClientManage/ListManagement'),
     SubscriptionManagement = require('./components/ClientManage/SubscriptionManagement'),
@@ -23,8 +22,7 @@ var routes = (
     <Route name="content-admin" path="distributed-sending/content-admin" handler={ContentAdmin}/>
 
     <Route name="client-management" handler={ClientManagement}>
-      <DefaultRoute name="lookup" handler={ClientLookup}/>
-      <Route name="manage" handler={ClientLists}/>
+      <DefaultRoute name="manage" handler={ClientLists}/>
       <Route name="lists" handler={ListManagement}/>
       <Route name="subscriptions" handler={SubscriptionManagement}/>
     </Route>
