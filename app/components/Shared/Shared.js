@@ -1,5 +1,6 @@
 var React = require('react'),
-		moment = require('moment');
+	moment = require('moment'),
+    PubSub = require('pubsub-js');
 
 
 var createLookup = function(list){
@@ -12,11 +13,13 @@ var createLookup = function(list){
 var Item = React.createClass({
 	__changeSelection: function(item) {
 		var newValue = !this.state.selected;
+		item.prevSelected = item.selected;
         this.setState({selected: newValue});
-        item.selected = this.state.selected;
+        item.selected = newValue; //this.state.selected;
         if(this.props.onChange){
         	this.props.onChange(item.id, newValue);
         }
+    	PubSub.publish( 'Item-Check-Change-'+this.props.listid, {item: item} );        
     },
     getInitialState: function(){
     	var state = {};
@@ -56,12 +59,11 @@ var Item = React.createClass({
     	}
     	var lblClasses = [classes, disabledClasses].join(" ");
     	var text = this.props.item.title || this.props.item.name;
-
       return (
 			  <div key={this.props.item.id} className="row checkbox">
 				<div className={lblClasses}>
 					<label>
-						<input type="checkbox" key={this.props.item.id} checked={checked} disabled={disabledAttr} onChange={this.__changeSelection.bind(this, this.props.item)}/>
+						<input type="checkbox" key={this.props.item.id} listid={this.props.listid} checked={checked} disabled={disabledAttr} onChange={this.__changeSelection.bind(this, this.props.item)}/>
 						{ text }
 					</label>
 				</div>
@@ -134,6 +136,15 @@ module.exports = {
 	  handleFilterChange: function(key, newValue){
 		var selected = this.state.selected;
 		selected[key] = newValue;
+		if(this.props.single && newValue){
+			selected = {};
+			selected[key] = true;
+			this.props.items.forEach(function(item){
+				item.selected = (item.id === key);
+			});
+			this.setState({selected: selected});
+		}
+		
 		if(this.props.onChange){
 			var selectedItems = this.props.items.filter(function(i){return selected[i.id];});
 			this.props.onChange(selectedItems);
@@ -153,7 +164,7 @@ module.exports = {
         }).forEach(function(i){
         	selected[i.id] = true;
         });
-        return {items:itemList, selected: selected};
+        return {items:itemList, selected: selected, listid:this.props.listid};
       },
       render: function(){
         var that = this;
@@ -178,7 +189,7 @@ module.exports = {
 			rootClasses +=" no-check";
 		}
         var itemNodes = this.props.items.map(function (item) {
-          return <Item item={item} key={item.id} columns={columns} onChange={that.handleFilterChange} />
+          return <Item item={item} listid={that.props.listid} key={item.id} columns={columns} onChange={that.handleFilterChange} />
         });
         return (
             <div className={rootClasses}>
@@ -288,9 +299,13 @@ module.exports = {
 				this.props.onChange(selected);
 			}
       },
+      componentWillReceiveProps: function(nextProps){
+	    this.setState({selected : createLookup(nextProps.selected || [])});
+      },
 	  render: function() {
 	  	var selectedLookup = this.state.selected;
 	  	var self = this;
+	  	
 		return (
 			<div className="checkLst">
 			  {this.props.data.map(function(datum, index){
@@ -315,5 +330,50 @@ module.exports = {
 		</div>
 		);
 	}
-})
+}),
+	"RadioList": React.createClass({
+		getInitialState: function(){
+			var state = {};
+			state.selected = this.props.selected;
+			return state;
+		},
+		componentWillReceiveProps: function(newProps){
+			var newState = {};
+			newState.selected = newProps.selected;
+			this.setState(newState);
+		},
+		onChange: function(id){
+			var selected = this.state.selected;
+			if(this.refs[id].getDOMNode().checked){
+				selected = id;
+			} else {
+				selected = null;
+			}
+			this.setState({selected: selected});
+			if(this.props.onSelectionChange){
+				this.props.onSelectionChange(selected);
+			}
+		},
+		render: function(){
+			var items = this.props.source || [];
+			var self = this;
+			var currentSelect = this.state.selected;
+			//TODO consider adding radio button name to group radio buttons correctly
+			return (<div>	
+						{items.map(function(i){
+							var checked = "";
+							if(currentSelect === i.id){
+								checked = "checked";
+							}
+							
+							var content = i.content || (<div className="col-md-11">{i.name} </div>)
+							
+							return (<div className="row" key={i.id}>
+								<div className="col-md-1"><input type="radio" ref={i.id} checked={checked} onChange={self.onChange.bind(self,i.id)} /></div>
+								{content}
+							</div>)
+						})}
+					</div>)
+			}
+	})
 };
