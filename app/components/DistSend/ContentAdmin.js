@@ -1,7 +1,9 @@
 var React = require('react'),
     Router = require('react-router'),
     ReactBootstrap = require('react-bootstrap'),
-    ReactTagsInput = require('react-tagsinput')
+    ReactTagsInput = require('react-tagsinput'),
+    $ = require('jquery'),
+    PubSub = require('pubsub-js');
 
 
 jQuery("html").on("click.selectableDivs", ".selectableDivs", function(){
@@ -22,23 +24,9 @@ var FilterByType_ = require('../Shared/FilterByType').ItemList;
 var ItemList =  require('../Shared/Shared').ItemList;
 var Container =  require('../Shared/Container');
 
-var folders = [
-    {
-        name: "Shared Emails",
-        folders: [
-            {
-                name: "Newsletters",
-                folders: [
-                    {name: "Retirement"},
-                    {name: "Mortgage"}
-                 ]
-            },
-            {name: "Webinars"},
-            {name: "Whitepapers"},
-            {name: "Series 7 Approved"},
-    ]},
-    { name: "Shared Templates"}
-];
+//data
+var folders = require("../../data/folders");
+
 
 var filterData = {
     title: "Filter By Type"
@@ -93,18 +81,19 @@ var ContentAdmin = React.createClass({
   }
 });
 
+/****  Content Categories ****/
 
 var ContentCategories = React.createClass({
   render: function() {
     return (
     <Container title="Content Categories">
-      		<SearchBar /><br /><br />
-        	<FolderTree folders={folders} />
+      <FolderTree folders={folders} />
     </Container>
     );
   }
 
 });
+
 
 var FilterByType = React.createClass({
   render: function() {
@@ -190,39 +179,103 @@ var MyModal = React.createClass({
 });
 
 
+/****  Email Select ****/
+
 var EmailSelect = React.createClass({
-  render: function() {
-    return (
-    <div>
-      <Container title="Retirement">
-			     <RetirementThumbs types={this.props.types}/>
-    	</Container>
-	<ModalTrigger modal={<MyModal />}>
-	  <button className="btn btn-default" type="button">Select</button>
-	</ModalTrigger>
-    </div>
-    );
-  }
+	subscriptions: {},
+	handleFolderSelected: function(msg, data) {
+		this.setState({FolderName: data.name});
+	},
+	componentDidMount: function() {
+		//subscribe to next disable state event
+		var token = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
+		this.subscriptions['Folder-Selected'] = token;
+	},
+	componentWillUnmount: function() {
+		//un-subscribe to next disable state event
+		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
+	},
+    getInitialState: function(){
+		return { FolderName: "Retirement" };
+    },
+    render: function() {
+    	var searchStyle = {'padding-top':'10px;'};
+		return (
+		<Container title={ this.state.FolderName }>
+			<div className="row col-md-4 pull-right" style={searchStyle} >
+				<SearchBar />
+			</div>
+			<div className="clearfix"></div>
+			<EmailThumbs types={this.props.types}/>
+		</Container>
+		);
+    }
 });
 
-var thumbs = require("../../data").contentData;
-var RetirementThumbs = React.createClass({
+
+
+/****  Content Thumbnails ****/
+
+var thumbs = require("../../data/emails");
+var imgPath = '/images/';
+var EmailThumbs = React.createClass({
+	subscriptions: {},
+	getInitialState: function() {
+		return {
+			selectedId: null,
+			folder: 7
+		}
+	},
+	handleThumbClick: function(e) {
+		e.preventDefault();
+		var $ele = $(e.target);
+		if (!$ele.hasClass('selectableEmailDivs')) $ele = $ele.closest('.selectableEmailDivs');
+		var thisId = $ele.data('reactid');
+		var $check = $ele.find('.selected-indicator');
+
+		if (this.state.selectedId) {
+			var $prev = $('*[data-reactid="'+ this.state.selectedId +'"]');
+			$prev.removeClass('active');
+			$prev.find('.selected-indicator').addClass('hidden');
+		}
+		this.state.selectedId = thisId;
+		$ele.addClass('active');
+		$check.addClass('content-selected').removeClass('hidden');
+
+		PubSub.publish( 'Content-Selected', thisId );
+	},
+	handleFolderSelected: function(msg, data) {
+		this.setState({folder: data.id});
+	},
+	componentDidMount: function() {
+		//subscribe to next disable state event
+		var token = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
+		this.subscriptions['Folder-Selected'] = token;
+	},
+	componentWillUnmount: function() {
+		//un-subscribe to next disable state event
+		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
+	},
     render: function() {
+    	var that = this;
 	  	var types = this.props.types.map(function(t){return t.id});
+	  	//var selectedStyle = {visibility:"hidden"};
   		var thumbList = thumbs.filter(function(t){
-  			return t.category === "Retirement";
-  		}).filter(function(t){
-  			return types.length === 0 || types.indexOf(t.type) != -1;
-  		});
+  				return t.folder === that.state.folder;
+  			}).filter(function(t){
+  				return types.length === 0 || types.indexOf(t.type) != -1;
+  			});
         return(
 		<div id="createEmail">
 			{thumbList.map(function(t){
-				return(<div className="btn btn-default selectableEmailDivs">
-					<label htmlFor={t.id}>{t.title}</label>
+				return(
+				<div onClick={that.handleThumbClick} className="btn btn-default selectableEmailDivs">
+					<label htmlFor={t.id}>{t.name}</label><div className="selected-indicator hidden fa fa-check fa-lg" />
 					<div>
-						<img className="retirement-img" id={t.id} src={t.imgUrl} height="220" width="200" />
+						<img className="retirement-img" id={t.id} src={imgPath + t.previewImage} height="220" width="200" />
 					</div>
-		   		</div>)
+		   		</div>
+		   		)
 			})}
 		</div>
        );

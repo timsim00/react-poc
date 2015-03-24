@@ -20,6 +20,7 @@ var FolderTree = require('../Shared/FolderTree');
 var FilterByType_ = require('../Shared/FilterByType').ItemList;
 var Container =  require('../Shared/Container');
 
+//data
 var folders = require("../../data/folders");
 
 
@@ -287,7 +288,7 @@ var EmailSelect = React.createClass({
 				<SearchBar />
 			</div>
 			<div className="clearfix"></div>
-			<RetirementThumbs types={this.props.types}/>
+			<EmailThumbs types={this.props.types}/>
 		</Container>
 		);
     }
@@ -297,10 +298,9 @@ var EmailSelect = React.createClass({
 
 /****  Content Thumbnails ****/
 
-//var thumbs = require("../../data").contentData;
 var thumbs = require("../../data/emails");
 var imgPath = '/images/';
-var RetirementThumbs = React.createClass({
+var EmailThumbs = React.createClass({
 	subscriptions: {},
 	getInitialState: function() {
 		return {
