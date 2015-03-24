@@ -4,8 +4,10 @@ var Router = require('react-router');
 var Link = Router.Link;
 
 var menu =  {"items":[
-  {"id": "distributed", "name" : "Distributed Sending", "link":"distributed-sending", "icon" : "email"},
+  {"id": "distributed", "name" : "Dashboard", "link":"dashboard", "icon" : "dashboard"},
+  {"id": "email", "name" : "Create Email", "link":"create-email", "icon" : "email"},
   {"id": "manage", "name" : "Manage Clients", "link":"client-management", "icon" : "groups"},
+  {"id": "content", "name" : "Content Admin", "link":"content-admin", "icon" : "drafts"},
   {"id": "faAdmin", "name" : "FA Administration",  "link":"fa-administration", "icon" : "contact"}
 ]};
 
@@ -32,7 +34,7 @@ var AppSwitcherDropDown = React.createClass({
       var current = this.getPath();
       current = current.indexOf("/", 1) !== -1 ? current.substring(1, current.indexOf("/", 1)) : current.substring(1);
       var links = this.state;
-      links.current = current === "" ? "distributed-sending" : current;
+      links.current = current === "" ? "launch-screen" : current;
       return links;
     },
     getInitialState: function(){
@@ -40,7 +42,7 @@ var AppSwitcherDropDown = React.createClass({
         current = current.indexOf("/", 1) !== -1 ? current.substring(1, current.indexOf("/", 1)) : current.substring(1);
         var links = {};
         links.navItems = this.props.data;
-        links.current = current === "" ? "distributed-sending" : current;
+        links.current = current === "" ? "launch-screen" : current;
         return links;
     },
     render: function() {

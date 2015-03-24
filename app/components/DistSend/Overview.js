@@ -87,7 +87,7 @@ var Overview = React.createClass({
     return (
       <div>
         <div className="row pageTitle">
-          <div className="col-md-6"><h2>Overview</h2></div>
+          <div className="col-md-6"><h2>Dashboard</h2></div>
           <div className="col-md-6 text-right">
             <Link to="content-admin" className="btn btn-default">
               <span className="glyphicon glyphicon-pencil" />
@@ -157,7 +157,7 @@ var MostRecentModify = React.createClass({
 var SubscriberOverview = React.createClass({
   render: function() {
     return (
-    <Container title="Subscribers" class="subscriber-overview">
+    <Container title="Clients" class="subscriber-overview">
       <div className="col-md-6">
         <ListCount data={lists} />
       </div>
@@ -167,13 +167,7 @@ var SubscriberOverview = React.createClass({
       <div className="clearfix"></div>
       <div className="row" id="subscriber-buttons">
         <div className="pull-right">
-        	 <button className="btn btn-sm btn-primary btn-xs">Manage Subscribers</button>&nbsp;
-        	  <div className="btn-group">
-        	  	  <button className="btn btn-sm btn-primary btn-xs">Add Subscribers</button>
-  			        <button type="button" className="btn btn-xs btn-primary dropdown-toggle" aria-expanded="false">
-  				            <span className="caret"></span>
-  			        </button>
-  		      </div>
+        	 <Link to="client-management" className="btn btn-sm btn-primary btn-xs">Manage Clients</Link>
         </div>
       </div>
     </Container>

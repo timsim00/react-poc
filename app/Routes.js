@@ -5,6 +5,7 @@ var React = require('react'),
     Route = Router.Route;
 
 var App = require('./App'),
+    LaunchScreen = require('./components/LaunchScreen/LaunchScreen'),
     DistSending = require('./components/DistSend/DistSending'),
     CreateEmail = require('./components/DistSend/CreateEmail'),
     ContentAdmin = require('./components/DistSend/ContentAdmin'),
@@ -17,9 +18,10 @@ var App = require('./App'),
 
 var routes = (
   <Route name="app" path="/" handler={App}>
-    <DefaultRoute name="distributed-sending" handler={DistSending}/>
-    <Route name="create-email" path="distributed-sending/create-email" handler={CreateEmail}/>
-    <Route name="content-admin" path="distributed-sending/content-admin" handler={ContentAdmin}/>
+    <DefaultRoute name="launch-screen" handler={LaunchScreen}/>
+    <Route name="dashboard" handler={DistSending} />
+    <Route name="create-email" handler={CreateEmail}/>
+    <Route name="content-admin" handler={ContentAdmin}/>
 
     <Route name="client-management" handler={ClientManagement}>
       <DefaultRoute name="manage" handler={ClientLists}/>
