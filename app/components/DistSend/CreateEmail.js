@@ -442,6 +442,19 @@ var folderClients = [
 ];
 
 var StepSelectAudience = React.createClass({
+	listid: "subscriberCheckList",
+	subscriptions: {},
+	handleItemChanged: function(msg, data) {
+		var n = (data.item.prevSelected && !data.item.selected) ? -1 : 1;
+		PubSub.publish( 'Audience-Count-Change', {add: n} );  
+	},
+	componentDidMount: function() {
+		var token = PubSub.subscribe( 'Item-Check-Change-'+this.listid, this.handleItemChanged );
+		this.subscriptions['Item-Check-Change-'+this.listid] = token;
+	},
+	componentWillUnmount: function() {
+		PubSub.unsubscribe( this.subscriptions['Item-Check-Change-'+this.listid] );
+	},
   render: function() {
   	var listspanstyle = { float:'left', padding:'7px' };
   	var searchstyle = { 'margin-left':'-15px' };
@@ -476,7 +489,7 @@ var StepSelectAudience = React.createClass({
 						</div>
 						<div id="SubscriberContainer" className="col-md-6" style={ subscriberListStyle }>
 							<div className="well">
-								<ItemList items={subscribers} />
+								<ItemList listid={this.listid} items={subscribers} />
 							</div>
 						</div>
 					</div>
@@ -575,11 +588,22 @@ var SelectedItem = React.createClass({
 });
 
 var SelectedItemList = React.createClass({
+	subscriptions: {},
+	handleSelectedCountChange: function(msg, data) {
+		this.setState({ selectedCount: (this.state.selectedCount += data.add) });
+	},
+	componentDidMount: function() {
+		var token = PubSub.subscribe( 'Audience-Count-Change', this.handleSelectedCountChange );
+		this.subscriptions['Audience-Count-Change'] = token;
+	},
+	componentWillUnmount: function() {
+		PubSub.unsubscribe( this.subscriptions['Audience-Count-Change'] );
+	},
   getInitialState: function(){
     var itemList = this.props.items.map(function(item, i){
     	return item;
     });
-    return {items:selectednames, excludes:subscribers};
+    return {items:selectednames, excludes:subscribers, selectedCount: 5, excludedCount: 3};
   },
   render: function(){
     var that = this;
@@ -599,7 +623,7 @@ var SelectedItemList = React.createClass({
                  { itemNodes }
                 </ul>
             </div>
-            Selected Count:  {5}
+            Selected Count:  {this.state.selectedCount}
             <hr className="divider"/>
             <label>Excluded Audience (recent sends)</label>
             <div className="well">
@@ -607,7 +631,7 @@ var SelectedItemList = React.createClass({
                  { excluded }
                 </ul>
             </div>
-            Excluded Count:  {3}            
+            Excluded Count:  {this.state.excludedCount}            
       </div>
 
     );

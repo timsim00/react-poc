@@ -5,7 +5,7 @@ var React = require('react'),
 jQuery("html").on("click", ".folder-head", function(e){
     jQuery(this).toggleClass("collapsed").toggleClass("expanded");
     var id = $(e.target).data('folderid');
-    PubSub.publish( 'Folder-Selected', {name: e.target.innerHTML, id: id} ); //
+    PubSub.publish( 'Folder-Selected', {name: e.target.innerHTML, id: id} );
 });
 
 
