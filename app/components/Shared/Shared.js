@@ -1,5 +1,13 @@
-var React = require('react');
+var React = require('react'),
+		moment = require('moment');
 
+
+var createLookup = function(list){
+	return list.reduce(function(lookup, current){
+		lookup[current] = true;
+		return lookup;
+	}, {});
+}
 
 var Item = React.createClass({
 	__changeSelection: function(item) {
@@ -34,26 +42,27 @@ var Item = React.createClass({
 		}
 
     	classes = this.getColumnClasses();
-    	var columns = (this.props.columns||0)
+    	var columns = (this.props.columns||0);
     	while(data.length < columns){
     		data.push("");
     	}
     	if(this.state.selected){
     		checked = "checked";
     	}
-    	
+
     	if(this.state.disabled){
     		disabledAttr = "disabled";
     		disabledClasses= "disabledColor";
     	}
     	var lblClasses = [classes, disabledClasses].join(" ");
+    	var text = this.props.item.title || this.props.item.name;
     	
       return (
-			  <div className="row checkbox">
+			  <div key={this.props.item.id} className="row checkbox">
 				<div className={lblClasses}>
 					<label>
-						<input type="checkbox" checked={checked} disabled={disabledAttr} onChange={this.__changeSelection.bind(this, this.props.item)}/>
-						{ this.props.item.title }
+						<input type="checkbox" key={this.props.item.id} checked={checked} disabled={disabledAttr} onChange={this.__changeSelection.bind(this, this.props.item)}/>
+						{ text }
 					</label>
 				</div>
 				{data.map(function(d){
@@ -80,6 +89,14 @@ var Header = React.createClass({
 				})}
 			</div>)
 	}
+});
+
+var SearchButton = React.createClass({
+    render: function(){
+        return (<div className="search-button">
+            <span className="glyphicon glyphicon-search" />
+        </div>)
+    }
 });
 
 module.exports = {
@@ -146,18 +163,21 @@ module.exports = {
         	} else {
         		count = 0;
         	}
-        	
+
         	if(count > max){
         		max = count;
         	}
         	return max;
         },0);
-
+		var rootClasses = "itemLst";
+		if(this.props.noCheck){
+			rootClasses +=" no-check";
+		}
         var itemNodes = this.props.items.map(function (item) {
           return <Item item={item} key={item.id} columns={columns} onChange={that.handleFilterChange} />
         });
         return (
-            <div className="itemLst">
+            <div className={rootClasses}>
             	<Header data={this.props.header} />
                 { itemNodes }
             </div>
@@ -187,22 +207,32 @@ module.exports = {
       }),
 
       "ListCount" : React.createClass({
+				getInitialState: function() {
+					var lists = this.props.data;
+					var listCount = lists.length;
+					return {"count" : listCount };
+				},
         render: function() {
           return (
            <div className="counts text-center">
             <span className="title"><small>Lists</small></span>
-            <span className="count">8</span>
+            <span className="count">{this.state.count}</span>
           </div>
           );
         }
       }),
 
     "SubscriberCount" : React.createClass({
+			getInitialState: function() {
+				var clients = this.props.data;
+				var clientCount = clients.length;
+				return {"count" : clientCount };
+			},
       render: function() {
         return (
          <div className="counts text-center">
           <span className="title"><small>Subscribers</small></span>
-          <span className="count">180,718</span>
+          <span className="count">{this.state.count}</span>
         </div>
         );
       }
@@ -228,14 +258,58 @@ module.exports = {
          <div className="row modify-details">
               <div className="col-md-6">
               <h5>Created</h5>
-              <div>{this.props.data.created}</div>
+              <div>{moment(this.props.data.createDate).format("M/D/YY h:MM A")}</div>
               </div>
               <div className="col-md-6">
               <h5>Modified</h5>
-              <div>{this.props.data.modified}</div>
+              <div>{moment(this.props.data.modifiedDate).format("M/D/YY h:MM A")}</div>
               </div>
         </div>
         );
       }
-    })
+    }),
+    
+    "CheckListPlus": React.createClass({
+    	getInitialState: function(){
+    		var state = {};
+    		state.selected = createLookup(this.props.selected || []);
+    		return state;
+    	},
+      	onSelectChange: function(id){
+			this.state.selected[id] = this.refs[id].getDOMNode().checked;
+			this.setState({selected: this.state.selected});
+			if(this.props.onChange){
+				var self = this;
+				var selected = Object.keys(this.state.selected).filter(function(id){ return self.state.selected[id];})
+				this.props.onChange(selected);
+			}
+      },
+	  render: function() {
+	  	var selectedLookup = this.state.selected;
+	  	var self = this;
+		return (
+			<div className="checkLst">
+			  {this.props.data.map(function(datum, index){
+			  	 var text = datum.title || datum.name;
+			  	 var checked = "";
+			  	 if(selectedLookup[datum.id]){
+			  	 	checked ="checked";
+			  	 }	
+				  return (<div className="form-group" key={datum.id}>
+					  <label>
+					  	<input type="checkbox" ref={datum.id} checked={checked} onChange={self.onSelectChange.bind(self, datum.id)} />
+						<div className="item">
+							<div>{text}</div>
+							<div className="itemInner">{datum.content}</div>
+						</div>
+						<div className="actions">
+							<SearchButton />
+						</div>
+					  </label>
+				  </div>);
+			  })}
+		</div>
+		);
+	}
+})
 };

@@ -6,8 +6,8 @@ var gulp = require('gulp'),
 
 gulp.task('less', function () {
 	return gulp.src(config.src)
-		.pipe(plumber())
 		.pipe(less())
+		.pipe(plumber())
 		.pipe(concat("styles.css"))
 		.pipe(gulp.dest(config.dest))
 });
