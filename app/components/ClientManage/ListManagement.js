@@ -95,18 +95,18 @@ var ListSubs = React.createClass({
 
     return (
         <div>
-          <div className="col-md-6">
+          <div className="col-md-6 listsSubsMainContent">
             <Container title="My Lists">
               <ItemList items={this.state.lists} onChange={this.onSelectedListsChange}/>
             </Container>
   					<div className="row group-btns">
   						<div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.deleteGroup}>Delete Group </button></div>
-  						<div className="col-md-6"><button className="btn btn-default">Manage Group </button></div>
-  					</div>
+              <div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.renameGroup}>Rename Group </button></div>
+            </div>
   					<div className="row group-btns">
-  						<div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.renameGroup}>Rename Group </button></div>
-  						<div className="col-md-6"><input type="text" disabled={groupAttr} ref="groupName" value={selectedName} onChange={this.onNameChange}/></div>
-  					</div>
+  						<div className="col-md-6"><input type="text" className="form-control" disabled={groupAttr} ref="groupName" value={selectedName} onChange={this.onNameChange}/></div>
+              <div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.renameGroup}>Add New Group </button></div>
+            </div>
         	</div>
         		<div className="col-md-6">
               <Container title="List Memebers">
