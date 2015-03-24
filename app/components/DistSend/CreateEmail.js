@@ -402,21 +402,6 @@ var HTMLView = React.createClass({
 				<div id="btnSave" className="pull-right text-right wiz-btn"><button className="btn btn-default">Save</button></div>
 				<div id="btnTestSend" className="pull-right text-right wiz-btn"><button className="btn btn-default">Preview / Test Send</button></div>
 			</div>
-			<div className="col-md-12">
-
-			</div>
-			<div className="col-md-12">
-				<ul className="nav nav-tabs">
-					<li className="active"><a data-toggle="tab" href="#edit">Edit</a></li>
-				</ul>
-				<div className="tab-content">
-					<div id="edit" className="tab-pane fade in active">
-						<div className="preview">
-							<iframe className="col-md-12" height="800px" width="100%" frameBorder="0" src="https://test-editor.herokuapp.com/" />
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
        );
     }
@@ -522,6 +507,7 @@ var subNameHeaders= ["Name", "#Clients"];
 /*** SUBSCRIBER LIST CONTAINER ***/
 
 var SubscriberListContainer = React.createClass({
+	listid: "subscriberListCheckList",
 	subscriptions: {},
 	handleFolderSelected: function(msg, data) {
 		if (data.name == 'All Clients' && this.state.isVisible) {
@@ -553,7 +539,7 @@ var SubscriberListContainer = React.createClass({
     },
     render: function() {
 		return (
-		<ItemList items={subnames} header={subNameHeaders}/>
+		<ItemList items={subnames} listid={this.listid} header={subNameHeaders}/>
 		);
     }
 });
