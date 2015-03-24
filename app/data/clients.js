@@ -1,7 +1,7 @@
 module.exports = [{
         "firstName": "Cairo",
         "lastName": "Nolan",
-        "emailAddress": "Donec.nibh@fermentummetusAenean.ca",
+        "emailAddress": "Donec.nibh@fermentusAenean.ca",
         "lists": [6],
         "publications": [5]
     }, {
@@ -13,7 +13,7 @@ module.exports = [{
     }, {
         "firstName": "Marvin",
         "lastName": "Snider",
-        "emailAddress": "Aliquam.vulputate.ullamcorper@fermentumconvallisligula.co.uk",
+        "emailAddress": "Aliquam@fermentumcola.co.uk",
         "lists": [2, 5, 1],
         "publications": [6]
     }, {
@@ -61,7 +61,7 @@ module.exports = [{
     }, {
         "firstName": "Chaney",
         "lastName": "William",
-        "emailAddress": "Nulla.dignissim.Maecenas@Vestibulumanteipsum.org",
+        "emailAddress": "Nulla.dignissim@Vestibulumanteipsum.org",
         "lists": [],
         "publications": [2]
     }, {

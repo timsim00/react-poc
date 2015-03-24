@@ -5,6 +5,7 @@ var CheckListPlus = Shared.CheckListPlus;
 //components
 var SearchBar = Shared.SearchBar;
 var ItemList = Shared.ItemList;
+var Container =  require('../Shared/Container');
 
 //data
 var clients = require("../../data/clients");
@@ -36,54 +37,60 @@ var ClientLists = React.createClass({
   	var filteredClients = clients.filter(function(c){
   		return self.state.filter === "" ||
   		 filterMatch(c.firstName, self.state.filter) ||
-  		  filterMatch(c.lastName, self.state.filter) || 
+  		  filterMatch(c.lastName, self.state.filter) ||
   		  filterMatch(c.emailAddress, self.state.filter);
   	}).map(function(c){
 		return {id: c.id, name: [c.firstName, c.lastName].join(" "), email: c.emailAddress};
 	});
     return (
       <div>
-      	<h2>Manage Clients</h2>
         <div className="row">
           <div className="col-md-6">
-             <div className="row">
-              	<div className="col-md-3">Search for Contact</div>
-              	<div className="col-md-9"><SearchBar onChange={this.onSearchChange} /></div>
-          	</div>
-            <div className="row well" id="myContactsPanel">
-              <ItemList items={filteredClients}/>
-            </div>
+						<Container title="My Clients" class="clientManagePanel">
+							<SearchBar onChange={this.onSearchChange} />
+							<ItemList items={filteredClients}/>
+						</Container>
           </div>
           <div className="col-md-6">
-            <div className="row">
-            	<button className="btn btn-primary">Upload New Clients</button>
-                <div className="small">Upload new contacts from your desktop using a “delimited” file</div>
-            </div>
-            <div className="row"> 
-	            <label htmlFor="inpFirstName">First Name</label>
-    	        <input type="text" id="inpFirstName" className="form-control" aria-label="..." />
-            </div>
-            <div className="row">
-	            <label htmlFor="inpLastName">Last Name</label>
-    	        <input type="text" id="inpLastName" className="form-control" aria-label="..." />
-            </div>
+						<Container title="Client Details">
+							<div className="row">
+							<div className="col-md-6">
+	            	<label htmlFor="inpFirstName form-group">First Name</label>
+    	        	<input type="text" id="inpFirstName" className="form-control" aria-label="..." />
+							</div>
+							<div className="col-md-6">
+								<label htmlFor="inpLastName form-group">Last Name</label>
+								<input type="text" id="inpLastName" className="form-control" aria-label="..." />
+							</div>
+						</div>
+							<div className="clearfix"></div><br />
+								<div className="row">
+							<div className="col-md-12 form-group">
+								<label htmlFor="inpEmailAddress">Email Address</label>
+								<input type="text" id="inpEmailAddress" className="form-control" aria-label="..." />
+							</div>
+						</div>
+							<div className="clearfix"></div>
+							<div className="row">
+								<div className="col-md-7 pull-right text-right">
+									<button className="btn btn-primary">Upload New Clients</button>
+									<div className="small">Upload new contacts from your desktop using a “delimited” file</div>
+								</div>
+							</div>
+            </Container>
             <!-- Email -->
-            <div className="row">
-              <h3> Lists </h3>
-              <div className="well">
-	              <ItemList items={lists} onChange={this.onSelectedListsChange}/>
-              </div>
-            </div>
-            <div className="row">
-              <h3>Subscriptions</h3>
-              <div className="well">
-              	<CheckListPlus data={subscriptions} selected={checkedTest} onChange={this.onSelectedSubscriptionsChange}/>
-              </div>
-            </div>
-            <div className="row">
-            	<button className="btn btn-primary">Save</button>
-            </div>
-          </div>
+						<Container title="Lists">
+							<ItemList items={lists} onChange={this.onSelectedListsChange}/>
+						</Container>
+						<Container title="Subscriptions">
+							<CheckListPlus data={subscriptions} selected={checkedTest} onChange={this.onSelectedSubscriptionsChange}/>
+						</Container>
+						<div className="row">
+							<div className="col-md-12 text-center">
+								<button className="btn btn-primary">Save</button>
+							</div>
+						</div>
+					</div>
         </div>
       </div>
     );

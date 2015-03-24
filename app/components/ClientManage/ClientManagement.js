@@ -9,16 +9,20 @@ var ClientManagement = React.createClass({
   render: function() {
     return (
 	<div>
-    <h2>Client Management</h2>
-    <div className="col-md-2">
-      <ul className="nav nav-pills nav-stacked">
-        <ListItemLink to="manage">Manage Clients</ListItemLink>
-        <ListItemLink to="lists">Manage Lists</ListItemLink>
-        <ListItemLink to="subscriptions">Manage Subscriptions</ListItemLink>
-      </ul>
+    <div className="row pageTitle">
+      <div className="col-md-12"><h2>Client Management</h2></div>
     </div>
-    <div className="col-md-10">
-      <RouteHandler/>
+    <div className="row">
+      <div className="col-md-2">
+        <ul className="nav nav-pills nav-stacked">
+          <ListItemLink to="manage">Manage Clients</ListItemLink>
+          <ListItemLink to="lists">Manage Lists</ListItemLink>
+          <ListItemLink to="subscriptions">Manage Subscriptions</ListItemLink>
+        </ul>
+      </div>
+      <div className="col-md-10">
+        <RouteHandler/>
+      </div>
     </div>
 	</div>
     );

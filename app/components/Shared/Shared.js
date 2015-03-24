@@ -105,7 +105,7 @@ module.exports = {
   	 	if(this.props.onChange){
   	 		this.props.onChange(this.refs.search.getDOMNode().value);
   	 	}
-  	 }, 
+  	 },
      render: function() {
        return (
         <div>
@@ -173,7 +173,7 @@ module.exports = {
         	}
         	return max;
         },0);
-		var rootClasses = "itemLst";
+		var rootClasses = "itemList";
 		if(this.props.noCheck){
 			rootClasses +=" no-check";
 		}
