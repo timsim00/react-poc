@@ -1,5 +1,6 @@
 var React = require('react'),
-		moment = require('moment');
+	moment = require('moment'),
+    PubSub = require('pubsub-js');
 
 
 var createLookup = function(list){
@@ -12,11 +13,13 @@ var createLookup = function(list){
 var Item = React.createClass({
 	__changeSelection: function(item) {
 		var newValue = !this.state.selected;
+		item.prevSelected = item.selected;
         this.setState({selected: newValue});
-        item.selected = this.state.selected;
+        item.selected = newValue; //this.state.selected;
         if(this.props.onChange){
         	this.props.onChange(item.id, newValue);
         }
+    	PubSub.publish( 'Item-Check-Change-'+this.props.listid, {item: item} );        
     },
     getInitialState: function(){
     	var state = {};
@@ -56,12 +59,11 @@ var Item = React.createClass({
     	}
     	var lblClasses = [classes, disabledClasses].join(" ");
     	var text = this.props.item.title || this.props.item.name;
-
       return (
 			  <div key={this.props.item.id} className="row checkbox">
 				<div className={lblClasses}>
 					<label>
-						<input type="checkbox" key={this.props.item.id} checked={checked} disabled={disabledAttr} onChange={this.__changeSelection.bind(this, this.props.item)}/>
+						<input type="checkbox" key={this.props.item.id} listid={this.props.listid} checked={checked} disabled={disabledAttr} onChange={this.__changeSelection.bind(this, this.props.item)}/>
 						{ text }
 					</label>
 				</div>
@@ -153,7 +155,7 @@ module.exports = {
         }).forEach(function(i){
         	selected[i.id] = true;
         });
-        return {items:itemList, selected: selected};
+        return {items:itemList, selected: selected, listid:this.props.listid};
       },
       render: function(){
         var that = this;
@@ -178,7 +180,7 @@ module.exports = {
 			rootClasses +=" no-check";
 		}
         var itemNodes = this.props.items.map(function (item) {
-          return <Item item={item} key={item.id} columns={columns} onChange={that.handleFilterChange} />
+          return <Item item={item} listid={that.props.listid} key={item.id} columns={columns} onChange={that.handleFilterChange} />
         });
         return (
             <div className={rootClasses}>

@@ -58,23 +58,26 @@ var Wizard = React.createClass({
 		}
 	},
 	handleNext: function() {
-		if (this.state.step <= 4) this.state.step++;
+		if (this.state.step <= 3) this.state.step++;
 		switch (this.state.step) {
+			/*
     		case 2: {
     			$('a[href^="#stepDefineContent"]').click();
     			$('#btnBack button').removeAttr('disabled');
     			break;
     		}
-    		case 3: {
+    		*/
+    		case 2: {
     			$('a[href^="#stepSelectAudience"]').click();
+    			$('#btnBack button').removeAttr('disabled');
     			break;
     		}
-    		case 4: {
+    		case 3: {
     			$('a[href^="#stepSchedule"]').click();
     			$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
     			break;
     		}
-    		case 5: location.hash = "#/";
+    		case 4: location.hash = "#/";
     	}
 	},
 	handleBack: function() {
@@ -85,11 +88,13 @@ var Wizard = React.createClass({
     			$('#btnBack button').attr('disabled','disabled');
     			break;
     		}
+    		/*
     		case 2: {
     			$('a[href^="#stepDefineContent"]').click();
     			break;
     		}
-    		case 3: {
+    		*/
+    		case 2: {
     			$('a[href^="#stepSelectAudience"]').click();
     			$('#btnNext button').html('Next&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
     			break;
@@ -105,16 +110,18 @@ var Wizard = React.createClass({
 				$('#btnBack button').attr('disabled','disabled');
 				break;
 			}
+			/*
 			case "#stepDefineContent": {
 				this.state.step = 2;
 				break;
 			}
+			*/
 			case "#stepSelectAudience": {
-				this.state.step = 3;
+				this.state.step = 2;
 				break;
 			}
 			case "#stepSchedule": {
-				this.state.step = 4;
+				this.state.step = 3;
 				$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
 				break;
 			}
@@ -147,11 +154,6 @@ var Wizard = React.createClass({
 						Select Content
 						</a>
 					</li>
-					<li key="1" className={this.state.tabs}>
-						<a className="inactive-step" href="#stepDefineContent" data-toggle="tab" onClick={this.handleTabClick}>
-						Define Content
-						</a>
-					</li>
 					<li key="2" className={this.state.tabs}>
 						<a className="inactive-step" href="#stepSelectAudience" data-toggle="tab" onClick={this.handleTabClick}>
 						Select Audience
@@ -170,9 +172,6 @@ var Wizard = React.createClass({
 			<div className="wizard-content tab-content">
 			<div role="tabpanel" className="tab-pane active" id="stepSelectContent">
 				<StepSelectContent />
-			</div>
-			<div role="tabpanel" className="tab-pane" id="stepDefineContent">
-				<StepDefineContent />
 			</div>
 			<div role="tabpanel" className="tab-pane" id="stepSelectAudience">
 				<StepSelectAudience />
@@ -442,6 +441,19 @@ var folderClients = [
 ];
 
 var StepSelectAudience = React.createClass({
+	listid: "subscriberCheckList",
+	subscriptions: {},
+	handleItemChanged: function(msg, data) {
+		var n = (data.item.prevSelected && !data.item.selected) ? -1 : 1;
+		PubSub.publish( 'Audience-Count-Change', {add: n} );  
+	},
+	componentDidMount: function() {
+		var token = PubSub.subscribe( 'Item-Check-Change-'+this.listid, this.handleItemChanged );
+		this.subscriptions['Item-Check-Change-'+this.listid] = token;
+	},
+	componentWillUnmount: function() {
+		PubSub.unsubscribe( this.subscriptions['Item-Check-Change-'+this.listid] );
+	},
   render: function() {
   	var listspanstyle = { float:'left', padding:'7px' };
   	var searchstyle = { 'margin-left':'-15px' };
@@ -452,39 +464,30 @@ var StepSelectAudience = React.createClass({
 		'-o-transition': 'all 0.5s ease;',
 		'transition': 'all 0.5s ease;'
 	}
-    return (
-	<div  role="tabpanel" className="tab-pane active">
-		<div className="row">
-			<div className="col-md-12">
-				<div className="col-md-2">
-					<div className="well">
-						<FolderTree folders={folderClients} />
-					</div>
-				</div>
-				<div className="col-md-7">
+	/*
 					<div className="well row">
 						<span className="staticValue" style={listspanstyle}>Lists</span>
 						<div style={searchstyle} className="col-md-6">
 							<SearchBar />
 						</div>
-					</div>
-					<div className="row zero-padding">
-						<div id="SubscriberListContainer" className="col-md-6" style={subNamesStyle}>
-							<div className="well">
-								<SubscriberListContainer />
-							</div>
-						</div>
-						<div id="SubscriberContainer" className="col-md-6" style={ subscriberListStyle }>
-							<div className="well">
-								<ItemList items={subscribers} />
-							</div>
-						</div>
-					</div>
+					</div>	
+	*/
+    return (
+	<div  role="tabpanel" className="tab-pane active">
+		<div className="row">
+			<div id="SubscriberListContainer" className="col-md-4" style={subNamesStyle}>
+				<div className="well">
+					<SubscriberListContainer />
 				</div>
-				<div className="col-md-3">
-					<div className="well">
-						<SelectedItemList items={selectednames} />
-					</div>
+			</div>
+			<div id="SubscriberContainer" className="col-md-5" style={ subscriberListStyle }>
+				<div className="well">
+					<ItemList listid={this.listid} items={subscribers} />
+				</div>
+			</div>
+			<div className="col-md-3">
+				<div className="well">
+					<SelectedItemList items={selectednames} />
 				</div>
 			</div>
 		</div>
@@ -509,14 +512,16 @@ var subNameHeaders= ["Name", "#Clients"];
 /*** SUBSCRIBER LIST CONTAINER ***/
 
 var SubscriberListContainer = React.createClass({
+	listid: "subscriberListCheckList",
 	subscriptions: {},
+	/*
 	handleFolderSelected: function(msg, data) {
-		if (data == 'All Clients' && this.state.isVisible) {
+		if (data.name == 'All Clients' && this.state.isVisible) {
 			//hide SubscriberListContainer
 			$('#SubscriberListContainer').addClass('hide');
 			$('#SubscriberContainer').removeClass('col-md-6').addClass('col-md-12');
 			this.state.isVisible = false;
-		} else if (data != 'All Clients' && !this.state.isVisible) {
+		} else if (data.name != 'All Clients' && !this.state.isVisible) {
 			//show SubscriberListContainer
 			$('#SubscriberContainer').removeClass('col-md-12').addClass('col-md-6');
 			setTimeout(function() {
@@ -535,12 +540,13 @@ var SubscriberListContainer = React.createClass({
 		//un-subscribe to next disable state event
 		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
 	},
+	*/
     getInitialState: function(){
 		return { FolderName: 'Lists', isVisible: true };
     },
     render: function() {
 		return (
-		<ItemList items={subnames} header={subNameHeaders}/>
+		<ItemList items={subnames} listid={this.listid} header={subNameHeaders}/>
 		);
     }
 });
@@ -575,11 +581,22 @@ var SelectedItem = React.createClass({
 });
 
 var SelectedItemList = React.createClass({
+	subscriptions: {},
+	handleSelectedCountChange: function(msg, data) {
+		this.setState({ selectedCount: (this.state.selectedCount += data.add) });
+	},
+	componentDidMount: function() {
+		var token = PubSub.subscribe( 'Audience-Count-Change', this.handleSelectedCountChange );
+		this.subscriptions['Audience-Count-Change'] = token;
+	},
+	componentWillUnmount: function() {
+		PubSub.unsubscribe( this.subscriptions['Audience-Count-Change'] );
+	},
   getInitialState: function(){
     var itemList = this.props.items.map(function(item, i){
     	return item;
     });
-    return {items:selectednames, excludes:subscribers};
+    return {items:selectednames, excludes:subscribers, selectedCount: 5, excludedCount: 3};
   },
   render: function(){
     var that = this;
@@ -599,7 +616,7 @@ var SelectedItemList = React.createClass({
                  { itemNodes }
                 </ul>
             </div>
-            Selected Count:  {5}
+            Selected Count:  {this.state.selectedCount}
             <hr className="divider"/>
             <label>Excluded Audience (recent sends)</label>
             <div className="well">
@@ -607,7 +624,7 @@ var SelectedItemList = React.createClass({
                  { excluded }
                 </ul>
             </div>
-            Excluded Count:  {3}            
+            Excluded Count:  {this.state.excludedCount}            
       </div>
 
     );
