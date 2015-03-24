@@ -84,7 +84,6 @@ var Overview = React.createClass({
     return result;
   },
   render: function() {
-  console.log(this.state);
     return (
       <div>
         <div className="row pageTitle">
@@ -139,10 +138,6 @@ var MostRecentSend = React.createClass({
 });
 
 var MostRecentModify = React.createClass({
-  getInitialState : function() {
-    console.log(this.props.email)
-    return {};
-  },
   render: function() {
     return (
     <Container title="Recent Modified Email">
@@ -195,8 +190,8 @@ var OverviewTabs = React.createClass({
     this.setState({openTab: c});
   },
   onSearchChange: function(filter) {
-    //this.setState({filter: filter});
-    var filteredEmails = _.filter(this.state.emails.rows, function(obj){
+
+    var filteredEmails = _.filter(this.props.emails.rows, function(obj){
       var name = obj.name.toLowerCase();
       var subject = obj.subject.toLowerCase();
       filter = filter.toLowerCase();
@@ -206,10 +201,9 @@ var OverviewTabs = React.createClass({
       return;
     });
 
-    this.state.emails.rows = filteredEmails;
-    this.setState({emails : this.state.emails});
+    this.setState({emails : {rows:filteredEmails ,columns:this.state.emails.columns ,pageData:this.state.emails.pageData}});
 
-    var filteredSends = _.filter(this.state.sends.rows, function(obj){
+    var filteredSends = _.filter(this.props.sends.rows, function(obj){
       var name = obj.name.toLowerCase();
       var subject = obj.subject.toLowerCase();
       filter = filter.toLowerCase();
@@ -218,11 +212,9 @@ var OverviewTabs = React.createClass({
       }
       return;
     });
-    this.state.sends.rows = filteredSends;
-    this.setState({sends : this.state.sends});
+    this.setState({sends : {rows:filteredSends ,columns:this.state.sends.columns ,pageData:this.state.sends.pageData}});
   },
   render: function() {
-    console.log(this.state.emails);
     return (
       <div>
         <ul className="nav nav-tabs" role="tablist">
