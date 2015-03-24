@@ -4,6 +4,7 @@ var ItemList = Shared.ItemList;
 var CheckListPlus = Shared.CheckListPlus;
 var EditableList = require("../Shared/EditableList");
 var subscriptions = require("../../data/publications");
+var Container =  require('../Shared/Container');
 
 
 var members = [
@@ -43,30 +44,20 @@ var ListSubs = React.createClass({
   render: function() {
   	//TODO generate from central data store.
   	var selected = [1,2,5,7,8,16,19, 22];
-  	
+
     return (
-        
-        <div>
-	        <h2>Subscription Management</h2>
-        	<div className="listsSubsMainContent container">
+        	<div className="listsSubsMainContent">
         		<div className="col-md-6">
-        			<div className="row">
-        				<h3>Subscriptions</h3>
-        				<div className="well">
-		        			<CheckListPlus data={subscriptions}/>
-	        			</div>
-        			</div>
+              <Container title="Subscriptions">
+                <CheckListPlus data={subscriptions}/>
+              </Container>
         		</div>
         		<div className="col-md-6">
-        			<div className="row">
-        			<h3>Members</h3>
-						<div className="members well">
-							<EditableList source={members} selected={selected} />
-						</div>
-        			</div>
+              <Container title="Subscription Clients">
+                <EditableList source={members} selected={selected} />
+              </Container>
         		</div>
         	</div>
-        </div>
     );
   }
 

@@ -15,7 +15,7 @@ var config = {
 		dest: dest + 'css'
 	},
 	images: {
-		src: dest + '/images/*.*',
+		src: src + 'app/images/*.*',
 		dest: dest + '/images'
 	},
 	icons: {
@@ -32,13 +32,14 @@ var config = {
 	},
 	fonts: {
 		src: [
-			src + 'node_modules/font-awesome/fonts/**/*.{ttf,woff,eof,svg}',
-			src + 'bower_components/bootstrap-sf1/dist/fonts/**/*.{ttf,woff,eof,svg}'
+			src + 'node_modules/font-awesome/fonts/**/*.{ttf,woff,eof,svg,woff2}',
+			src + 'bower_components/bootstrap-sf1/dist/fonts/**/*.{ttf,woff,eof,svg,woff2}',
+			src + 'fonts/**/*.{ttf,woff,eof,svg,woff2}'
 		],
 		dest: dest + "/fonts"
 	},
 	html: {
-		src: src + '/**/*.html',
+		src: src + 'app/index.html',
 		dest: dest + '/'
 	}
 };

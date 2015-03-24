@@ -8,7 +8,7 @@ module.exports = [{
     modifiedDate: "March 20, 2015 2:17:17 PM",
     folder: 3,
     tags: [],
-    type: []
+    type: [1]
 }, {
     id: 2,
     name: "MS - Newsletter - February 2015",
@@ -19,7 +19,7 @@ module.exports = [{
     modifiedDate: "February 12, 2015 2:26:10 PM",
     folder: 3,
     tags: [],
-    type: [],
+    type: [1],
     entitlements: []
 }, {
     id: 3,
@@ -31,7 +31,7 @@ module.exports = [{
     modifiedDate: "February 24, 2015 1:33:13 PM",
     folder: 8,
     tags: [],
-    type: [],
+    type: [1],
     entitlements: []
 }, {
     id: 4,
@@ -43,7 +43,7 @@ module.exports = [{
     modifiedDate: "February 10, 2015 11:39:12 AM",
     folder: 7,
     tags: [],
-    type: [],
+    type: [1],
     entitlements: []
 }, {
     id: 5,
@@ -55,7 +55,7 @@ module.exports = [{
     modifiedDate: "January 21, 2015 11:34:39 AM",
     folder: 7,
     tags: [],
-    type: [],
+    type: [1],
     entitlements: []
 }, {
     id: 6,
@@ -67,7 +67,7 @@ module.exports = [{
     modifiedDate: "December 16, 2014 11:45:16 AM",
     folder: 7,
     tags: [],
-    type: [],
+    type: [1],
     entitlements: []
 }, {
     id: 7,
@@ -79,7 +79,7 @@ module.exports = [{
     modifiedDate: "November 17, 2014 11:42:05 AM",
     folder: 7,
     tags: [],
-    type: [],
+    type: [1],
     entitlements: []
 }, {
     id: 8,

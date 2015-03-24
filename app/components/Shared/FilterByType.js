@@ -9,7 +9,7 @@ var Item = module.exports.Item = React.createClass({
     },
     render: function () {
       return (
-        <li className="list-group-item" key={this.props.key}><input type="checkbox" onChange={this.__changeSelection.bind(this, this.props.item)}/>&nbsp;{ this.props.item.title }</li>
+        <li className="list-group-item" key={this.props.key}><input type="checkbox" onChange={this.__changeSelection.bind(this, this.props.item)}/>&nbsp;{ this.props.item.name }</li>
       );
     }
 });
@@ -17,16 +17,16 @@ var Item = module.exports.Item = React.createClass({
 var ItemList = module.exports.ItemList = React.createClass({
 	handleFilterChange: function(){
 		if(this.props.onChange){
-			var selected = this.state.data.items.filter(function(i){ 
+			var selected = this.state.data.filter(function(i){ 
 				return i.selected;
 			}).map(function(i){
-				return {id: i.id, name: i.title};
+				return {id: i.id, name: i.name};
 			});
 			this.props.onChange(selected);
 		}
 	},
   getInitialState: function(){
-    var itemList = this.props.data.items.map(function(item, i){
+    var itemList = this.props.data.map(function(item, i){
       item.selected = item.selected ? item.selected : false;
       item.id = item.id ? item.id : i;
       return item;
@@ -35,7 +35,7 @@ var ItemList = module.exports.ItemList = React.createClass({
   },
   render: function(){
  	var that = this;
-    var itemNodes = this.props.data.items.map(function (item, i) {
+    var itemNodes = this.props.data.map(function (item, i) {
       return <Item item={item} key={i} onChange={that.handleFilterChange} />
     });
     return (

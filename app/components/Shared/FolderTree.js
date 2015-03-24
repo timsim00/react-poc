@@ -4,7 +4,8 @@ var React = require('react'),
 
 jQuery("html").on("click", ".folder-head", function(e){
     jQuery(this).toggleClass("collapsed").toggleClass("expanded");
-    PubSub.publish( 'Folder-Selected', e.target.innerHTML );
+    var id = $(e.target).data('folderid');
+    PubSub.publish( 'Folder-Selected', {name: e.target.innerHTML, id: id} ); //
 });
 
 
@@ -29,7 +30,7 @@ var createFolder = function(data, index){
 				<span className="glyphicon glyphicon-folder-close" />
 				<span className="glyphicon glyphicon-folder-open" />
             </span>
-            <span className="folder-name">{data.name}</span>
+            <span data-folderid={data.id} className="folder-name">{data.name}</span>
         </div>
         <div className="children">
             {children}
