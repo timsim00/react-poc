@@ -3,6 +3,8 @@ var Shared = require('../Shared/Shared');
 var ItemList = Shared.ItemList;
 var EditableList = require("../Shared/EditableList");
 var CheckListPlus = Shared.CheckListPlus;
+var Container =  require('../Shared/Container');
+
 
 var SearchButton = React.createClass({
     render: function(){
@@ -79,7 +81,7 @@ var ListSubs = React.createClass({
   	if(this.state.editedName != null){
   		selectedName = this.state.editedName;
   	}
-  	
+
   	var groupOperationClasses = "btn btn-default";
   	var groupAttr = "";
   	if(this.state.selectedList && this.state.selectedList.id === "all"){
@@ -87,41 +89,31 @@ var ListSubs = React.createClass({
   		groupAttr += "disabled";
   		selectedName = "";
   	}
-  	
+
   	//TODO generate from central data store.
   	var selected = [1,4,5,7,9,11,15];
-  	
+
     return (
-        
         <div>
-	        <h2>List Management</h2>
-        	<div className="listsSubsMainContent">
-        		<div className="col col-md-6">
-        			<div className="row">
-        				<h3>Manage Lists</h3>
-        				<div className="manage-lists well">
-        					<ItemList items={this.state.lists} onChange={this.onSelectedListsChange}/>
-        				</div>
-        			</div>
-					<div className="row group-btns">
-						<div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.deleteGroup}>Delete Group </button></div>
-						<div className="col-md-6"><button className="btn btn-default">Manage Group </button></div>
-					</div>
-					<div className="row group-btns">
-						<div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.renameGroup}>Rename Group </button></div>
-						<div className="col-md-6"><input type="text" disabled={groupAttr} ref="groupName" value={selectedName} onChange={this.onNameChange}/></div>
-					</div>
-        		</div>
-        		<div className="col col-md-6">
-        			<div className="row">
-        				<h3>  Members </h3>
-        				<div className="members well">
+          <div className="col-md-6">
+            <Container title="My Lists">
+              <ItemList items={this.state.lists} onChange={this.onSelectedListsChange}/>
+            </Container>
+  					<div className="row group-btns">
+  						<div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.deleteGroup}>Delete Group </button></div>
+  						<div className="col-md-6"><button className="btn btn-default">Manage Group </button></div>
+  					</div>
+  					<div className="row group-btns">
+  						<div className="col-md-6"><button disabled={groupAttr} className={groupOperationClasses} onClick={this.renameGroup}>Rename Group </button></div>
+  						<div className="col-md-6"><input type="text" disabled={groupAttr} ref="groupName" value={selectedName} onChange={this.onNameChange}/></div>
+  					</div>
+        	</div>
+        		<div className="col-md-6">
+              <Container title="List Memebers">
 		        			<EditableList source={members} selected={selected} />
-	        			</div>
-        			</div>
+        			</Container>
         		</div>
         	</div>
-        </div>
     );
   }
 

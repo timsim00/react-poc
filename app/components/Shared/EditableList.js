@@ -57,7 +57,7 @@ var EditableList = React.createClass({
 	saveItems: function(newState){
 		var ids = newState.map(function(i){ return i.id;});
 		this.setState({selected: ids});
-		
+
 		if(this.props.onChange){
 			this.props.onChange(ids);
 		}
@@ -74,19 +74,17 @@ var EditableList = React.createClass({
 		var selectedItems = source.filter(function(item){
 			return selectedLookup[item.id];
 		});
-		
-		return (<div className="editable-list">
-			<div className="row">
-				<div className="pull-right">{this.state.a}
-					<ModalTrigger modal={<EditListModal source={source} selected={selected} onClose={this.handleHide} />}>
-      					<Button bsStyle="default">Edit</Button>
-    				</ModalTrigger>
-				</div>
+
+		return (
+		<div className="editable-list">
+			<div className="pull-right">{this.state.a}
+				<ModalTrigger modal={<EditListModal source={source} selected={selected} onClose={this.handleHide} />}>
+    					<Button bsStyle="default">Edit</Button>
+  				</ModalTrigger>
 			</div>
-			<div className="row">
-				<ItemList items={selectedItems} noCheck={true}/>
-			</div>
-		</div>);
+			<ItemList items={selectedItems} noCheck={true}/>
+		</div>
+		);
 	}
 });
 
