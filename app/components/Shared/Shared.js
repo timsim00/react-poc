@@ -134,6 +134,15 @@ module.exports = {
 	  handleFilterChange: function(key, newValue){
 		var selected = this.state.selected;
 		selected[key] = newValue;
+		if(this.props.single && newValue){
+			selected = {};
+			selected[key] = true;
+			this.props.items.forEach(function(item){
+				item.selected = (item.id === key);
+			});
+			this.setState({selected: selected});
+		}
+		
 		if(this.props.onChange){
 			var selectedItems = this.props.items.filter(function(i){return selected[i.id];});
 			this.props.onChange(selectedItems);
