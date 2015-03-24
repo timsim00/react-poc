@@ -1,7 +1,7 @@
 var React = require('react'),
     Router = require('react-router'),
     ReactBootstrap = require('react-bootstrap'),
-    ReactTagsInput = require('react-tagsinput'),
+    //ReactTagsInput = require('react-tagsinput'),
     $ = require('jquery'),
     PubSub = require('pubsub-js');
 
@@ -45,29 +45,32 @@ var ContentAdmin = React.createClass({
   	var that = this;
     return (
 	<div>
-    <div className="row pageTitle">
-  		<div className="col-md-6">
-  		  <h2>Content Administration</h2>
-  		</div>
-      <div className="col-md-6 text-right">
-      <Link to="distributed-sending" className="btn btn-default">
-        <span className="glyphicon glyphicon-arrow-left" />
-        &nbsp;Back to Overview
-      </Link>
-      </div>
-    </div>
+		<div className="row pageTitle">
+			<div className="col-md-6">
+				<h2>Content Administration</h2>
+			</div>
+			<div className="col-md-6 text-right">
+				<Link to="distributed-sending" className="btn btn-default">
+					<span className="glyphicon glyphicon-arrow-left" />
+					&nbsp;Back to Overview
+				</Link>
+			</div>
+		</div>
 		<div className="row">
-      <div className="col-md-4">
-        <div>
-          <ContentCategories />
-        </div>
-        <div>
-          <FilterByType data={filterData} onChange={that.handleFilterChange}/>
-        </div>
-      </div>
-      <div className="col-md-8">
-        <EmailSelect types={types}/>
-      </div>
+			<div className="col-md-2">
+				<div>
+					<ContentCategories />
+				</div>
+				<div>
+					<FilterByType data={filterData} onChange={that.handleFilterChange}/>
+				</div>
+			</div>
+			<div className="col-md-8">
+				<EmailSelect types={types}/>
+			</div>
+			<div className="col-md-2">
+				<Settings />
+			</div>			
 		</div>
 	</div>
     );
@@ -149,6 +152,56 @@ var ContentTags = React.createClass({
 */}
 
 /*** SETTINGS ***/
+
+var Settings = React.createClass({
+    subscriptions: {},
+	getInitialState: function() {
+		return {
+			emailname: "< Select an Email >"
+		}
+	},	
+	handleContentSelected: function(msg, data) {
+		var title = $('*[data-reactid="'+ data +'"]').text();
+		console.log($('*[data-reactid="'+ data +'"]'));
+		this.setState({emailname: title});
+	},	
+	componentDidMount: function() {
+		//subscribe to next disable state event
+		var token = PubSub.subscribe( 'Content-Selected', this.handleContentSelected );
+		this.subscriptions['Content-Selected'] = token;
+	},
+	componentWillUnmount: function() {
+		//un-subscribe to next disable state event
+		PubSub.unsubscribe( this.subscriptions['Content-Selected'] );
+	},  
+  render: function() {
+  	var imgStyle = {width:'80%;'};
+  	var tagStyle = {padding: '5px;', 'background-color': 'white;'};
+    return (
+    <Container title="Settings">
+    	<label id="emailLabel">{this.state.emailname}</label><br/>
+    	<hr className="divider" />
+		<div id="setEntitlements">
+            <label htmlFor="selectedEntitlements">Entitlements</label>
+			<ItemList items={entitlements} />
+		</div> 
+		<hr className="divider" />
+		<div id="setTypes">
+            <label htmlFor="setTypes">Types</label>
+			<ItemList items={filterData} />
+		</div>
+		<hr className="divider" />
+		<div id="setTypes">
+            <label htmlFor="setTypes">Tags</label><br/>
+            <div className="well" style={tagStyle}>
+				<img src="/images/tags.png" style={imgStyle} />
+			</div>
+		</div>				     	
+    </Container>
+    );
+  }
+
+});
 
 var MyModal = React.createClass({
   render: function() {
