@@ -187,23 +187,58 @@ var SubscriberOverview = React.createClass({
 });
 
 var OverviewTabs = React.createClass({
+  getInitialState: function(){
+    var state = {filter: "", openTab:"email", emails:this.props.emails, sends:this.props.sends};
+    return state;
+  },
+  changeTabs: function(c){
+    this.setState({openTab: c});
+  },
+  onSearchChange: function(filter) {
+    //this.setState({filter: filter});
+    var filteredEmails = _.filter(this.state.emails.rows, function(obj){
+      var name = obj.name.toLowerCase();
+      var subject = obj.subject.toLowerCase();
+      filter = filter.toLowerCase();
+      if (name.indexOf(filter) !== -1 || subject.indexOf(filter) !== -1) {
+        return obj;
+      }
+      return;
+    });
+
+    this.state.emails.rows = filteredEmails;
+    this.setState({emails : this.state.emails});
+
+    var filteredSends = _.filter(this.state.sends.rows, function(obj){
+      var name = obj.name.toLowerCase();
+      var subject = obj.subject.toLowerCase();
+      filter = filter.toLowerCase();
+      if (name.indexOf(filter) !== -1 || subject.indexOf(filter) !== -1) {
+        return obj;
+      }
+      return;
+    });
+    this.state.sends.rows = filteredSends;
+    this.setState({sends : this.state.sends});
+  },
   render: function() {
+    console.log(this.state.emails);
     return (
       <div>
         <ul className="nav nav-tabs" role="tablist">
-          <li className="active"><a href="#email" data-toggle="tab">Emails</a></li>
-          <li><a href="#sends" data-toggle="tab">Sends</a></li>
+          <li className="active"><a href="#email" data-toggle="tab" onClick={this.changeTabs.bind(this,"emails")}>Emails</a></li>
+          <li><a href="#sends" data-toggle="tab" onClick={this.changeTabs.bind(this, "sends")}>Sends</a></li>
         </ul>
         <br/>
         <div className="row">
-         <div className="col-md-3">
-          <SearchBar/>
+         <div id="searchbar" className="col-md-3">
+           <SearchBar onChange={this.onSearchChange} />
          </div>
         </div>
         <br/>
         <div className="tab-content well">
-          <div className="tab-pane active" id="email"><GridView data={this.props.emails} /></div>
-          <div className="tab-pane" id="sends"><GridView data={this.props.sends} /></div>
+          <div className="tab-pane active" id="email"><GridView data={this.state.emails} /></div>
+          <div className="tab-pane" id="sends"><GridView data={this.state.sends} /></div>
         </div>
 
       </div>

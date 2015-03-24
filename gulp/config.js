@@ -32,8 +32,9 @@ var config = {
 	},
 	fonts: {
 		src: [
-			src + 'node_modules/font-awesome/fonts/**/*.{ttf,woff,eof,svg}',
-			src + 'bower_components/bootstrap-sf1/dist/fonts/**/*.{ttf,woff,eof,svg}'
+			src + 'node_modules/font-awesome/fonts/**/*.{ttf,woff,eof,svg,woff2}',
+			src + 'bower_components/bootstrap-sf1/dist/fonts/**/*.{ttf,woff,eof,svg,woff2}',
+			src + 'fonts/**/*.{ttf,woff,eof,svg,woff2}'
 		],
 		dest: dest + "/fonts"
 	},
