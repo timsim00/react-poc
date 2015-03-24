@@ -26,19 +26,35 @@ var EditListModal = React.createClass({
 		this.props.onClose(a, this.state.selected);
 		this.props.onRequestHide();
 	},
-	onSelectionChange: function(selectedItems){
-		this.setState({selected: selectedItems});
+	onChangeSingle: function(id){
+		var selected = this.state.selected;
+		if(this.refs[id].getDOMNode().checked){
+			selected.push(id);
+		} else {
+			selected = selected.filter(function(i){return i !== id;});
+		}
+		this.setState({selected: selected});
 	},
 	render: function(){
 		var selectedLookup = createLookup(this.state.selected);
-		var items = (this.props.source || []).map(function(i){
-			i.selected = selectedLookup[i.id];
-			return i;
-		});
+		var items = this.props.source || [];
+		var self = this;
 		return (
 			<Modal {...this.props} onRequestHide={this.onHide} bsStyle="default">
 				<div className="modal-body">
-					<ItemList items={items} onChange={this.onSelectionChange} />
+					<div>
+						{items.map(function(i){
+							var checked = "";
+							if(selectedLookup[i.id]){
+								checked = "checked";
+							}
+							return (<div className="row" key={i.id}>
+								<div className="col-md-1"><input type="checkbox" ref={i.id} checked={checked} onChange={self.onChangeSingle.bind(self,i.id)} /></div>
+								<div className="col-md-5">{i.name} </div>
+								<div className="col-md-6">{i.email}</div>
+							</div>)
+						})}
+					</div>
 				</div>
 				<div className="modal-footer">
 					<Button onClick={this.onHide.bind(this, true)} bsStyle="primary"> Save </Button>
@@ -55,8 +71,7 @@ var EditableList = React.createClass({
 		return state;
 	},
 	saveItems: function(newState){
-		var ids = newState.map(function(i){ return i.id;});
-		this.setState({selected: ids});
+		this.setState({selected: newState});
 
 		if(this.props.onChange){
 			this.props.onChange(ids);
@@ -93,7 +108,7 @@ var EditableList = React.createClass({
 			<div className="clearfix" />
 			<div>
 				{selectedItems.map(function(i){
-					return <div className="row"><div className="col-md-6">{i.name}</div><div className="col-md-6">{i.email}</div></div>
+					return <div className="row" key={i.id}><div className="col-md-6">{i.name}</div><div className="col-md-6">{i.email}</div></div>
 				})}
 			</div>
 		</div>
