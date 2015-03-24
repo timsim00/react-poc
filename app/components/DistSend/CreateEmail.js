@@ -20,36 +20,9 @@ var FolderTree = require('../Shared/FolderTree');
 var FilterByType_ = require('../Shared/FilterByType').ItemList;
 var Container =  require('../Shared/Container');
 
-
-var folders = [
-    {
-        name: "Shared Emails",
-        folders: [
-            {
-                name: "Newsletters",
-                folders: [
-                    {name: "Retirement"},
-                    {name: "Mortgage"}
-                 ]
-            },
-            {name: "Webinars"},
-            {name: "Whitepapers"},
-            {name: "Series 7 Approved"},
-    ]},
-    { name: "Shared Templates"}
-];
-
-
-
-var filterData = {
-    title: "Filter By Type"
-    ,items: [
-        { title: "Newsletters", id: "newsletter" }
-        ,{ title: "Advice", id: "advice" }
-        ,{ title: "Managed Communications", id: "managed" }
-    ]
-};
-
+//data
+var folders = require("../../data/folders");
+var filterData = require("../../data/types");
 
 
 /**** MAIN *****/
@@ -283,7 +256,7 @@ var FilterByType = React.createClass({
 var EmailSelect = React.createClass({
 	subscriptions: {},
 	handleFolderSelected: function(msg, data) {
-		this.setState({FolderName: data});
+		this.setState({FolderName: data.name});
 	},
 	componentDidMount: function() {
 		//subscribe to next disable state event
@@ -301,11 +274,11 @@ var EmailSelect = React.createClass({
     	var searchStyle = {'padding-top':'10px;'};
 		return (
 		<Container title={ this.state.FolderName }>
-				<div className="row col-md-4 pull-right" style={searchStyle} >
-					<SearchBar />
-				</div>
-        <div className="clearfix"></div>
-				<RetirementThumbs types={this.props.types}/>
+			<div className="row col-md-4 pull-right" style={searchStyle} >
+				<SearchBar />
+			</div>
+			<div className="clearfix"></div>
+			<EmailThumbs types={this.props.types}/>
 		</Container>
 		);
     }
@@ -315,13 +288,14 @@ var EmailSelect = React.createClass({
 
 /****  Content Thumbnails ****/
 
-var thumbs = require("../../data").contentData;
-var RetirementThumbs = React.createClass({
+var thumbs = require("../../data/emails");
+var imgPath = '/images/';
+var EmailThumbs = React.createClass({
 	subscriptions: {},
 	getInitialState: function() {
 		return {
 			selectedId: null,
-			category: "Retirement"
+			folder: 7
 		}
 	},
 	handleThumbClick: function(e) {
@@ -343,7 +317,7 @@ var RetirementThumbs = React.createClass({
 		PubSub.publish( 'Content-Selected', thisId );
 	},
 	handleFolderSelected: function(msg, data) {
-		this.setState({category: data});
+		this.setState({folder: data.id});
 	},
 	componentDidMount: function() {
 		//subscribe to next disable state event
@@ -359,7 +333,7 @@ var RetirementThumbs = React.createClass({
 	  	var types = this.props.types.map(function(t){return t.id});
 	  	//var selectedStyle = {visibility:"hidden"};
   		var thumbList = thumbs.filter(function(t){
-  				return t.category === that.state.category;
+  				return t.folder === that.state.folder;
   			}).filter(function(t){
   				return types.length === 0 || types.indexOf(t.type) != -1;
   			});
@@ -368,9 +342,9 @@ var RetirementThumbs = React.createClass({
 			{thumbList.map(function(t){
 				return(
 				<div onClick={that.handleThumbClick} className="btn btn-default selectableEmailDivs">
-					<label htmlFor={t.id}>{t.title}</label><div className="selected-indicator hidden fa fa-check fa-lg" />
+					<label htmlFor={t.id}>{t.name}</label><div className="selected-indicator hidden fa fa-check fa-lg" />
 					<div>
-						<img className="retirement-img" id={t.id} src={t.imgUrl} height="220" width="200" />
+						<img className="retirement-img" id={t.id} src={imgPath + t.previewImage} height="220" width="200" />
 					</div>
 		   		</div>
 		   		)
