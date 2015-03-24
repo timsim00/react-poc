@@ -297,9 +297,13 @@ module.exports = {
 				this.props.onChange(selected);
 			}
       },
+      componentWillReceiveProps: function(nextProps){
+	    this.setState({selected : createLookup(nextProps.selected || [])});
+      },
 	  render: function() {
 	  	var selectedLookup = this.state.selected;
 	  	var self = this;
+	  	
 		return (
 			<div className="checkLst">
 			  {this.props.data.map(function(datum, index){
