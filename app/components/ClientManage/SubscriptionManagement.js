@@ -47,8 +47,8 @@ var ListSubs = React.createClass({
     return (
         
         <div>
-	        <h2>Subscription Management</h2>
-        	<div className="listsSubsMainContent container">
+	        <h2>Manage Subscription</h2>
+        	<div className="listsSubsMainContent">
         		<div className="col-md-6">
         			<div className="row">
         				<h3>Subscriptions</h3>

@@ -12,10 +12,9 @@ var ClientManagement = React.createClass({
     <h2>Client Management</h2>
     <div className="col-md-2">
       <ul className="nav nav-pills nav-stacked">
-        <ListItemLink to="lookup">Client Lookup</ListItemLink>
         <ListItemLink to="manage">Manage Clients</ListItemLink>
-        <ListItemLink to="lists">List Management</ListItemLink>
-        <ListItemLink to="subscriptions">Subscription Management</ListItemLink>
+        <ListItemLink to="lists">Manage Lists</ListItemLink>
+        <ListItemLink to="subscriptions">Manage Subscriptions</ListItemLink>
       </ul>
     </div>
     <div className="col-md-10">
