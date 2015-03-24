@@ -328,5 +328,48 @@ module.exports = {
 		</div>
 		);
 	}
-})
+}),
+	"RadioList": React.createClass({
+		getInitialState: function(){
+			var state = {};
+			state.selected = this.props.selected;
+			return state;
+		},
+		componentWillReceiveProps: function(newProps){
+			var newState = {};
+			newState.selected = newProps.selected;
+			this.setState(newState);
+		},
+		onChange: function(id){
+			var selected = this.state.selected;
+			if(this.refs[id].getDOMNode().checked){
+				selected = id;
+			} else {
+				selected = null;
+			}
+			this.setState({selected: selected});
+			if(this.props.onSelectionChange){
+				this.props.onSelectionChange(selected);
+			}
+		},
+		render: function(){
+			var items = this.props.source || [];
+			var self = this;
+			var currentSelect = this.state.selected;
+			//TODO consider adding radio button name to group radio buttons correctly
+			return (<div>	
+						{items.map(function(i){
+							var checked = "";
+							if(currentSelect === i.id){
+								checked = "checked";
+							}
+							return (<div className="row" key={i.id}>
+								<div className="col-md-1"><input type="radio" ref={i.id} checked={checked} onChange={self.onChange.bind(self,i.id)} /></div>
+								<div className="col-md-5">{i.name} </div>
+								<div className="col-md-6">{i.email}</div>
+							</div>)
+						})}
+					</div>)
+			}
+	})
 };

@@ -1,6 +1,7 @@
 var React = require('react');
 var Shared = require('../Shared/Shared');
 var ItemList = Shared.ItemList;
+var RadioList = Shared.RadioList;
 var EditableList = require("../Shared/EditableList");
 var CheckListPlus = Shared.CheckListPlus;
 var Container =  require('../Shared/Container');
@@ -23,22 +24,26 @@ var members = clients.map(function(m){
 });
 
 var ListSubs = React.createClass({
-  onSelectedListsChange: function(e){
-	this.setState({selectedList: e[0], editedName: null});
+  onSelectedListsChange: function(selectedListId){
+  	var selectedList;
+  	if(selectedListId){
+  		selectedList = this.state.lists.filter(function(l){return l.id === selectedListId;})[0];
+  	}
+	this.setState({selectedList: selectedList, editedName: null});
 
   },
   onNameChange: function(v){
   	this.setState({editedName: this.refs.groupName.getDOMNode().value});
   },
   deleteList: function(){
-  	if(this.state.selectedList && this.state.selectedList.id !== "all"){
+  	if(this.state.selectedList){
   		var selected = this.state.selectedList;
   		var lists = this.state.lists.filter(function(l){return l.id !== selected.id;});
   		this.setState({lists: lists});
   	}
   },
   renameList: function(){
-  	if(this.state.selectedList && this.state.selectedList.id !== "all"){
+  	if(this.state.selectedList){
   		var edited = this.state.editedName;
   		if(edited != null && edited != ''){
   			var selected = this.state.selectedList;
@@ -79,8 +84,10 @@ var ListSubs = React.createClass({
   		selectedName = "";
   	}
 
-  	var selected = []; 
-  	if(self.state.selectedList){
+  	var selected = [];
+  	var selectedId = null;
+  	if(this.state.selectedList){
+  		selectedId = this.state.selectedList.id;
 		selected = clients.filter(function(m){
 			return m.lists.indexOf(self.state.selectedList.id) !== -1;
 		}).map(function(m){
@@ -92,7 +99,7 @@ var ListSubs = React.createClass({
         <div>
           <div className="col-md-6 listsSubsMainContent">
             <Container title="My Lists">
-              <ItemList items={this.state.lists} onChange={this.onSelectedListsChange}/>
+              <RadioList source={this.state.lists} selected={selectedId} onSelectionChange={this.onSelectedListsChange}/>
             </Container>
 				<div className="row group-btns">
 					<div className="col-md-6">
