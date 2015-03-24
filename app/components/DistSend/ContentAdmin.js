@@ -155,11 +155,30 @@ var ContentTags = React.createClass({
 
 var Settings = React.createClass({
     subscriptions: {},
-	getInitialState: function() {
+    
+	getNextId : (function(){
+	  	var id = 0;
+	  	return function(){
+		  	return id++;
+	  	};
+	})(),
+
+	getInitialState: function(){
 		return {
-			emailname: "< Select an Email >"
-		}
-	},	
+			emailname: "< Select an Email >", tags: []
+		}	
+	}, 
+	addTag : function () {
+		this.state.tags.push({id: this.getNextId(), value: this.refs.tagname.getDOMNode().value});  
+		this.setState({tags: this.state.tags});
+	},
+	removeTag : function (id) {
+		var filteredArray = this.state.tags.filter(function(t){
+			return t.id !== id;
+		});
+		console.log(filteredArray);
+		this.setState({tags:filteredArray});
+	},    
 	handleContentSelected: function(msg, data) {
 		var title = $('*[data-reactid="'+ data +'"]').text();
 		console.log($('*[data-reactid="'+ data +'"]'));
@@ -174,32 +193,41 @@ var Settings = React.createClass({
 		//un-subscribe to next disable state event
 		PubSub.unsubscribe( this.subscriptions['Content-Selected'] );
 	},  
-  render: function() {
-  	var imgStyle = {width:'80%;'};
-  	var tagStyle = {padding: '5px;', 'background-color': 'white;'};
-    return (
-    <Container title="Settings">
-    	<label id="emailLabel">{this.state.emailname}</label><br/>
-    	<hr className="divider" />
-		<div id="setEntitlements">
-            <label htmlFor="selectedEntitlements">Entitlements</label>
-			<ItemList items={entitlements} />
-		</div> 
-		<hr className="divider" />
-		<div id="setTypes">
-            <label htmlFor="setTypes">Types</label>
-			<ItemList items={filterData} />
-		</div>
-		<hr className="divider" />
-		<div id="setTypes">
-            <label htmlFor="setTypes">Tags</label><br/>
-            <div className="well" style={tagStyle}>
-				<img src="/images/tags.png" style={imgStyle} />
+  	render: function() {
+  		var imgStyle = {width:'80%;'};
+  		var tagStyle = {padding: '5px;', 'background-color': 'white;'};
+  		var self = this;
+    	return (
+		<Container title="Settings">
+			<label id="emailLabel">{this.state.emailname}</label><br/>
+			<hr className="divider" />
+			<div id="setEntitlements">
+				<label htmlFor="selectedEntitlements">Entitlements</label>
+				<ItemList items={entitlements} />
+			</div> 
+			<hr className="divider" />
+			<div id="setTypes">
+				<label htmlFor="setTypes">Types</label>
+				<ItemList items={filterData} />
 			</div>
-		</div>				     	
-    </Container>
-    );
-  }
+			<hr className="divider" />
+			<div id="setTags">
+				<label htmlFor="setTypes">Tags</label><br/>
+				<div id="selectedTags">
+					<div className = "input-group" >
+						<input type="text" className="form-control" aria-label="..." placeholder="tagname" id="tagname" ref="tagname" />
+						<div className="input-group-btn" >
+							<button type="button" className="btn btn-default" onClick={this.addTag}>Add</button>
+						</div> 
+					</div>
+					<div>
+						{ this.state.tags.map(function(tag) { return <button className="btn btn-default"> { tag.value } <span className="glyphicon glyphicon-remove-circle" onClick={self.removeTag.bind(self, tag.id)} /> </button> }) } 
+					</div>
+				</div>
+			</div>				     	
+		</Container>
+    	);
+  	}
 
 });
 
