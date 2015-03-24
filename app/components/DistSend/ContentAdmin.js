@@ -26,20 +26,13 @@ var Container =  require('../Shared/Container');
 
 //data
 var folders = require("../../data/folders");
+var filterData = require("../../data/types");
 
-
-var filterData = {
-    title: "Filter By Type"
-    ,items: [
-        { title: "Newsletters", id: "newsletter" }
-        ,{ title: "Advice", id: "advice" }
-        ,{ title: "Managed Communications", id: "managed" }
-    ]
-};
-
+/*** MAIN ***/
 
 var ContentAdmin = React.createClass({
   handleFilterChange: function(selectedTypes){
+  	console.log('selectedTypes:',selectedTypes);
   	this.setState({selectedTypes: selectedTypes});
   },
   getInitialState: function(){
@@ -94,6 +87,8 @@ var ContentCategories = React.createClass({
 
 });
 
+
+/*** FILTER BY TYPE ***/
 
 var FilterByType = React.createClass({
   render: function() {
@@ -152,6 +147,8 @@ var ContentTags = React.createClass({
   }
 });
 */}
+
+/*** SETTINGS ***/
 
 var MyModal = React.createClass({
   render: function() {

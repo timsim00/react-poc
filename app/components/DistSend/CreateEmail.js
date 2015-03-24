@@ -22,17 +22,7 @@ var Container =  require('../Shared/Container');
 
 //data
 var folders = require("../../data/folders");
-
-
-var filterData = {
-    title: "Filter By Type"
-    ,items: [
-        { title: "Newsletters", id: "newsletter" }
-        ,{ title: "Advice", id: "advice" }
-        ,{ title: "Managed Communications", id: "managed" }
-    ]
-};
-
+var filterData = require("../../data/types");
 
 
 /**** MAIN *****/
