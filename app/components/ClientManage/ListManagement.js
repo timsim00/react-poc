@@ -1,6 +1,5 @@
 var React = require('react');
 var Shared = require('../Shared/Shared');
-var ItemList = Shared.ItemList;
 var RadioList = Shared.RadioList;
 var EditableList = require("../Shared/EditableList");
 var CheckListPlus = Shared.CheckListPlus;

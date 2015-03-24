@@ -1,9 +1,11 @@
 var React = require('react');
 var Shared = require('../Shared/Shared');
-var ItemList = Shared.ItemList;
+var RadioList = Shared.RadioList;
 var CheckListPlus = Shared.CheckListPlus;
 var EditableList = require("../Shared/EditableList");
-var publications = require("../../data/publications");
+var publications = require("../../data/publications").map(function(p){
+	return {id: p.id, content: <div className="col-md-11"><div>{p.name}</div><div>{p.description}</div></div> };
+});
 var Container =  require('../Shared/Container');
 
 var clients = require("../../data/clients");
@@ -12,8 +14,12 @@ var members = clients.map(function(m){
 });
 
 var ListSubs = React.createClass({
-  onSelectedPublicationChange: function(e){
-	this.setState({selectedPublication: e[0]});
+  onSelectedPublicationChange: function(selectedPublicationId){
+  	var selectedPublication;
+  	if(selectedPublicationId){
+  		selectedPublication = publications.filter(function(p){return p.id === selectedPublicationId;})[0];
+  	}
+	this.setState({selectedPublication: selectedPublication});
 
   },
   getInitialState: function(){
@@ -31,13 +37,13 @@ var ListSubs = React.createClass({
 		});  	
   	}
 
-	var selectedPublicationIds = this.state.selectedPublication? [this.state.selectedPublication.id] : [];
+	var selectedPublicationId = this.state.selectedPublication? this.state.selectedPublication.id : null;
 
     return (
         	<div className="listsSubsMainContent">
         		<div className="col-md-6">
               <Container title="Subscriptions">
-                <CheckListPlus data={publications} selected={selectedPublicationIds} onChange={this.onSelectedPublicationChange}/>
+                <RadioList source={publications} selected={selectedPublicationId} onSelectionChange={this.onSelectedPublicationChange}/>
               </Container>
         		</div>
         		<div className="col-md-6">
