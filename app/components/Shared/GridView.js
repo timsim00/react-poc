@@ -33,6 +33,7 @@ var GridView = React.createClass({
             <th>Actions</th>
           </tr>
 				</thead>
+        <tbody>
         {this.props.data.rows.map(function (row,i) {
   			return (
           <tr key={i}>
@@ -46,7 +47,9 @@ var GridView = React.createClass({
             </tr>
           )
 				})
-			} </table>
+			}
+        </tbody> 
+      </table>
 		</div>
 		<div>
 			<Pagination data={this.props.data.pageData} />
