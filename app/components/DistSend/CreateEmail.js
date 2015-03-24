@@ -297,13 +297,15 @@ var EmailSelect = React.createClass({
 
 /****  Content Thumbnails ****/
 
-var thumbs = require("../../data").contentData;
+//var thumbs = require("../../data").contentData;
+var thumbs = require("../../data/emails");
+var imgPath = '/images/';
 var RetirementThumbs = React.createClass({
 	subscriptions: {},
 	getInitialState: function() {
 		return {
 			selectedId: null,
-			category: 7
+			folder: 7
 		}
 	},
 	handleThumbClick: function(e) {
@@ -325,7 +327,7 @@ var RetirementThumbs = React.createClass({
 		PubSub.publish( 'Content-Selected', thisId );
 	},
 	handleFolderSelected: function(msg, data) {
-		this.setState({category: data.id});
+		this.setState({folder: data.id});
 	},
 	componentDidMount: function() {
 		//subscribe to next disable state event
@@ -341,7 +343,7 @@ var RetirementThumbs = React.createClass({
 	  	var types = this.props.types.map(function(t){return t.id});
 	  	//var selectedStyle = {visibility:"hidden"};
   		var thumbList = thumbs.filter(function(t){
-  				return t.category === that.state.category;
+  				return t.folder === that.state.folder;
   			}).filter(function(t){
   				return types.length === 0 || types.indexOf(t.type) != -1;
   			});
@@ -350,9 +352,9 @@ var RetirementThumbs = React.createClass({
 			{thumbList.map(function(t){
 				return(
 				<div onClick={that.handleThumbClick} className="btn btn-default selectableEmailDivs">
-					<label htmlFor={t.id}>{t.title}</label><div className="selected-indicator hidden fa fa-check fa-lg" />
+					<label htmlFor={t.id}>{t.name}</label><div className="selected-indicator hidden fa fa-check fa-lg" />
 					<div>
-						<img className="retirement-img" id={t.id} src={t.imgUrl} height="220" width="200" />
+						<img className="retirement-img" id={t.id} src={imgPath + t.previewImage} height="220" width="200" />
 					</div>
 		   		</div>
 		   		)
