@@ -82,37 +82,26 @@ var MasterItem = React.createClass({
 	__changeSelection: function(item) {
 		var newValue = !this.state.selected;
 		item.prevSelected = item.selected;
-        this.setState({selected: newValue});
-        item.selected = newValue; //this.state.selected;
-        if(this.props.onChange){
-        	this.props.onChange(item.id, newValue);
-        }
+		this.setState({selected: newValue});
+		item.selected = newValue; //this.state.selected;
+		if(this.props.onChange){
+			this.props.onChange(item.id, newValue);
+		}
+		this.props.itemselect(item);
     	PubSub.publish( 'Item-Check-Change-'+this.props.listid, {item: item} );
     },
     getInitialState: function(){
-    	var state = {};
-    	state.selected = this.props.item.selected;
-    	state.disabled = this.props.item.disabled;
-    	return state;
+    	return {};
     },
     render: function () {
     	var that = this;
-    	var checked = "";
-    	var disabledAttr = "";
-    	var disabledClasses = "";
-
-    	if(this.state.selected){
-    		checked = "checked";
-    	}
-
-    	if(this.state.disabled){
-    		disabledAttr = "disabled";
-    		disabledClasses= "disabledColor";
-    	}
+    	var checked = (this.props.item.selected) ? "checked" : "";
+    	var disabledAttr = (this.props.item.disabled) ? "disabled" : "";
+    	var disabledClasses = (this.state.disabled) ? "disabledColor" : "";	
 
         var colattrs = [];
         for (var i=0; i<this.props.columns.length; i++) {
-        	colattrs.push(this.props.columns[i].attr);
+        	colattrs.push(this.props.columns[i].attr);  //get an array of column field names (attributes)
         }
         var colClass = 'col-md-' + this.props.columns[0].width;
 		var first=true;
@@ -333,23 +322,46 @@ module.exports = {
       	}
       	//put the child counts back into master items
       	for (var i=0; i<masterdata.length; i++) {
-      		var row = masterdata[i];
+      		var row = masterdata[i];      		
       		var masterId = row[masterIdFld];
-			row.__childCount = masterCnts[ masterId ];
-			row.children = childItems[ masterId ]; //bolt on
+			if (row.__all) {
+				row.__childCount = children;
+				row.children = childdata; //bolt on
+			} else {
+				row.__childCount = masterCnts[ masterId ];
+				row.children = childItems[ masterId ]; //bolt on			
+			}
       	}
+      },
+      onItemSelect: function(item) {
+		if (item.__all) {
+			if (item.selected) {
+				//uncheck/disable all others
+				var items = this.state.items;
+				for (var i=1; i<items.length; i++) {
+					items[i].selected = false;
+					items[i].disabled = true;
+				}
+				this.setState({items:items});
+			} else {
+				//enable all
+				var items = this.state.items;
+				for (var i=1; i<items.length; i++) {
+					items[i].disabled = false;
+				}
+				this.setState({items:items});				
+			}
+		}      	
       },
       getInitialState: function(){
       	var items = this.props.items;
-      	this.needsChildCount() && this.getChildCounts();
-
-        var selected = {};
-        this.props.items.filter(function(i){
-        	return i.selected;
-        }).forEach(function(i){
-        	selected[i.id] = true;
-        });
-        return {items:items, selected: selected, listid:this.props.listid};
+		if (this.props.child.all) { 
+			this.props.child.all.data.__all = true;
+			items.splice(0,0,this.props.child.all.data);  //insert an "All" row at the top.
+		}
+      	this.needsChildCount() && this.getChildCounts();  //insert a child-count attr for each item.
+     
+        return {items:items, listid:this.props.listid};
       },
       render: function(){
         var that = this;
@@ -358,10 +370,10 @@ module.exports = {
         for (var i=0; i<this.props.columns.length; i++) {
         	headers.push(this.props.columns[i].heading);
         }
-		var rootClasses = "itemList";
-        var itemNodes = this.props.items.map(function (item) {
-          	return <MasterItem item={item} listid={that.props.listid} key={item.id} columns={that.props.columns} />
-        });
+		var rootClasses = "itemList";		
+        var itemNodes = this.state.items.map(function (item) {
+          	return <MasterItem item={item} listid={that.props.listid} key={item.id} columns={that.props.columns} itemselect={that.onItemSelect} />
+        });        
         return (
             <div className={rootClasses}>
             	<MasterHeader data={headers} columns={that.props.columns} />

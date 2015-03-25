@@ -144,11 +144,12 @@ var Wizard = React.createClass({
 		this.setState({btnNextDisabled: false, tabs: ''});
 	},
 	handleAudienceListChange: function(msg, data) {
-		console.log('handleAudienceListChange',data);
 		if (data.add) {
 			this.state.audiencecount++;
 		} else if (data.remove) {
 			this.state.audiencecount--;
+		} else if (data.replace) {
+			this.state.audiencecount = 1;
 		}
 		this.setState({audiencecount: this.state.audiencecount});
 		this.setState({btnNextDisabled: this.state.audiencecount==0});
@@ -427,44 +428,55 @@ var StepSelectAudience = React.createClass({
 	listid: "subscriberCheckList",
 	masterlistid: "masterCheckList",
 	masterCols: [{heading:'Name',attr:"name", width:7},{heading:'#Clients',attr:"__childCount", width:3}],
-	listChild: {data:clients, masterId:"id", childId:"lists"},
+	listChild: {data:clients, masterId:"id", childId:"lists", all:{data:{"id": 0, "name":"All Clients"}} },
 	subscriptions: {},
 	handleClientItemChanged: function(msg, data) {
 		var n = (data.item.prevSelected && !data.item.selected) ? -1 : 1;
 		PubSub.publish( 'Audience-Count-Change', {add: n} );
 	},
 	handleListItemChanged: function(msg, data) {
-		var n = (data.item.prevSelected && !data.item.selected) ? -(data.item.__childCount) : data.item.__childCount;
-		var o = (data.item.prevSelected && !data.item.selected) ? {remove: data.item} : {add: data.item};
-		PubSub.publish( 'Audience-Count-Change', {add: n} );
+		var n,o;
+		if (data.item.__all) {
+			n = (data.item.prevSelected && !data.item.selected) ? {replace: 0} : {replace: data.item.__childCount};
+			o = (data.item.prevSelected && !data.item.selected) ? {remove: data.item} : {replace: data.item};
+			
+			(data.item.prevSelected && !data.item.selected) && PubSub.publish( 'Excluded-Count-Change', {replace: 0} );
+			(data.item.prevSelected && !data.item.selected) && PubSub.publish( 'Excluded-List-Change',  {replace: []});						
+		} else {
+			n = (data.item.prevSelected && !data.item.selected) ? {add: -(data.item.__childCount)} : {add: data.item.__childCount};
+			o = (data.item.prevSelected && !data.item.selected) ? {remove: data.item} : {add: data.item};
+		}
+		PubSub.publish( 'Audience-Count-Change', n );
 		PubSub.publish( 'Audience-List-Change',  o);
+	},
+	addAudienceMembers: function(memberList) {
+		for (var i=0; i<memberList.length; i++) {
+			var c = memberList[i];
+			var sub = {
+				id: c.emailAddress
+				,title: c.firstName + ' ' + c.lastName
+				,data: [c.emailAddress]
+				,checked: "checked"
+				,selected: true
+			};
+			//total hack:
+			if ((i !=0) && (i % 9 == 0)) {
+				sub.data.push('Sent 03/12/2015');
+				sub.disabled = true;
+				delete sub.checked;
+				delete sub.selected;
+				PubSub.publish( 'Excluded-List-Change',  {add: sub});
+				PubSub.publish( 'Audience-Count-Change', {add: -1} );
+				PubSub.publish( 'Excluded-Count-Change', {add: 1} );
+			}
+			this.state.subscribers.push(sub);
+		}	
 	},
 	handleAudienceChanged: function(msg, data) {
 		if (data.add) {
-			for (var i=0; i<data.add.children.length; i++) {
-				var c = data.add.children[i];
-				var sub = {
-					id: c.emailAddress
-					,title: c.firstName + ' ' + c.lastName
-					,data: [c.emailAddress]
-					,checked: "checked"
-					,selected: true
-				};
-				//total hack:
-				if ((i !=0) && (i % 9 == 0)) {
-					sub.data.push('Sent 03/12/2015');
-					sub.disabled = true;
-					delete sub.checked;
-					delete sub.selected;
-					PubSub.publish( 'Excluded-List-Change',  {add: sub});
-					PubSub.publish( 'Audience-Count-Change', {add: -1} );
-					PubSub.publish( 'Excluded-Count-Change', {add: 1} );
-				}
-				this.state.subscribers.push(sub);
-			}
+			this.addAudienceMembers( data.add.children );
 		} else if (data.remove) {
 			for (var i=this.state.subscribers.length-1; i>-1; i--) {
-				console.log(i);
 				for (var j=0; j<data.remove.children.length; j++) {
 					var c = data.remove.children[j];
 					if (this.state.subscribers[i] && this.state.subscribers[i].id == c.emailAddress) {
@@ -476,6 +488,9 @@ var StepSelectAudience = React.createClass({
 					}
 				}
 			}
+		} else if (data.replace) {
+			this.state.subscribers = [];
+			this.addAudienceMembers( data.replace.children );
 		}
 
 		this.setState({subscribers: this.state.subscribers});
@@ -491,7 +506,7 @@ var StepSelectAudience = React.createClass({
 		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );
 	},
     getInitialState: function(){
-		return { subscribers: [] };
+		return { subscribers: [] };		
     },
   render: function() {
   	var listspanstyle = { float:'left', padding:'7px' };
@@ -633,13 +648,21 @@ var ExcludedItem = React.createClass({
 var SelectedItemList = React.createClass({
 	subscriptions: {},
 	handleSelectedCountChange: function(msg, data) {
-		this.state.selectedCount += data.add;
-		if (this.state.selectedCount < 0) this.state.selectedCount = 0;
+		if (data.add) {
+			this.state.selectedCount += data.add;
+			if (this.state.selectedCount < 0) this.state.selectedCount = 0;
+		} else if (typeof(data.replace)=="number") {
+			this.state.selectedCount = data.replace;
+		}
 		this.setState({ selectedCount: this.state.selectedCount });
 	},
 	handleExcludedCountChange: function(msg, data) {
-		this.state.excludedCount += data.add;
-		if (this.state.excludedCount < 0) this.state.excludedCount = 0;
+		if (data.add) {
+			this.state.excludedCount += data.add;
+			if (this.state.excludedCount < 0) this.state.excludedCount = 0;
+		} else if (typeof(data.replace)=="number") {
+			this.state.excludedCount = data.replace;
+		}
 		this.setState({ excludedCount: this.state.excludedCount });
 	},
 	handleSelectedListChange: function(msg, data) {
@@ -648,6 +671,8 @@ var SelectedItemList = React.createClass({
 		} else if (data.remove) {
 			var i = this.state.items.indexOf(data.remove.name);
 			this.state.items.splice(i,1);
+		} else if (data.replace) {
+			this.state.items = [data.replace.name];
 		}
 		this.setState({items: this.state.items});
 	},
@@ -656,27 +681,23 @@ var SelectedItemList = React.createClass({
 			this.state.excludes.push(data.add);
 		} else if (data.remove) {
 			var j = -1;
-			console.log(data.remove);
 			for (var i=0; i<this.state.excludes.length; i++) {
-				console.log(this.state.excludes[i]);
 				if (this.state.excludes[i].id == data.remove.id) {
 					j = i;
 					break;
 				}
 			}
 			if (j != -1) this.state.excludes.splice(j,1);
+		} else if (data.replace) {
+			this.state.excludes = data.replace;
 		}
 		this.setState({excludes: this.state.excludes});
 	},
 	componentDidMount: function() {
-		var token = PubSub.subscribe( 'Audience-Count-Change', this.handleSelectedCountChange );
-		this.subscriptions['Audience-Count-Change'] = token;
-		token = PubSub.subscribe( 'Audience-List-Change', this.handleSelectedListChange );
-		this.subscriptions['Audience-List-Change'] = token;
-		token = PubSub.subscribe( 'Excluded-List-Change', this.handleExcludedListChange );
-		this.subscriptions['Excluded-List-Change'] = token;
-		token = PubSub.subscribe( 'Excluded-Count-Change', this.handleExcludedCountChange );
-		this.subscriptions['Excluded-Count-Change'] = token;
+		this.subscriptions['Audience-Count-Change'] = PubSub.subscribe( 'Audience-Count-Change', this.handleSelectedCountChange );
+		this.subscriptions['Audience-List-Change'] = PubSub.subscribe( 'Audience-List-Change', this.handleSelectedListChange );
+		this.subscriptions['Excluded-List-Change'] = PubSub.subscribe( 'Excluded-List-Change', this.handleExcludedListChange );
+		this.subscriptions['Excluded-Count-Change'] = PubSub.subscribe( 'Excluded-Count-Change', this.handleExcludedCountChange );
 	},
 	componentWillUnmount: function() {
 		PubSub.unsubscribe( this.subscriptions['Audience-Count-Change'] );
@@ -738,6 +759,8 @@ var StepSchedule = React.createClass({
 		} else if (data.remove) {
 			var i = this.state.audiencelist.indexOf(data.remove.name);
 			this.state.audiencelist.splice(i,1);
+		} else if (data.replace) {
+			this.state.audiencelist = [data.replace.name];
 		}
 		this.setState({audiencelist: this.state.audiencelist});
 	},	
