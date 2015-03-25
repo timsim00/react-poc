@@ -8,6 +8,8 @@ var Button = ReactBootstrap.Button;
 var Shared = require("./Shared");
 var ItemList = Shared.ItemList;
 
+var Container = require("./Container");
+
 
 var createLookup = function(list){
 	return list.reduce(function(lookup, current){
@@ -22,8 +24,8 @@ var EditListModal = React.createClass({
 		state.selected = this.props.selected;
 		return state;
 	},
-	onHide: function(a){
-		this.props.onClose(a, this.state.selected);
+	onHide: function(){
+		this.props.onClose(this.state.selected);
 		this.props.onRequestHide();
 	},
 	onChangeSingle: function(id){
@@ -56,9 +58,6 @@ var EditListModal = React.createClass({
 						})}
 					</div>
 				</div>
-				<div className="modal-footer">
-					<Button onClick={this.onHide.bind(this, true)} bsStyle="primary"> Save </Button>
-				</div>
 			</Modal>
 		);
 	}
@@ -77,10 +76,8 @@ var EditableList = React.createClass({
 			this.props.onChange(ids);
 		}
 	},
-	handleHide: function(save, items){
-		if(save){
-			this.saveItems(items);
-		}
+	handleHide: function(items){
+		this.saveItems(items);
 	},
 	componentWillReceiveProps: function(nextProps){
 		var newState = {};
@@ -98,20 +95,18 @@ var EditableList = React.createClass({
 			return selectedLookup[item.id];
 		});
 
-		return (
-		<div className="editable-list">
-			<div className="pull-right">{this.state.a}
-				<ModalTrigger modal={<EditListModal source={source} selected={selected} onClose={this.handleHide} />}>
+		var buttons = (<ModalTrigger modal={<EditListModal source={source} selected={selected} onClose={this.handleHide} />}>
     					<Button bsStyle="default">Edit</Button>
-  				</ModalTrigger>
-			</div>
-			<div className="clearfix" />
-			<div>
+  				</ModalTrigger>)
+
+		return (
+		<Container buttons={buttons} title={this.props.title} >
+			<div className="editable-list">
 				{selectedItems.map(function(i){
 					return <div className="row" key={i.id}><div className="col-md-5">{i.name}</div><div className="col-md-7">{i.email}</div></div>
 				})}
 			</div>
-		</div>
+		</Container>
 		);
 	}
 });

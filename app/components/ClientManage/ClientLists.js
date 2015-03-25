@@ -28,13 +28,9 @@ var isMatchForFilter = function(data, filter){
 }
 
 var ClientLists = React.createClass({
-	//May not be needed
-  onSelectedListsChange: function(lists){
-  	this.setState({selectedLists: lists});
-  },
-	//May not be needed
   onSelectedPublicationsChange: function(publications){
-  	this.setState({selectedPublications: publications});
+  	this.state.selectedClient.publications = publications;
+  	this.setState({selectedPublications: publications, selectedClient: this.state.selectedClient});
   },
   onSelectedClientChange : function(clientId){
   	var selectedClient = null;
@@ -48,7 +44,6 @@ var ClientLists = React.createClass({
   		selectedPublications: selectedClient.publications,
   		selectedLists: selectedClient.lists
   	});
-
   },
   getInitialState: function(){
   	var state = {selectedLists: [], selectedPublications: [], filter: "", selectedClient:null, changes: {}};
@@ -63,27 +58,8 @@ var ClientLists = React.createClass({
   },
   onClientDetailChange: function(property){
   	var newValue = this.refs[property].getDOMNode().value;
-  	var changes = this.state.changes;
-  	changes[property] = newValue;
-  	this.setState({changes: changes});
-  },
-  onSave : function(){
-	if(this.state.changes.firstName){
-		this.state.selectedClient.firstName = this.state.changes.firstName;
-	}
-
-	if(this.state.changes.lastName){
-		this.state.selectedClient.lastName = this.state.changes.lastName;
-	}
-
-	if(this.state.changes.emailAddress){
-		this.state.selectedClient.emailAddress = this.state.changes.emailAddress;
-	}
-
-	this.state.selectedClient.lists = this.state.selectedLists;
-	this.state.selectedClient.publications = this.state.selectedPublications;
-
-	this.setState({selectedClient: this.state.selectedClient, changes: {}});
+  	this.state.selectedClient[property] = newValue;
+	this.setState({selectedClient: this.state.selectedClient});
   },
   onChangeSingle: function(id){
 	var selectedLists = this.state.selectedLists;
@@ -92,7 +68,8 @@ var ClientLists = React.createClass({
 	} else {
 		selectedLists = selectedLists.filter(function(i){return i !== id;});
 	}
-	this.setState({selectedLists: selectedLists});
+	this.state.selectedClient.lists = this.state.selectedLists;
+	this.setState({selectedLists: selectedLists, selectedClient: this.state.selectedClient});
 },
   render: function() {
 
@@ -154,12 +131,6 @@ var ClientLists = React.createClass({
 					</div>
 				</div>
 				<div className="clearfix"></div>
-				<div className="row">
-					<div className="col-md-7 pull-right text-right">
-						<button className="btn btn-primary">Upload New Clients</button>
-						<div className="small">Upload new contacts from your desktop using a “delimited” file</div>
-					</div>
-				</div>
             </Container>
 			<Container title="Lists">
 				<div>
@@ -179,16 +150,14 @@ var ClientLists = React.createClass({
 			<Container title="Email Subscriptions">
 				<CheckListPlus data={subscriptions} selected={this.state.selectedPublications} onChange={this.onSelectedPublicationsChange}/>
 			</Container>
-			<div className="row">
-				<div className="col-md-12 text-center">
-					<button className="btn btn-primary" onClick={this.onSave}>Save</button>
-				</div>
-			</div>
+			<Container title="Upload New Clients">
+				<button className="btn btn-primary">Upload</button>
+				<div className="small">Upload new contacts from your desktop using a “delimited” file</div>
+			</Container>
 		</div>
     </div>
     );
   }
 });
 
-//<ItemList items={listCopy} onChange={this.onSelectedListsChange}/>
 module.exports = ClientLists;
