@@ -20,7 +20,7 @@ var Settings = React.createClass({
     subscriptions: {},
 
 	getNextId : (function(){
-	  	var id = 0;
+	  	var id = tagData.map(function(t){return t.id}).reduce(function(m,c){if(c>m){return c}return m}) + 1;
 	  	return function(){
 		  	return id++;
 	  	};
