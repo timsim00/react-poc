@@ -1,3 +1,6 @@
+/*
+	TODO?: Would be more helpful if this were { "1": {...}, "2": {...}, etc. }  this I could find just by: selected = emails[selectedId];
+*/
 module.exports = [{
     id: 1,
     name: "MS - Newsletter - March 2015",
