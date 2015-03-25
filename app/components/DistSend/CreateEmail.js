@@ -20,6 +20,8 @@ var MasterList = Shared.MasterList;
 var FolderTree = require('../Shared/FolderTree');
 var FilterByType_ = require('../Shared/FilterByType').ItemList;
 var Container =  require('../Shared/Container');
+var ModalContainer = require('../Shared/ModalContainer');
+var EmailThumbs =  require('../Shared/EmailThumbs');
 
 //data
 var folders = require("../../data/folders");
@@ -287,90 +289,6 @@ var EmailSelect = React.createClass({
 
 
 
-/****  Content Thumbnails ****/
-
-var thumbs = require("../../data/emails");
-var imgPath = '/images/';
-var EmailThumbs = React.createClass({
-	subscriptions: {},
-	getInitialState: function() {
-		return {
-			selectedId: null,
-			folder: 7
-		}
-	},
-	handleThumbClick: function(e) {
-		e.preventDefault();
-		var $ele = $(e.target);
-		if (!$ele.hasClass('selectableEmailDivs')) $ele = $ele.closest('.selectableEmailDivs');
-		var thisId = $ele.data('reactid');
-		var $check = $ele.find('.selected-indicator');
-
-		if (this.state.selectedId) {
-			var $prev = $('*[data-reactid="'+ this.state.selectedId +'"]');
-			//$prev.removeClass('active');
-			$prev.find('.selected-indicator').removeClass('checked');
-		}
-		this.state.selectedId = thisId;
-		//$ele.addClass('active');
-		$check.addClass('content-selected').addClass('checked');
-
-		PubSub.publish( 'Content-Selected', thisId );
-	},
-	handleFolderSelected: function(msg, data) {
-		this.setState({folder: data.id});
-	},
-	componentDidMount: function() {
-		//subscribe to next disable state event
-		var token = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
-		this.subscriptions['Folder-Selected'] = token;
-	},
-	componentWillUnmount: function() {
-		//un-subscribe to next disable state event
-		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
-	},
-    render: function() {
-    	var that = this;
-	  	var types = this.props.types.map(function(t){return t.id});
-	  	//var selectedStyle = {visibility:"hidden"};
-  		var thumbList = thumbs.filter(function(t){
-  				return t.folder === that.state.folder;
-  			}).filter(function(t){
-  				return types.length === 0 || types.indexOf(t.type) != -1;
-  			});
-        return(
-		<div id="createEmail">
-			{thumbList.map(function(t){
-				return(
-				<div onClick={that.handleThumbClick} className="btn btn-default selectableEmailDivs">
-					<div className="row emailThumbName">
-            <div className="col-md-12">
-              {t.name}
-            </div>
-          </div>
-          <div className="row emailThumbImg">
-            <div className="col-md-12">
-              <img className="img-responsive" id={t.id} src={imgPath + t.previewImage} height="220" width="200" />
-            </div>
-          </div>
-          <div className="row emailThumbActions">
-            <div className="col-md-6 tags">
-              TAGS
-            </div>
-            <div className="col-md-6 actions">
-              <span className="selected-indicator fa fa-check fa-lg"></span>
-              <span className="fa fa-eye fa-lg"></span>
-            </div>
-          </div>
-		   	</div>
-		   		)
-			})}
-		</div>
-       );
-    }
-});
-
-
 /*************************************** DEFINE CONTENT TAB ******************************************/
 
 var StepDefineContent = React.createClass({
@@ -555,6 +473,7 @@ var StepSelectAudience = React.createClass({
 		'-o-transition': 'all 0.5s ease;',
 		'transition': 'all 0.5s ease;'
 	}
+
 	/*
 					<div className="well row">
 						<span className="staticValue" style={listspanstyle}>Lists</span>
@@ -566,23 +485,22 @@ var StepSelectAudience = React.createClass({
 					<ItemList items={subnames} listid={this.listid} header={subNameHeaders}/>
 					<ItemList listid={this.listid} items={subscribers} />
 	*/
+
     return (
 	<div  role="tabpanel" className="tab-pane active">
 		<div className="row">
 			<div id="SubscriberListContainer" className="col-md-4" style={subNamesStyle}>
-				<div className="well">
+				<Container title="My Lists">
 					<MasterList listid={this.masterlistid} items={lists} columns={this.masterCols} child={this.listChild}/>
-				</div>
+				</Container>
 			</div>
 			<div id="SubscriberContainer" className="col-md-5" style={ subscriberListStyle }>
-				<div className="well">
+				<Container title="Clients">
 					<ItemList listid={this.listid} items={this.state.subscribers} />
-				</div>
+				</Container>
 			</div>
 			<div className="col-md-3">
-				<div className="well">
 					<SelectedItemList items={selectednames} />
-				</div>
 			</div>
 		</div>
 	</div>
@@ -754,21 +672,22 @@ var SelectedItemList = React.createClass({
     });
     return (
        <div>
-            <label>Selected Audience</label>
-            <div className="well">
+            <Container title="Selected Audience">
+              <div className="well">
                <ul className="list-group">
                  { itemNodes }
-                </ul>
-            </div>
-            Selected Count:  {this.state.selectedCount}
-            <hr className="divider"/>
-            <label>Excluded Audience (recent sends)</label>
-            <div className="well">
-               <ul className="list-group">
-                 { excluded }
-                </ul>
-            </div>
-            Excluded Count:  {this.state.excludedCount}
+               </ul>
+              </div>
+               <div>Selected Count:  {this.state.selectedCount}</div>
+            </Container>
+            <Container title="Excluded Audience (recent sends)">
+              <div className="well">
+              <ul className="list-group">
+                { excluded }
+               </ul>
+             </div>
+               <div>Excluded Count:  {this.state.excludedCount}</div>
+            </Container>
       </div>
 
     );
