@@ -6,6 +6,7 @@ var FA = require('../data/fa-info');
 var Link = Router.Link;
 
 var menu =  {"items":[
+  {"id": "launcher", "name" : "Home", "link":"launch-screen", "icon" : "portal"},
   {"id": "distributed", "name" : "Dashboard", "link":"dashboard", "icon" : "dashboard"},
   {"id": "email", "name" : "Create Email", "link":"create-email", "icon" : "email"},
   {"id": "manage", "name" : "Manage Clients", "link":"client-management", "icon" : "groups"},
