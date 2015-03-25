@@ -12,10 +12,27 @@
   width:50px;
 }
 
+.navbar a.bu-toggle {
+    height:50px;
+    line-height:50px;
+    border: 1px lighten(@brand-primary, 15%) solid;
+    border-top: none;
+    border-bottom: none;
+    display: block;
+    margin-right:20px;
+    .text-right;
+    width: 200px;
+    padding: 0px 20px 0 0;
+    cursor: pointer;
+    color:white;
+    font-weight: bold;
+    img {height:35px;margin-left:25px;}
+}
+
 .navbar a.dropdown-toggle {
     height:50px;
     line-height:50px;
-    border: 1px #62A0C6 solid;
+    border: 1px lighten(@brand-primary, 15%) solid;
     border-top: none;
     border-bottom: none;
     display: block;
@@ -26,7 +43,25 @@
     font-weight: bold;
 }
 
-.navbar a.dropdown-toggle:hover {
+.navbar .bu .dropdown-menu {
+    width: 200px;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    .text-right;
+    li{
+        height: 50px;
+        padding:0;
+        a{
+            line-height: 50px;
+            padding: 0 20px 0 0;
+            img {height:35px;margin-left:25px;}
+        }
+    }
+}
+
+.navbar a.dropdown-toggle:hover, .navbar a.bu-toggle:hover {
     text-decoration: none;
 }
 
@@ -36,14 +71,15 @@
     padding: 0;
     border-radius: 0;
     box-shadow: none;
+    li{
+        height: 50px;
+        padding:0;
+        a{
+            line-height: 50px;
+            padding: 0 20px 0 0;
+        }
+    }
 }
 
-.navbar .dropdown-menu li{
-    height: 50px;
-    padding:0;
-}
 
-.navbar .dropdown-menu li a{
-    line-height: 50px;
-    padding: 0 20px 0 0;
-}
+.navbar-brand {padding:0; img {height:50px; padding:0; margin-right: 20px;}}

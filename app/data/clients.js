@@ -1,598 +1,698 @@
 module.exports = [{
+		"id": 1,
         "firstName": "Cairo",
         "lastName": "Nolan",
         "emailAddress": "Donec.nibh@fermentusAenean.ca",
         "lists": [6],
         "publications": [5]
     }, {
+		"id": 2,    
         "firstName": "Giselle",
         "lastName": "Fulton",
         "emailAddress": "Phasellus@sed.net",
         "lists": [3, 4, 7],
         "publications": [1]
     }, {
+		"id": 3,
         "firstName": "Marvin",
         "lastName": "Snider",
         "emailAddress": "Aliquam@fermentumcola.co.uk",
         "lists": [2, 5, 1],
         "publications": [6]
     }, {
+		"id": 4,
         "firstName": "Alana",
         "lastName": "Talley",
         "emailAddress": "elit@orciUt.edu",
         "lists": [4, 5, 2, 1],
         "publications": [5]
     }, {
+		"id": 5,
         "firstName": "Debra",
         "lastName": "Nixon",
         "emailAddress": "mattis.velit@dictumcursusNunc.co.uk",
         "lists": [],
         "publications": [1]
     }, {
+		"id": 6,
         "firstName": "Ralph",
         "lastName": "Wood",
         "emailAddress": "dictum.eu@ut.edu",
         "lists": [9, 5, 3, 8],
         "publications": [4]
     }, {
+		"id": 7,
         "firstName": "Rahim",
         "lastName": "Boyd",
         "emailAddress": "at@musProinvel.co.uk",
         "lists": [10],
         "publications": [1]
     }, {
+		"id": 8,
         "firstName": "Colt",
         "lastName": "Harding",
         "emailAddress": "eget.massa@venenatislacus.co.uk",
         "lists": [2],
         "publications": [4]
     }, {
+		"id": 9,
         "firstName": "Shay",
         "lastName": "Gibson",
         "emailAddress": "mi.enim.condimentum@ultricesposuere.net",
         "lists": [],
         "publications": [6]
     }, {
+		"id": 10, 
         "firstName": "Selma",
         "lastName": "Gill",
         "emailAddress": "erat.neque@cursuspurusNullam.com",
         "lists": [1, 2, 8],
         "publications": [3]
     }, {
+		"id": 11,
         "firstName": "Chaney",
         "lastName": "William",
         "emailAddress": "Nulla.dignissim@Vestibulumanteipsum.org",
         "lists": [],
         "publications": [2]
     }, {
+		"id": 12,
         "firstName": "Kalia",
         "lastName": "Hale",
         "emailAddress": "neque.sed.dictum@auctorullamcorper.net",
         "lists": [8, 2, 4, 6],
         "publications": [6]
     }, {
+		"id": 13,
         "firstName": "Abra",
         "lastName": "Juarez",
         "emailAddress": "Sed.nulla@loremvehiculaet.net",
         "lists": [10, 4, 8, 1],
         "publications": [5]
     }, {
+		"id": 14,
         "firstName": "Jeanette",
         "lastName": "West",
         "emailAddress": "lorem@utquam.org",
         "lists": [3],
         "publications": [5]
     }, {
+		"id": 15,
         "firstName": "Lavinia",
         "lastName": "Patel",
         "emailAddress": "lobortis.ultrices.Vivamus@sit.org",
         "lists": [],
         "publications": [2]
     }, {
+		"id": 15.5,
         "firstName": "Marsden",
         "lastName": "Bartlett",
         "emailAddress": "felis@consectetuercursus.org",
         "lists": [5, 6, 4],
         "publications": [6]
     }, {
+		"id": 16,
         "firstName": "Tobias",
         "lastName": "Fuentes",
         "emailAddress": "Curabitur@ipsumSuspendissesagittis.org",
         "lists": [],
         "publications": [6]
     }, {
+		"id": 17,
         "firstName": "Candace",
         "lastName": "Mcmahon",
         "emailAddress": "Maecenas@sitametconsectetuer.ca",
         "lists": [],
         "publications": [6]
     }, {
+		"id": 18,
         "firstName": "Graham",
         "lastName": "Armstrong",
         "emailAddress": "feugiat.metus.sit@elitelitfermentum.ca",
         "lists": [10, 2, 5],
         "publications": [2]
     }, {
+		"id": 19,
         "firstName": "Roary",
         "lastName": "Goff",
         "emailAddress": "auctor.quis@sociisnatoque.co.uk",
         "lists": [],
         "publications": [2]
     }, {
+		"id": 20,
         "firstName": "Lynn",
         "lastName": "Wheeler",
         "emailAddress": "Donec.vitae@nunc.edu",
         "lists": [9],
         "publications": [5]
     }, {
+		"id": 21,
         "firstName": "Fuller",
         "lastName": "Koch",
         "emailAddress": "mauris@consectetuermauris.com",
         "lists": [3, 7],
         "publications": [1]
     }, {
+		"id": 22,
         "firstName": "August",
         "lastName": "Singleton",
         "emailAddress": "dapibus@rutrummagna.edu",
         "lists": [1, 6],
         "publications": [5]
     }, {
+		"id": 23,
         "firstName": "Sandra",
         "lastName": "Calhoun",
         "emailAddress": "rhoncus.Nullam.velit@elitsed.org",
         "lists": [7, 6, 3, 4],
         "publications": [2]
     }, {
+		"id": 24,
         "firstName": "Sylvia",
         "lastName": "Dickson",
         "emailAddress": "luctus@malesuadamalesuadaInteger.ca",
         "lists": [2],
         "publications": [2]
     }, {
+		"id": 25,
         "firstName": "Quinn",
         "lastName": "Green",
         "emailAddress": "eu.tellus@nisi.com",
         "lists": [],
         "publications": [6]
     }, {
+		"id": 26,
         "firstName": "Isaac",
         "lastName": "Workman",
         "emailAddress": "dictum@lectussitamet.org",
         "lists": [7, 3, 9, 6],
         "publications": [2]
     }, {
+		"id": 27,
         "firstName": "Imogene",
         "lastName": "Dennis",
         "emailAddress": "Suspendisse.aliquet.sem@sitametluctus.co.uk",
         "lists": [9, 8, 2, 4],
         "publications": [1]
     }, {
+		"id": 28,
         "firstName": "Briar",
         "lastName": "Mcdaniel",
         "emailAddress": "eget@Suspendissecommodo.com",
         "lists": [],
         "publications": [4]
     }, {
+		"id": 29,
         "firstName": "Pandora",
         "lastName": "Powers",
         "emailAddress": "dis@vitae.org",
         "lists": [1, 5],
         "publications": [5]
     }, {
+		"id": 30,
         "firstName": "Alana",
         "lastName": "Nolan",
         "emailAddress": "arcu@Duisdignissim.co.uk",
         "lists": [],
         "publications": [5]
     }, {
+		"id": 31,
         "firstName": "Chandler",
         "lastName": "Powers",
         "emailAddress": "ligula.consectetuer@Quisque.net",
         "lists": [],
         "publications": [3]
     }, {
+		"id": 32,
         "firstName": "Isabelle",
         "lastName": "Stanley",
         "emailAddress": "dolor.dolor.tempus@mattis.ca",
         "lists": [1, 4, 9],
         "publications": [4]
     }, {
+		"id": 33,
         "firstName": "Zoe",
         "lastName": "Whitfield",
         "emailAddress": "quis.diam@quistristiqueac.edu",
         "lists": [4, 2],
         "publications": [4]
     }, {
+		"id": 34,
         "firstName": "Joseph",
         "lastName": "Hickman",
         "emailAddress": "aliquet@dolorQuisquetincidunt.com",
         "lists": [8, 3, 9],
         "publications": [3]
     }, {
+		"id": 35,
         "firstName": "Jolie",
         "lastName": "Dorsey",
         "emailAddress": "lacus.Quisque.purus@condimentum.org",
         "lists": [3, 6, 10, 1],
         "publications": [5]
     }, {
+		"id": 36,
         "firstName": "Briar",
         "lastName": "Stone",
         "emailAddress": "vitae.nibh.Donec@sagittisaugueeu.net",
         "lists": [],
         "publications": [1]
     }, {
+		"id": 37,
         "firstName": "Dawn",
         "lastName": "Solis",
         "emailAddress": "Nam.interdum.enim@lacusMaurisnon.co.uk",
         "lists": [],
         "publications": [2]
     }, {
+		"id": 38,
         "firstName": "Linus",
         "lastName": "Hayden",
         "emailAddress": "cursus.luctus.ipsum@ligulaNullamfeugiat.org",
         "lists": [7, 3],
         "publications": [6]
     }, {
+    		"id": 39,
         "firstName": "Sloane",
         "lastName": "Snow",
         "emailAddress": "mattis@Integersem.org",
         "lists": [3],
         "publications": [4]
     }, {
+    		"id": 40,
         "firstName": "Calvin",
         "lastName": "Daugherty",
         "emailAddress": "Duis@risusDonec.co.uk",
         "lists": [],
         "publications": [2]
     }, {
+		"id": 41,
         "firstName": "Kennedy",
         "lastName": "Britt",
         "emailAddress": "tristique.pellentesque@mollisnoncursus.net",
         "lists": [5, 1],
         "publications": [6]
     }, {
+		"id": 42,
         "firstName": "Cecilia",
         "lastName": "Douglas",
         "emailAddress": "mauris.eu.elit@magnaseddui.org",
         "lists": [],
         "publications": [6]
     }, {
+    		"id": 43,
         "firstName": "Freya",
         "lastName": "Jarvis",
         "emailAddress": "ligula@Namacnulla.org",
         "lists": [1, 8],
         "publications": [6]
     }, {
+    		"id": 44,
         "firstName": "Petra",
         "lastName": "Bright",
         "emailAddress": "Nulla.interdum@in.edu",
         "lists": [10],
         "publications": [2]
     }, {
+    		"id": 45,
         "firstName": "Eaton",
         "lastName": "Paul",
         "emailAddress": "per.inceptos.hymenaeos@mauriselit.net",
         "lists": [],
         "publications": [5]
     }, {
+    		"id": 46,
         "firstName": "Rylee",
         "lastName": "Mcdonald",
         "emailAddress": "tellus.faucibus@et.co.uk",
         "lists": [7, 6],
         "publications": [4]
     }, {
+    		"id": 47,
         "firstName": "Mechelle",
         "lastName": "Horton",
         "emailAddress": "lorem.lorem.luctus@malesuadavelvenenatis.edu",
         "lists": [3],
         "publications": [5]
     }, {
+    		"id": 48,
         "firstName": "Latifah",
         "lastName": "Mccarthy",
         "emailAddress": "per.inceptos.hymenaeos@mollisdui.org",
         "lists": [7],
         "publications": [1]
     }, {
+    		"id": 49,
         "firstName": "Mariko",
         "lastName": "Ross",
         "emailAddress": "eu.nulla.at@ultricesmaurisipsum.com",
         "lists": [6],
         "publications": [3]
     }, {
+    		"id": 50,
         "firstName": "Dominique",
         "lastName": "Roy",
         "emailAddress": "sodales@dictumplacerataugue.org",
         "lists": [3, 1, 8, 7],
         "publications": [2]
     }, {
+    		"id": 51,
         "firstName": "Ralph",
         "lastName": "Burton",
         "emailAddress": "sapien@lacus.org",
         "lists": [5, 8, 10, 7],
         "publications": [4]
     }, {
+    		"id": 52,
         "firstName": "Rebecca",
         "lastName": "Stone",
         "emailAddress": "non.magna@amet.edu",
         "lists": [9, 6, 7, 10],
         "publications": [2]
     }, {
+    		"id": 53,
         "firstName": "Lila",
         "lastName": "Dotson",
         "emailAddress": "fringilla.Donec.feugiat@maurisaliquam.co.uk",
         "lists": [4, 10, 9],
         "publications": [2]
     }, {
+    		"id": 54,
         "firstName": "Kane",
         "lastName": "Walton",
         "emailAddress": "turpis.Aliquam@amalesuada.com",
         "lists": [],
         "publications": [5]
     }, {
+    		"id": 55,
         "firstName": "Keegan",
         "lastName": "Owens",
         "emailAddress": "in.magna.Phasellus@nulla.org",
         "lists": [4],
         "publications": [1]
     }, {
+    		"id": 56,
         "firstName": "Amos",
         "lastName": "Morgan",
         "emailAddress": "aliquet@semper.co.uk",
         "lists": [9, 6, 10, 3],
         "publications": [6]
     }, {
+    		"id": 57,
         "firstName": "Irma",
         "lastName": "Adams",
         "emailAddress": "dolor.sit@nislarcuiaculis.com",
         "lists": [4],
         "publications": [2]
     }, {
+    		"id": 58,
         "firstName": "Dustin",
         "lastName": "Greer",
         "emailAddress": "est.Mauris.eu@egestasAliquamnec.com",
         "lists": [5],
         "publications": [6]
     }, {
+    		"id": 59,
         "firstName": "Ivy",
         "lastName": "Riggs",
         "emailAddress": "purus.Maecenas.libero@rhoncusNullam.co.uk",
         "lists": [4, 5],
         "publications": [1]
     }, {
+    		"id": 60,
         "firstName": "Damian",
         "lastName": "Carrillo",
         "emailAddress": "eu@at.com",
         "lists": [1, 3],
         "publications": [6]
     }, {
+    		"id": 61,
         "firstName": "Owen",
         "lastName": "Silva",
         "emailAddress": "Aenean@magnisdis.org",
         "lists": [10, 9],
         "publications": [6]
     }, {
+    		"id": 62,
         "firstName": "Serina",
         "lastName": "Vazquez",
         "emailAddress": "risus.at.fringilla@tellusjusto.ca",
         "lists": [],
         "publications": [2]
     }, {
+    		"id": 63,
         "firstName": "Abel",
         "lastName": "Gibbs",
         "emailAddress": "venenatis.vel.faucibus@dictumplacerataugue.co.uk",
         "lists": [5],
         "publications": [1]
     }, {
+    		"id": 64,
         "firstName": "Michelle",
         "lastName": "Bernard",
         "emailAddress": "Duis.ac.arcu@auguescelerisquemollis.edu",
         "lists": [10, 8],
         "publications": [2]
     }, {
+    		"id": 65,
         "firstName": "Merritt",
         "lastName": "Hall",
         "emailAddress": "massa@Praesent.edu",
         "lists": [3, 7],
         "publications": [3]
     }, {
+    		"id": 66,
         "firstName": "Omar",
         "lastName": "Bond",
         "emailAddress": "est.tempor.bibendum@blandit.ca",
         "lists": [5, 9],
         "publications": [4]
     }, {
+    		"id": 67,
         "firstName": "Jelani",
         "lastName": "Hopper",
         "emailAddress": "pede@orciluctuset.ca",
         "lists": [10],
         "publications": [4]
     }, {
+    		"id": 68,
         "firstName": "Maggie",
         "lastName": "Kramer",
         "emailAddress": "neque@quisurnaNunc.org",
         "lists": [10, 1, 4],
         "publications": [2]
     }, {
+    		"id": 69,
         "firstName": "Ima",
         "lastName": "Daniel",
         "emailAddress": "diam.Pellentesque@portaelit.ca",
         "lists": [3, 9],
         "publications": [1]
     }, {
+    		"id": 70,
         "firstName": "Cora",
         "lastName": "Workman",
         "emailAddress": "Lorem@eu.co.uk",
         "lists": [2, 4],
         "publications": [5]
     }, {
+    		"id": 71,
         "firstName": "Rebekah",
         "lastName": "Alford",
         "emailAddress": "auctor.nunc.nulla@sagittis.ca",
         "lists": [5],
         "publications": [2]
     }, {
+    		"id": 72,
         "firstName": "Sloane",
         "lastName": "Sweet",
         "emailAddress": "cursus@arcuCurabitur.edu",
         "lists": [5, 10, 8],
         "publications": [2]
     }, {
+    		"id": 73,
         "firstName": "Hector",
         "lastName": "Sherman",
         "emailAddress": "rhoncus@elementumpurus.org",
         "lists": [10],
         "publications": [6]
     }, {
+    		"id": 74,
         "firstName": "Oscar",
         "lastName": "Sullivan",
         "emailAddress": "pharetra.nibh.Aliquam@mi.org",
         "lists": [9, 5, 1],
         "publications": [6]
     }, {
+    		"id": 75,
         "firstName": "Emery",
         "lastName": "Cruz",
         "emailAddress": "est.Mauris.eu@nullaIntegervulputate.com",
         "lists": [6, 10, 5],
         "publications": [4]
     }, {
+    		"id": 76,
         "firstName": "Alan",
         "lastName": "Kelly",
         "emailAddress": "varius@egestasascelerisque.co.uk",
         "lists": [9],
         "publications": [1]
     }, {
+    		"id": 77,
         "firstName": "Edward",
         "lastName": "Copeland",
         "emailAddress": "tellus.Nunc.lectus@et.ca",
         "lists": [2, 8],
         "publications": [1]
     }, {
+    		"id": 78,
         "firstName": "Davis",
         "lastName": "Baird",
         "emailAddress": "id.blandit@gravida.com",
         "lists": [6],
         "publications": [3]
     }, {
+    		"id": 79,
         "firstName": "Yoko",
         "lastName": "Prince",
         "emailAddress": "penatibus@tempor.org",
         "lists": [7],
         "publications": [4]
     }, {
+    		"id": 80,
         "firstName": "Jael",
         "lastName": "Langley",
         "emailAddress": "eu.arcu.Morbi@Utsagittislobortis.com",
         "lists": [9, 5, 1, 6],
         "publications": [2]
     }, {
+    		"id": 81,
         "firstName": "Freya",
         "lastName": "Alston",
         "emailAddress": "et.magnis@Suspendisseacmetus.co.uk",
         "lists": [2, 9, 10],
         "publications": [4]
     }, {
+    		"id": 82,
         "firstName": "Amal",
         "lastName": "Welch",
         "emailAddress": "velit.eu@diamvelarcu.net",
         "lists": [5, 3, 4],
         "publications": [3]
     }, {
+    		"id": 83,
         "firstName": "Allistair",
         "lastName": "Sawyer",
         "emailAddress": "a@consectetueradipiscing.co.uk",
         "lists": [4, 8, 9],
         "publications": [2]
     }, {
+    		"id": 84,
         "firstName": "Destiny",
         "lastName": "Pugh",
         "emailAddress": "eu@elementum.co.uk",
         "lists": [9],
         "publications": [5]
     }, {
+    		"id": 85,
         "firstName": "Phelan",
         "lastName": "Alford",
         "emailAddress": "et.arcu.imperdiet@non.net",
         "lists": [1],
         "publications": [3]
     }, {
+    		"id": 86,
         "firstName": "Eve",
         "lastName": "Perkins",
         "emailAddress": "nonummy@elit.ca",
         "lists": [6, 4, 5, 2],
         "publications": [2]
     }, {
+    		"id": 87,
         "firstName": "Aiko",
         "lastName": "Roy",
         "emailAddress": "ipsum.porta@posuere.com",
         "lists": [9, 8, 6, 5],
         "publications": [2]
     }, {
+    		"id": 88,
         "firstName": "Cherokee",
         "lastName": "Weiss",
         "emailAddress": "montes@ipsumdolor.org",
         "lists": [6, 10],
         "publications": [1]
     }, {
+    		"id": 89,
         "firstName": "Bruno",
         "lastName": "Bennett",
         "emailAddress": "vestibulum.nec@magnisdisparturient.ca",
         "lists": [3],
         "publications": [6]
     }, {
+    		"id": 90,
         "firstName": "Sybill",
         "lastName": "Henderson",
         "emailAddress": "non@pharetra.com",
         "lists": [10],
         "publications": [4]
     }, {
+    		"id": 91,
         "firstName": "Jin",
         "lastName": "Zamora",
         "emailAddress": "dictum.eleifend@quisdiam.org",
         "lists": [],
         "publications": [6]
     }, {
+    		"id": 92,
         "firstName": "Heidi",
         "lastName": "Kirkland",
         "emailAddress": "quis.diam.luctus@scelerisquenequesed.edu",
         "lists": [3, 5, 8],
         "publications": [3]
     }, {
+    		"id": 93,
         "firstName": "Yasir",
         "lastName": "Gray",
         "emailAddress": "neque.tellus@enim.org",
         "lists": [4, 10, 2],
         "publications": [2]
     }, {
+    		"id": 94,
         "firstName": "Ezra",
         "lastName": "Roth",
         "emailAddress": "turpis@mattisornare.co.uk",
         "lists": [4, 10],
         "publications": [4]
     }, {
+    		"id": 95,
         "firstName": "Leo",
         "lastName": "Stanley",
         "emailAddress": "quam@ipsumsodalespurus.edu",
         "lists": [5, 9],
         "publications": [2]
     }, {
+    		"id": 96,
         "firstName": "Miranda",
         "lastName": "Skinner",
         "emailAddress": "tellus.Phasellus@eros.edu",
         "lists": [8],
         "publications": [1]
     }, {
+    		"id": 97,
         "firstName": "Xanthus",
         "lastName": "Mendoza",
         "emailAddress": "aptent@Sed.com",
         "lists": [4],
         "publications": [2]
     }, {
+    		"id": 98,
         "firstName": "Destiny",
         "lastName": "Burton",
         "emailAddress": "pede.Cum.sociis@Nullaeu.net",
         "lists": [1],
         "publications": [4]
     }, {
+    		"id": 99,
         "firstName": "Ferris",
         "lastName": "Mcguire",
         "emailAddress": "volutpat@risusNuncac.net",

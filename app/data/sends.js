@@ -120,7 +120,7 @@ module.exports = [{
     "clicks": 16
 }, {
     "email": 11,
-    "sentDate": "March 22nd, 2015 16:55:48",
+    "sentDate": "March 22, 2015 16:55:48",
     "status": "Complete",
     "subscribers": 46,
     "opens": 19,
@@ -176,7 +176,7 @@ module.exports = [{
     "clicks": 8
 }, {
     "email": 2,
-    "sentDate": "March 2nd, 2015 04:24:01",
+    "sentDate": "March 2, 2015 04:24:01",
     "status": "Complete",
     "subscribers": 68,
     "opens": 24,
@@ -400,7 +400,7 @@ module.exports = [{
     "clicks": 18
 }, {
     "email": 2,
-    "sentDate": "February 22nd, 2015 21:27:57",
+    "sentDate": "February 22, 2015 21:27:57",
     "status": "Complete",
     "subscribers": 73,
     "opens": 49,
@@ -440,7 +440,7 @@ module.exports = [{
     "clicks": 12
 }, {
     "email": 2,
-    "sentDate": "February 22nd, 2015 00:56:53",
+    "sentDate": "February 22, 2015 00:56:53",
     "status": "Complete",
     "subscribers": 34,
     "opens": 18,
@@ -472,7 +472,7 @@ module.exports = [{
     "clicks": 19
 }, {
     "email": 6,
-    "sentDate": "February 22nd, 2015 20:17:55",
+    "sentDate": "February 22, 2015 20:17:55",
     "status": "Complete",
     "subscribers": 32,
     "opens": 20,
@@ -560,7 +560,7 @@ module.exports = [{
     "clicks": 15
 }, {
     "email": 10,
-    "sentDate": "March 22nd, 2015 04:29:07",
+    "sentDate": "March 22, 2015 04:29:07",
     "status": "Complete",
     "subscribers": 67,
     "opens": 35,

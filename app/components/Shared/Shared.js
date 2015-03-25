@@ -20,7 +20,7 @@ var Item = React.createClass({
         if(this.props.onChange){
         	this.props.onChange(item.id, newValue);
         }
-    	PubSub.publish( 'Item-Check-Change-'+this.props.listid, {item: item} );        
+    	PubSub.publish( 'Item-Check-Change-'+this.props.listid, {item: item} );
     },
     getInitialState: function(){
     	var state = {};
@@ -189,7 +189,7 @@ module.exports = {
         return (
         <div id="emailPreview">
             <div className="text-center email-preview">
-                <img src={'./images/' + this.props.imageUrl} height="75"  />
+                <img src={'./images/' + this.props.imageUrl} className="img-responsive" height="75"  />
             </div>
              <div className="text-center">
                  <button className="btn btn-xs btn-primary">View</button>
@@ -203,6 +203,15 @@ module.exports = {
 	  handleFilterChange: function(key, newValue){
 		var selected = this.state.selected;
 		selected[key] = newValue;
+		if(this.props.single && newValue){
+			selected = {};
+			selected[key] = true;
+			this.props.items.forEach(function(item){
+				item.selected = (item.id === key);
+			});
+			this.setState({selected: selected});
+		}
+
 		if(this.props.onChange){
 			var selectedItems = this.props.items.filter(function(i){return selected[i.id];});
 			this.props.onChange(selectedItems);
@@ -402,7 +411,7 @@ module.exports = {
       render: function() {
         return (
          <div className="counts text-center">
-          <span className="title"><small>Subscribers</small></span>
+          <span className="title"><small>Clients</small></span>
           <span className="count">{this.state.count}</span>
         </div>
         );
@@ -455,9 +464,13 @@ module.exports = {
 				this.props.onChange(selected);
 			}
       },
+      componentWillReceiveProps: function(nextProps){
+	    this.setState({selected : createLookup(nextProps.selected || [])});
+      },
 	  render: function() {
 	  	var selectedLookup = this.state.selected;
 	  	var self = this;
+
 		return (
 			<div className="checkLst">
 			  {this.props.data.map(function(datum, index){
@@ -482,5 +495,55 @@ module.exports = {
 		</div>
 		);
 	}
-})
+}),
+	"RadioList": React.createClass({
+		getInitialState: function(){
+			var state = {};
+			state.selected = this.props.selected;
+			return state;
+		},
+		componentWillReceiveProps: function(newProps){
+			var newState = {};
+			newState.selected = newProps.selected;
+			this.setState(newState);
+		},
+		onChange: function(id){
+			var selected = this.state.selected;
+			if(this.refs[id].getDOMNode().checked){
+				selected = id;
+			} else {
+				selected = null;
+			}
+			this.setState({selected: selected});
+			if(this.props.onSelectionChange){
+				this.props.onSelectionChange(selected);
+			}
+		},
+		render: function(){
+			var items = this.props.source || [];
+			var self = this;
+			var currentSelect = this.state.selected;
+			//TODO consider adding radio button name to group radio buttons correctly
+			return (<div>
+						{items.map(function(i){
+							var checked = "";
+							if(currentSelect === i.id){
+								checked = "checked";
+							}
+							var content = i.content;
+							if(!content){
+								if(i.name && i.email){
+									content = (<div><div className="col-md-5">{i.name} </div><div className="col-md-6">{i.email} </div></div>)
+								} else {
+									content = (<div className="col-md-11">{i.name} </div>)
+								}
+							}
+							return (<div className="row" key={i.id}>
+								<div className="col-md-1"><input type="radio" ref={i.id} checked={checked} onChange={self.onChange.bind(self,i.id)} /></div>
+								{content}
+							</div>)
+						})}
+					</div>)
+			}
+	})
 };

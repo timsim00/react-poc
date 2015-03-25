@@ -20,6 +20,8 @@ var MasterList = Shared.MasterList;
 var FolderTree = require('../Shared/FolderTree');
 var FilterByType_ = require('../Shared/FilterByType').ItemList;
 var Container =  require('../Shared/Container');
+var ModalContainer = require('../Shared/ModalContainer');
+var EmailThumbs =  require('../Shared/EmailThumbs');
 
 //data
 var folders = require("../../data/folders");
@@ -36,7 +38,7 @@ var CreateEmail = React.createClass({
 	<div>
     <div className="row pageTitle">
   		<div className="col-md-12">
-  		  <h2>Create / Send Email</h2>
+  		  <h2>Create Email</h2>
   		</div>
     </div>
     <div className="row">
@@ -154,7 +156,7 @@ var Wizard = React.createClass({
 				<ul className="nav navbar-nav navbar-left">
 					<li key="0" className="active">
 						<a className="inactive-step" href="#stepSelectContent" data-toggle="tab" onClick={this.handleTabClick}>
-						Select Content
+						Select Email
 						</a>
 					</li>
 					<li key="2" className={this.state.tabs}>
@@ -209,6 +211,9 @@ var StepSelectContent = React.createClass({
 		return (
 		<div className="row">
 			<div className="col-md-4">
+        <Container title="Search">
+  			<SearchBar />
+        </Container>
 				<div>
 				  <ContentCategories />
 				</div>
@@ -276,85 +281,12 @@ var EmailSelect = React.createClass({
     	var searchStyle = {'padding-top':'10px;'};
 		return (
 		<Container title={ this.state.FolderName }>
-			<div className="row col-md-4 pull-right" style={searchStyle} >
-				<SearchBar />
-			</div>
-			<div className="clearfix"></div>
 			<EmailThumbs types={this.props.types}/>
 		</Container>
 		);
     }
 });
 
-
-
-/****  Content Thumbnails ****/
-
-var thumbs = require("../../data/emails");
-var imgPath = '/images/';
-var EmailThumbs = React.createClass({
-	subscriptions: {},
-	getInitialState: function() {
-		return {
-			selectedId: null,
-			folder: 7
-		}
-	},
-	handleThumbClick: function(e) {
-		e.preventDefault();
-		var $ele = $(e.target);
-		if (!$ele.hasClass('selectableEmailDivs')) $ele = $ele.closest('.selectableEmailDivs');
-		var thisId = $ele.data('reactid');
-		var $check = $ele.find('.selected-indicator');
-
-		if (this.state.selectedId) {
-			var $prev = $('*[data-reactid="'+ this.state.selectedId +'"]');
-			$prev.removeClass('active');
-			$prev.find('.selected-indicator').addClass('hidden');
-		}
-		this.state.selectedId = thisId;
-		$ele.addClass('active');
-		$check.addClass('content-selected').removeClass('hidden');
-
-		PubSub.publish( 'Content-Selected', thisId );
-	},
-	handleFolderSelected: function(msg, data) {
-		this.setState({folder: data.id});
-	},
-	componentDidMount: function() {
-		//subscribe to next disable state event
-		var token = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
-		this.subscriptions['Folder-Selected'] = token;
-	},
-	componentWillUnmount: function() {
-		//un-subscribe to next disable state event
-		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
-	},
-    render: function() {
-    	var that = this;
-	  	var types = this.props.types.map(function(t){return t.id});
-	  	//var selectedStyle = {visibility:"hidden"};
-  		var thumbList = thumbs.filter(function(t){
-  				return t.folder === that.state.folder;
-  			}).filter(function(t){
-  				return types.length === 0 || types.indexOf(t.type) != -1;
-  			});
-        return(
-		<div id="createEmail">
-			{thumbList.map(function(t){
-				return(
-				<div onClick={that.handleThumbClick} className="btn btn-default selectableEmailDivs">
-					<label htmlFor={t.id}>{t.name}</label><div className="selected-indicator hidden fa fa-check fa-lg" />
-					<div>
-						<img className="retirement-img" id={t.id} src={imgPath + t.previewImage} height="220" width="200" />
-					</div>
-		   		</div>
-		   		)
-			})}
-		</div>
-       );
-    }
-});
 
 
 /*************************************** DEFINE CONTENT TAB ******************************************/
@@ -466,13 +398,13 @@ var StepSelectAudience = React.createClass({
 	subscriptions: {},
 	handleClientItemChanged: function(msg, data) {
 		var n = (data.item.prevSelected && !data.item.selected) ? -1 : 1;
-		PubSub.publish( 'Audience-Count-Change', {add: n} );  
+		PubSub.publish( 'Audience-Count-Change', {add: n} );
 	},
 	handleListItemChanged: function(msg, data) {
 		var n = (data.item.prevSelected && !data.item.selected) ? -(data.item.__childCount) : data.item.__childCount;
 		var o = (data.item.prevSelected && !data.item.selected) ? {remove: data.item} : {add: data.item};
 		PubSub.publish( 'Audience-Count-Change', {add: n} );
-		PubSub.publish( 'Audience-List-Change',  o);  
+		PubSub.publish( 'Audience-List-Change',  o);
 	},
 	handleAudienceChanged: function(msg, data) {
 		if (data.add) {
@@ -508,20 +440,20 @@ var StepSelectAudience = React.createClass({
 							PubSub.publish( 'Excluded-Count-Change', {add: -1} );
 						}
 						this.state.subscribers.splice(i,1);
-					}	
+					}
 				}
 			}
 		}
-		
-		this.setState({subscribers: this.state.subscribers});  
-	},		
+
+		this.setState({subscribers: this.state.subscribers});
+	},
 	componentDidMount: function() {
 		var token = PubSub.subscribe( 'Item-Check-Change-'+this.listid, this.handleClientItemChanged );
 		this.subscriptions['Item-Check-Change-'+this.listid] = token;
 		token = PubSub.subscribe( 'Item-Check-Change-'+this.masterlistid, this.handleListItemChanged );
 		this.subscriptions['Item-Check-Change-'+this.masterlistid] = token;
 		token = PubSub.subscribe( 'Audience-List-Change', this.handleAudienceChanged );
-		this.subscriptions['Audience-List-Change'] = token;				
+		this.subscriptions['Audience-List-Change'] = token;
 	},
 	componentWillUnmount: function() {
 		PubSub.unsubscribe( this.subscriptions['Item-Check-Change-'+this.listid] );
@@ -530,7 +462,7 @@ var StepSelectAudience = React.createClass({
 	},
     getInitialState: function(){
 		return { subscribers: [] };
-    },	
+    },
   render: function() {
   	var listspanstyle = { float:'left', padding:'7px' };
   	var searchstyle = { 'margin-left':'-15px' };
@@ -541,34 +473,34 @@ var StepSelectAudience = React.createClass({
 		'-o-transition': 'all 0.5s ease;',
 		'transition': 'all 0.5s ease;'
 	}
+
 	/*
 					<div className="well row">
 						<span className="staticValue" style={listspanstyle}>Lists</span>
 						<div style={searchstyle} className="col-md-6">
 							<SearchBar />
 						</div>
-					</div>	
-					
-					<ItemList items={subnames} listid={this.listid} header={subNameHeaders}/>	
-					<ItemList listid={this.listid} items={subscribers} />					
+					</div>
+
+					<ItemList items={subnames} listid={this.listid} header={subNameHeaders}/>
+					<ItemList listid={this.listid} items={subscribers} />
 	*/
+
     return (
 	<div  role="tabpanel" className="tab-pane active">
 		<div className="row">
 			<div id="SubscriberListContainer" className="col-md-4" style={subNamesStyle}>
-				<div className="well">
+				<Container title="My Lists">
 					<MasterList listid={this.masterlistid} items={lists} columns={this.masterCols} child={this.listChild}/>
-				</div>
+				</Container>
 			</div>
 			<div id="SubscriberContainer" className="col-md-5" style={ subscriberListStyle }>
-				<div className="well">
+				<Container title="Clients">
 					<ItemList listid={this.listid} items={this.state.subscribers} />
-				</div>
+				</Container>
 			</div>
 			<div className="col-md-3">
-				<div className="well">
 					<SelectedItemList items={selectednames} />
-				</div>
 			</div>
 		</div>
 	</div>
@@ -679,7 +611,7 @@ var SelectedItemList = React.createClass({
 		this.state.excludedCount += data.add;
 		if (this.state.excludedCount < 0) this.state.excludedCount = 0;
 		this.setState({ excludedCount: this.state.excludedCount });
-	},	
+	},
 	handleSelectedListChange: function(msg, data) {
 		if (data.add) {
 			this.state.items.push(data.add.name);
@@ -705,16 +637,16 @@ var SelectedItemList = React.createClass({
 			if (j != -1) this.state.excludes.splice(j,1);
 		}
 		this.setState({excludes: this.state.excludes});
-	},		
+	},
 	componentDidMount: function() {
 		var token = PubSub.subscribe( 'Audience-Count-Change', this.handleSelectedCountChange );
 		this.subscriptions['Audience-Count-Change'] = token;
 		token = PubSub.subscribe( 'Audience-List-Change', this.handleSelectedListChange );
-		this.subscriptions['Audience-List-Change'] = token;	
+		this.subscriptions['Audience-List-Change'] = token;
 		token = PubSub.subscribe( 'Excluded-List-Change', this.handleExcludedListChange );
-		this.subscriptions['Excluded-List-Change'] = token;	
+		this.subscriptions['Excluded-List-Change'] = token;
 		token = PubSub.subscribe( 'Excluded-Count-Change', this.handleExcludedCountChange );
-		this.subscriptions['Excluded-Count-Change'] = token;				
+		this.subscriptions['Excluded-Count-Change'] = token;
 	},
 	componentWillUnmount: function() {
 		PubSub.unsubscribe( this.subscriptions['Audience-Count-Change'] );
@@ -737,24 +669,25 @@ var SelectedItemList = React.createClass({
     	if (item.disabled) {
       		return <ExcludedItem item={item} order={i} />
       	}
-    });    
+    });
     return (
        <div>
-            <label>Selected Audience</label>
-            <div className="well">
+            <Container title="Selected Audience">
+              <div className="well">
                <ul className="list-group">
                  { itemNodes }
-                </ul>
-            </div>
-            Selected Count:  {this.state.selectedCount}
-            <hr className="divider"/>
-            <label>Excluded Audience (recent sends)</label>
-            <div className="well">
-               <ul className="list-group">
-                 { excluded }
-                </ul>
-            </div>
-            Excluded Count:  {this.state.excludedCount}            
+               </ul>
+              </div>
+               <div>Selected Count:  {this.state.selectedCount}</div>
+            </Container>
+            <Container title="Excluded Audience (recent sends)">
+              <div className="well">
+              <ul className="list-group">
+                { excluded }
+               </ul>
+             </div>
+               <div>Excluded Count:  {this.state.excludedCount}</div>
+            </Container>
       </div>
 
     );
@@ -860,7 +793,6 @@ var DropDownItem = React.createClass({
         );
     }
 });
-
 
 var FromNameDropdown = React.createClass({
   getInitialState: function(){
