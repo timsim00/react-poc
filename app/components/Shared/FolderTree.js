@@ -3,13 +3,16 @@ var React = require('react'),
     PubSub = require('pubsub-js');
 
 jQuery("html").on("click", ".folder-head", function(e){
-    jQuery(this).toggleClass("collapsed").toggleClass("expanded");
-    var id = $(e.target).data('folderid');
-    PubSub.publish( 'Folder-Selected', {name: e.target.innerHTML, id: id} );
+	var $ele = $(e.target);
+	if (!$ele.hasClass('folder-head')) $ele = $ele.closest('.folder-head');
+	$ele = $ele.find('.folder-name');
+    jQuery(this).toggleClass("collapsed").toggleClass("expanded");    
+    var id = $ele.data('folderid');
+    PubSub.publish( 'Folder-Selected', {name: $ele.text(), id: id} );
 });
 
 
-var createFolder = function(data, index){
+var createFolder = function(data, index, handleFolderClick){
     var children;
     if(data.folders && data.folders.length > 0){
         children = data.folders.map(function(f,i){
@@ -30,7 +33,7 @@ var createFolder = function(data, index){
 				<span className="glyphicon glyphicon-folder-close" />
 				<span className="glyphicon glyphicon-folder-open" />
             </span>
-            <span data-folderid={data.id} className="folder-name">{data.name}</span>
+            <span onClick={handleFolderClick} data-folderid={data.id} className="folder-name">{data.name}</span>
         </div>
         <div className="children">
             {children}
@@ -39,13 +42,15 @@ var createFolder = function(data, index){
 }
 
 var FolderTree = React.createClass({
-  handleClick: function(e){
+  handleFolderClick: function(e){
+	//TODO 
   },
   render: function() {
+  	var that = this;
     return (
      <div className="folder-list">
         {this.props.folders.map(function(f, i){
-            return (createFolder(f, i));
+            return (createFolder(f, i, that.handleFolderClick));
         })}
     </div>
     );
