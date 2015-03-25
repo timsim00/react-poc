@@ -17,7 +17,7 @@ var ClientManagement = React.createClass({
         <ul className="nav nav-pills nav-stacked">
           <ListItemLink to="manage">Manage Clients</ListItemLink>
           <ListItemLink to="lists">Manage Lists</ListItemLink>
-          <ListItemLink to="subscriptions">Manage Subscriptions</ListItemLink>
+          <ListItemLink to="subscriptions">Manage Email Subscriptions</ListItemLink>
         </ul>
       </div>
       <div className="col-md-10">

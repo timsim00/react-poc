@@ -89,10 +89,6 @@ var Overview = React.createClass({
         <div className="row pageTitle">
           <div className="col-md-6"><h2>Dashboard</h2></div>
           <div className="col-md-6 text-right">
-            <Link to="content-admin" className="btn btn-default">
-              <span className="glyphicon glyphicon-pencil" />
-              &nbsp;Content Admin
-            </Link>&nbsp;&nbsp;
             <Link to="create-email" className="btn btn-default">
               <span className="glyphicon glyphicon-plus" />
               &nbsp;Create Email
@@ -125,7 +121,7 @@ var MostRecentSend = React.createClass({
     return (
     <Container title="Most Recent Send">
         <div className="col-md-3">
-          <EmailPreview imageUrl={this.props.email.previewImage} />
+          <EmailPreview data={this.props.email} />
         </div>
         <div className="col-md-9">
           <EmailDetails data={this.props.email} />
@@ -142,7 +138,7 @@ var MostRecentModify = React.createClass({
     return (
     <Container title="Recent Modified Email">
         <div className="col-md-3">
-          <EmailPreview imageUrl={this.props.email.previewImage} />
+          <EmailPreview data={this.props.email} />
         </div>
         <div className="col-md-9">
           <EmailDetails data={this.props.email} />

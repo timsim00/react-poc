@@ -21,10 +21,6 @@ var LaunchScreen = React.createClass({
             <div className="s1icon s1icon-xxl s1icon-s-groups"></div>
             <div className="text">Manage Clients</div>
           </Link>
-					<Link to="content-admin">
-            <div className="s1icon s1icon-xxl s1icon-s-file"></div>
-            <div className="text">Manage Content</div>
-          </Link>
 					<Link to="fa-administration">
             <div className="s1icon s1icon-xxl s1icon-s-avatar"></div>
             <div className="text">FA Administration</div>

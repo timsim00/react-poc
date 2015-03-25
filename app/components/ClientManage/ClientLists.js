@@ -79,7 +79,7 @@ var ClientLists = React.createClass({
   	}).map(function(c){
 		return {id: c.id, name: [c.firstName, c.lastName].join(" "), email: c.emailAddress};
 	});
-	
+
 	var clientValues = {id: null, firstName: "", lastName: "", emailAddress: "", lists: [], publications: []};
 	if(this.state.selectedClient){
 		clientValues.id = this.state.selectedClient.id;
@@ -87,11 +87,11 @@ var ClientLists = React.createClass({
 		clientValues.lastName = this.state.changes.lastName || this.state.selectedClient.lastName || "";
 		clientValues.emailAddress = this.state.changes.emailAddress || this.state.selectedClient.emailAddress || "";
 	}
-	
+
 	var listCopy = lists.map(function(l){
 		return {id: l.id, name: l.name, selected: (clientValues.lists.indexOf(l.id) !== -1)};
 	});
-	
+
 	var selectedListsLookup = this.state.selectedLists.reduce(function(lookup, lst){
 		lookup[lst] = true;
 		return lookup;
@@ -147,7 +147,7 @@ var ClientLists = React.createClass({
 					})}
 					</div>
 			</Container>
-			<Container title="Subscriptions">
+			<Container title="Email Subscriptions">
 				<CheckListPlus data={subscriptions} selected={this.state.selectedPublications} onChange={this.onSelectedPublicationsChange}/>
 			</Container>
 			<Container title="Upload New Clients">

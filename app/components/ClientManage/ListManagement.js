@@ -9,7 +9,7 @@ var Container =  require('../Shared/Container');
 var SearchButton = React.createClass({
     render: function(){
         return (<div className="search-button">
-            <span className="glyphicon glyphicon-search" />
+            <span className="fa fa-eye" />
         </div>)
     }
 });
@@ -52,7 +52,7 @@ var ListSubs = React.createClass({
   		}
   	}
   },
-  addList: function(){  	
+  addList: function(){
 	var edited = this.state.editedName;
 	if(edited != null && edited != ''){
 		this.state.lists.push({id: (new Date()).getTime(), name: edited});
@@ -91,9 +91,9 @@ var ListSubs = React.createClass({
 			return m.lists.indexOf(self.state.selectedList.id) !== -1;
 		}).map(function(m){
 			return m.id;
-		});  	
+		});
   	}
-  	
+
     return (
         <div>
           <div className="col-md-6 listsSubsMainContent">
@@ -118,7 +118,7 @@ var ListSubs = React.createClass({
             		</div>
         		</div>
         		<div className="col-md-6">
-              	<Container title="List Memebers">
+              	<Container title="List Members">
 		        	<EditableList source={members} selected={selected} />
         		</Container>
         	</div>
