@@ -1,7 +1,7 @@
 module.exports = [
   {
     id: 1,
-    name: "Shared Emails",
+    name: "Available Emails",
       folders: [
         {
           id: 3,
@@ -15,6 +15,5 @@ module.exports = [
         {id: 5,name: "Whitepapers"},
         {id: 6,name: "Series 7 Approved"},
       ]
-  },
-  { id: 2, name: "Shared Templates"}
+  }
 ];

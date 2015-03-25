@@ -30,7 +30,6 @@ var GridView = React.createClass({
                 );
               })
 		        }
-            <th>Actions</th>
           </tr>
 				</thead>
         <tbody>
@@ -43,12 +42,11 @@ var GridView = React.createClass({
                 );
               })
             }
-            <td><Actions /></td>
             </tr>
           )
 				})
 			}
-        </tbody> 
+        </tbody>
       </table>
 		</div>
 		<div>

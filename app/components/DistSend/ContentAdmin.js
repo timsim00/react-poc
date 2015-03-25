@@ -50,7 +50,7 @@ var ContentAdmin = React.createClass({
 				<h2>Content Administration</h2>
 			</div>
 			<div className="col-md-6 text-right">
-				<Link to="distributed-sending" className="btn btn-default">
+				<Link to="dashboard" className="btn btn-default">
 					<span className="glyphicon glyphicon-arrow-left" />
 					&nbsp;Back to Overview
 				</Link>
@@ -70,7 +70,7 @@ var ContentAdmin = React.createClass({
 			</div>
 			<div className="col-md-2">
 				<Settings />
-			</div>			
+			</div>
 		</div>
 	</div>
     );
@@ -155,7 +155,7 @@ var ContentTags = React.createClass({
 
 var Settings = React.createClass({
     subscriptions: {},
-    
+
 	getNextId : (function(){
 	  	var id = 0;
 	  	return function(){
@@ -166,10 +166,10 @@ var Settings = React.createClass({
 	getInitialState: function(){
 		return {
 			emailname: "< Select an Email >", tags: []
-		}	
-	}, 
+		}
+	},
 	addTag : function () {
-		this.state.tags.push({id: this.getNextId(), value: this.refs.tagname.getDOMNode().value});  
+		this.state.tags.push({id: this.getNextId(), value: this.refs.tagname.getDOMNode().value});
 		this.setState({tags: this.state.tags});
 	},
 	removeTag : function (id) {
@@ -178,12 +178,12 @@ var Settings = React.createClass({
 		});
 		console.log(filteredArray);
 		this.setState({tags:filteredArray});
-	},    
+	},
 	handleContentSelected: function(msg, data) {
 		var title = $('*[data-reactid="'+ data +'"]').text();
 		console.log($('*[data-reactid="'+ data +'"]'));
 		this.setState({emailname: title});
-	},	
+	},
 	componentDidMount: function() {
 		//subscribe to next disable state event
 		var token = PubSub.subscribe( 'Content-Selected', this.handleContentSelected );
@@ -192,7 +192,7 @@ var Settings = React.createClass({
 	componentWillUnmount: function() {
 		//un-subscribe to next disable state event
 		PubSub.unsubscribe( this.subscriptions['Content-Selected'] );
-	},  
+	},
   	render: function() {
   		var imgStyle = {width:'80%;'};
   		var tagStyle = {padding: '5px;', 'background-color': 'white;'};
@@ -204,7 +204,7 @@ var Settings = React.createClass({
 			<div id="setEntitlements">
 				<label htmlFor="selectedEntitlements">Entitlements</label>
 				<ItemList items={entitlements} />
-			</div> 
+			</div>
 			<hr className="divider" />
 			<div id="setTypes">
 				<label htmlFor="setTypes">Types</label>
@@ -218,13 +218,13 @@ var Settings = React.createClass({
 						<input type="text" className="form-control" aria-label="..." placeholder="tagname" id="tagname" ref="tagname" />
 						<div className="input-group-btn" >
 							<button type="button" className="btn btn-default" onClick={this.addTag}>Add</button>
-						</div> 
+						</div>
 					</div>
 					<div>
-						{ this.state.tags.map(function(tag) { return <button className="btn btn-default"> { tag.value } <span className="glyphicon glyphicon-remove-circle" onClick={self.removeTag.bind(self, tag.id)} /> </button> }) } 
+						{ this.state.tags.map(function(tag) { return <button className="btn btn-default"> { tag.value } <span className="glyphicon glyphicon-remove-circle" onClick={self.removeTag.bind(self, tag.id)} /> </button> }) }
 					</div>
 				</div>
-			</div>				     	
+			</div>
 		</Container>
     	);
   	}

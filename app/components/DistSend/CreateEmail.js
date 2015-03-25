@@ -33,7 +33,7 @@ var CreateEmail = React.createClass({
 	<div>
     <div className="row pageTitle">
   		<div className="col-md-12">
-  		  <h2>Create / Send Email</h2>
+  		  <h2>Create Email</h2>
   		</div>
     </div>
     <div className="row">
@@ -151,7 +151,7 @@ var Wizard = React.createClass({
 				<ul className="nav navbar-nav navbar-left">
 					<li key="0" className="active">
 						<a className="inactive-step" href="#stepSelectContent" data-toggle="tab" onClick={this.handleTabClick}>
-						Select Content
+						Select Email
 						</a>
 					</li>
 					<li key="2" className={this.state.tabs}>
@@ -206,6 +206,9 @@ var StepSelectContent = React.createClass({
 		return (
 		<div className="row">
 			<div className="col-md-4">
+        <Container title="Search">
+  			<SearchBar />
+        </Container>
 				<div>
 				  <ContentCategories />
 				</div>
@@ -273,10 +276,6 @@ var EmailSelect = React.createClass({
     	var searchStyle = {'padding-top':'10px;'};
 		return (
 		<Container title={ this.state.FolderName }>
-			<div className="row col-md-4 pull-right" style={searchStyle} >
-				<SearchBar />
-			</div>
-			<div className="clearfix"></div>
 			<EmailThumbs types={this.props.types}/>
 		</Container>
 		);
@@ -306,12 +305,12 @@ var EmailThumbs = React.createClass({
 
 		if (this.state.selectedId) {
 			var $prev = $('*[data-reactid="'+ this.state.selectedId +'"]');
-			$prev.removeClass('active');
-			$prev.find('.selected-indicator').addClass('hidden');
+			//$prev.removeClass('active');
+			$prev.find('.selected-indicator').removeClass('checked');
 		}
 		this.state.selectedId = thisId;
-		$ele.addClass('active');
-		$check.addClass('content-selected').removeClass('hidden');
+		//$ele.addClass('active');
+		$check.addClass('content-selected').addClass('checked');
 
 		PubSub.publish( 'Content-Selected', thisId );
 	},
@@ -341,11 +340,26 @@ var EmailThumbs = React.createClass({
 			{thumbList.map(function(t){
 				return(
 				<div onClick={that.handleThumbClick} className="btn btn-default selectableEmailDivs">
-					<label htmlFor={t.id}>{t.name}</label><div className="selected-indicator hidden fa fa-check fa-lg" />
-					<div>
-						<img className="retirement-img" id={t.id} src={imgPath + t.previewImage} height="220" width="200" />
-					</div>
-		   		</div>
+					<div className="row emailThumbName">
+            <div className="col-md-12">
+              {t.name}
+            </div>
+          </div>
+          <div className="row emailThumbImg">
+            <div className="col-md-12">
+              <img className="img-responsive" id={t.id} src={imgPath + t.previewImage} height="220" width="200" />
+            </div>
+          </div>
+          <div className="row emailThumbActions">
+            <div className="col-md-6 tags">
+              TAGS
+            </div>
+            <div className="col-md-6 actions">
+              <span className="selected-indicator fa fa-check fa-lg"></span>
+              <span className="fa fa-eye fa-lg"></span>
+            </div>
+          </div>
+		   	</div>
 		   		)
 			})}
 		</div>
@@ -445,7 +459,7 @@ var StepSelectAudience = React.createClass({
 	subscriptions: {},
 	handleItemChanged: function(msg, data) {
 		var n = (data.item.prevSelected && !data.item.selected) ? -1 : 1;
-		PubSub.publish( 'Audience-Count-Change', {add: n} );  
+		PubSub.publish( 'Audience-Count-Change', {add: n} );
 	},
 	componentDidMount: function() {
 		var token = PubSub.subscribe( 'Item-Check-Change-'+this.listid, this.handleItemChanged );
@@ -470,7 +484,7 @@ var StepSelectAudience = React.createClass({
 						<div style={searchstyle} className="col-md-6">
 							<SearchBar />
 						</div>
-					</div>	
+					</div>
 	*/
     return (
 	<div  role="tabpanel" className="tab-pane active">
@@ -607,7 +621,7 @@ var SelectedItemList = React.createClass({
     	if (item.disabled) {
       		return <SelectedItem item={item} order={i} clicked={that.whenClicked} />
       	}
-    });    
+    });
     return (
        <div>
             <label>Selected Audience</label>
@@ -624,7 +638,7 @@ var SelectedItemList = React.createClass({
                  { excluded }
                 </ul>
             </div>
-            Excluded Count:  {this.state.excludedCount}            
+            Excluded Count:  {this.state.excludedCount}
       </div>
 
     );
@@ -730,7 +744,6 @@ var DropDownItem = React.createClass({
         );
     }
 });
-
 
 var FromNameDropdown = React.createClass({
   getInitialState: function(){

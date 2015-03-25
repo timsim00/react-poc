@@ -1,14 +1,16 @@
 var React = require('react');
 var Router = require('react-router');
 
+var FA = require('../data/fa-info');
+
 var Link = Router.Link;
 
 var menu =  {"items":[
   {"id": "distributed", "name" : "Dashboard", "link":"dashboard", "icon" : "dashboard"},
   {"id": "email", "name" : "Create Email", "link":"create-email", "icon" : "email"},
   {"id": "manage", "name" : "Manage Clients", "link":"client-management", "icon" : "groups"},
-  {"id": "content", "name" : "Content Admin", "link":"content-admin", "icon" : "drafts"},
-  {"id": "faAdmin", "name" : "FA Administration",  "link":"fa-administration", "icon" : "contact"}
+  {"id": "content", "name" : "Content Admin", "link":"content-admin", "icon" : "file"},
+  {"id": "faAdmin", "name" : "FA Administration",  "link":"fa-administration", "icon" : "avatar"}
 ]};
 
 
@@ -18,14 +20,50 @@ var AppSwitcher = React.createClass({
     return (
     <nav className="navbar navbar-default">
       <div className="container-fluid">
-          <div>
-              <AppSwitcherDropDown data={menu} />
-          </div>
+        <div className="navbar-header pull-right">
+          <a className="navbar-brand" href="#">
+            <img src="./images/ms-logo.png" />
+          </a>
+        </div>
+        <div className="pull-right">
+          <BUDropDown data={menu} />
+        </div>
+          <AppSwitcherDropDown data={menu} />
       </div>
     </nav>
     );
   }
 });
+
+var BUDropDown = React.createClass({
+    render: function() {
+        var self = this;
+        return(
+            <div className="btn-group bu">
+              <a className="bu-toggle" data-toggle="dropdown" >
+                Tom Niehaus
+                <img className="img-circle" src="./images/FA-tniehaus110.png" />
+              </a>
+              <ul className="dropdown-menu" role="menu">
+                <li>
+                  <a>
+                    Kelly Andrews
+                    <img className="img-circle" src="./images/kja-thumb.png" />
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    Falk Gottlob
+                    <img className="img-circle" src="./images/falk-thumb.jpg" />
+                  </a>
+                </li>
+              </ul>
+            </div>
+        );
+    }
+});
+
+
 
 
 var AppSwitcherDropDown = React.createClass({

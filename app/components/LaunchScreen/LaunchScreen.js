@@ -7,13 +7,28 @@ var LaunchScreen = React.createClass({
   render: function() {
     return (
       <div>
-        <h2>Launch Screen</h2>
-				<div className="col-md-6 col-md-offset-3 launcher">
-					<Link to="dashboard" className="s1icon s1icon-xxl s1icon-s-dashboard"></Link>
-					<Link to="create-email" className="s1icon s1icon-xxl s1icon-s-email"></Link>
-					<Link to="client-management" className="s1icon s1icon-xxl s1icon-s-groups"></Link>
-					<Link to="content-admin" className="s1icon s1icon-xxl s1icon-s-drafts"></Link>
-					<Link to="fa-administration" className="s1icon s1icon-xxl s1icon-s-contact"></Link>
+				<div className="col-md-8 col-md-offset-2 launcher text-center">
+          <h1>FA Communicator</h1>
+					<Link to="dashboard" >
+            <div className="s1icon s1icon-xxl s1icon-s-dashboard"></div>
+            <div className="text">Dashboard</div>
+          </Link>
+					<Link to="create-email">
+            <div className="s1icon s1icon-xxl s1icon-s-email"></div>
+            <div className="text">Create Email</div>
+          </Link>
+					<Link to="client-management">
+            <div className="s1icon s1icon-xxl s1icon-s-groups"></div>
+            <div className="text">Manage Clients</div>
+          </Link>
+					<Link to="content-admin">
+            <div className="s1icon s1icon-xxl s1icon-s-file"></div>
+            <div className="text">Manage Content</div>
+          </Link>
+					<Link to="fa-administration">
+            <div className="s1icon s1icon-xxl s1icon-s-avatar"></div>
+            <div className="text">FA Administration</div>
+          </Link>
 				</div>
       </div>
     );

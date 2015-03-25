@@ -69,7 +69,7 @@ var Overview = React.createClass({
       {data:"subject", col:"Subject"},
       {data:"sentDate", col:"Sent On"},
       {data:"status", col:"Status"},
-      {data:"subscribers", col:"Subscribers"},
+      {data:"subscribers", col:"Clients"},
       {data:"opens", col:"Opens"},
       {data:"clicks", col:"Clicks"},
       {data:"bounces", col:"Bounced"},
