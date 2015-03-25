@@ -4,7 +4,7 @@ var React = require('react'),
     PubSub = require('pubsub-js'),
     Alert = require('react-bootstrap').Alert;
 
-jQuery("html").on("click.selectableEmailDivs", ".selectableEmailDivs", function(){
+jQuery("html").on("click.selectableEmailDivs", ".email-select .selectableEmailDivs", function(){
     jQuery(this).toggleClass("active");
 });
 
@@ -325,7 +325,7 @@ var EmailSelect = React.createClass({
     	var searchStyle = {'padding-top':'10px;'};
 		return (
 		<Container title={ this.state.FolderName }>
-			<EmailThumbs types={this.props.types}/>
+			<EmailThumbs types={this.props.types} />
 		</Container>
 		);
     }

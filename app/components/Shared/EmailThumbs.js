@@ -15,7 +15,8 @@ var EmailThumbs = React.createClass({
 	getInitialState: function() {
 		return {
 			selectedId: null,
-			folder: 7
+			folder: 7,
+			thumbs: thumbs
 		}
 	},
 	handleThumbClick: function(e) {
@@ -49,18 +50,34 @@ var EmailThumbs = React.createClass({
 		//un-subscribe to next disable state event
 		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
 	},
+	onEmailSettingsChange: function(id, changes){
+		var changedThumb = thumbs.filter(function(th){
+			return th.id === id;
+		})[0];
+		if(changes.entitlements){
+			changedThumb.entitlements = changes.entitlements;
+		}
+		if(changes.types){
+			changedThumb.type = changes.types;
+		}
+		if(changes.tags){
+			changedThumb.tags = changes.tags;
+		}
+		this.setState({thumbs: thumbs});
+	},
     render: function() {
     	var that = this;
 	  	var types = this.props.types.map(function(t){return t.id});
 	  	//var selectedStyle = {visibility:"hidden"};
-  		var thumbList = thumbs.filter(function(t){
+  		var thumbList = this.state.thumbs.filter(function(t){
   				return t.folder === that.state.folder;
   			}).filter(function(t){
   				return types.length === 0 || types.indexOf(t.type) != -1;
   			});
 
+		var rootClasses = this.props.settings? "email-edit": "email-select";
         return(
-		<div id="createEmail">
+		<div id="createEmail" className={rootClasses}>
 			{thumbList.map(function(t){
 				return(
 				<div onClick={that.handleThumbClick} className="btn btn-default selectableEmailDivs">
@@ -82,18 +99,27 @@ var EmailThumbs = React.createClass({
               <span className="selected-indicator fa fa-check fa-lg"></span>
 
                 <ModalContainer size="xsmall" icon="eye" cta="View" title={t.name}>
-                  <div className="text-center">
-  									{
+  					{
                       function(t) {
-                        if (!that.props.settings) {
-                          return (<img src={"./images/" + t.image} className="img-responsive emailPreview" />);
-                        }
-                        else {
-                          return (<Settings />);
-                        }
+                      	var classes = "col-md-12";
+                      	var content = "";
+                      	if(that.props.settings){
+                      		classes = "col-md-6";
+                      		content = (<div className={classes}>
+                        			<Settings email={t} onChange={that.onEmailSettingsChange.bind(that, t.id)}/>
+                        		</div>)
+                      	}
+                        
+                        return (
+                        	<div>
+                        		<div className={classes}>
+                        			<img src={"./images/" + t.image} className="img-responsive emailPreview" />
+                        		</div>
+                        		{content}
+                        	</div>
+                        )
                       }(t)
                     }
-  								</div>
                </ModalContainer>
             </div>
           </div>

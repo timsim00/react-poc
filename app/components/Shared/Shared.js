@@ -517,7 +517,11 @@ module.exports = {
 	"RadioList": React.createClass({
 		getInitialState: function(){
 			var state = {};
-			state.selected = this.props.selected;
+			if(this.props.check){
+				state.selectedArr = this.props.selected || [];
+			} else {
+				state.selected = Array.isArray(this.props.selected)? this.props.selected[0]: this.props.selected;
+			}
 			return state;
 		},
 		componentWillReceiveProps: function(newProps){
@@ -526,26 +530,48 @@ module.exports = {
 			this.setState(newState);
 		},
 		onChange: function(id){
-			var selected = this.state.selected;
-			if(this.refs[id].getDOMNode().checked){
-				selected = id;
+			if(this.props.check){
+				var selectedArr = this.state.selectedArr;
+				if(this.refs[id].getDOMNode().checked){
+					selectedArr.push(id);
+				} else {
+					selectedArr = selectedArr.filter(function(s){
+						return s !== id;
+					});
+				}
+				this.setState({selectedArr: selectedArr});
+				if(this.props.onSelectionChange){
+					this.props.onSelectionChange(selectedArr);
+				}
 			} else {
-				selected = null;
-			}
-			this.setState({selected: selected});
-			if(this.props.onSelectionChange){
-				this.props.onSelectionChange(selected);
+				var selected = this.state.selected;
+				if(this.refs[id].getDOMNode().checked){
+					selected = id;
+				} else {
+					selected = null;
+				}
+				this.setState({selected: selected});
+				if(this.props.onSelectionChange){
+					this.props.onSelectionChange(selected);
+				}
 			}
 		},
 		render: function(){
 			var items = this.props.source || [];
 			var self = this;
-			var currentSelect = this.state.selected;
+			var type = this.props.check? "checkbox": "radio";
+			var currentSelect;
+			if(!this.props.check){
+				currentSelect = {};
+				currentSelect[this.state.selected] = true;
+			} else {
+				currentSelect = createLookup(this.state.selectedArr);
+			}
 			//TODO consider adding radio button name to group radio buttons correctly
-			return (<div>
+			return (<div className="radio-list">
 						{items.map(function(i){
 							var checked = "";
-							if(currentSelect === i.id){
+							if(currentSelect[i.id]){
 								checked = "checked";
 							}
 							var content = i.content;
@@ -557,7 +583,7 @@ module.exports = {
 								}
 							}
 							return (<div className="row" key={i.id}>
-								<div className="col-md-1"><input type="radio" ref={i.id} checked={checked} onChange={self.onChange.bind(self,i.id)} /></div>
+								<input className="col-md-1" type={type} ref={i.id} checked={checked} onChange={self.onChange.bind(self,i.id)} />
 								{content}
 							</div>)
 						})}
