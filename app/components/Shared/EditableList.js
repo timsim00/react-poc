@@ -58,6 +58,9 @@ var EditListModal = React.createClass({
 						})}
 					</div>
 				</div>
+				<div className="modal-footer">
+					<button type="button" className="btn btn-default" onClick={this.onHide}>Done</button>
+				</div>
 			</Modal>
 		);
 	}
