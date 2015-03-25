@@ -368,7 +368,7 @@ module.exports = {
 							var content = i.content;
 							if(!content){
 								if(i.name && i.email){
-									content = (<div><div className="col-md-5">{i.name} </div><div className="col-md-6">{i.email} </div></div>)
+									content = (<div><div className="col-md-4">{i.name} </div><div className="col-md-7">{i.email} </div></div>)
 								} else {
 									content = (<div className="col-md-11">{i.name} </div>)
 								}

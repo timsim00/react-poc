@@ -42,7 +42,7 @@ var EditListModal = React.createClass({
 		return (
 			<Modal {...this.props} onRequestHide={this.onHide} bsStyle="default">
 				<div className="modal-body">
-					<div>
+					<div className="editable-list-content">
 						{items.map(function(i){
 							var checked = "";
 							if(selectedLookup[i.id]){
@@ -50,8 +50,8 @@ var EditListModal = React.createClass({
 							}
 							return (<div className="row" key={i.id}>
 								<div className="col-md-1"><input type="checkbox" ref={i.id} checked={checked} onChange={self.onChangeSingle.bind(self,i.id)} /></div>
-								<div className="col-md-5">{i.name} </div>
-								<div className="col-md-6">{i.email}</div>
+								<div className="col-md-4">{i.name} </div>
+								<div className="col-md-7">{i.email}</div>
 							</div>)
 						})}
 					</div>
@@ -108,7 +108,7 @@ var EditableList = React.createClass({
 			<div className="clearfix" />
 			<div>
 				{selectedItems.map(function(i){
-					return <div className="row" key={i.id}><div className="col-md-6">{i.name}</div><div className="col-md-6">{i.email}</div></div>
+					return <div className="row" key={i.id}><div className="col-md-5">{i.name}</div><div className="col-md-7">{i.email}</div></div>
 				})}
 			</div>
 		</div>

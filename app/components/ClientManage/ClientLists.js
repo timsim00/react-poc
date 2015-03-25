@@ -51,11 +51,11 @@ var ClientLists = React.createClass({
   	
   },
   getInitialState: function(){
-  	var state = {selectedLists: [], selectedPublications: [], filter: "", selectedClient:{}, changes: {}};
+  	var state = {selectedLists: [], selectedPublications: [], filter: "", selectedClient:null, changes: {}};
   	return state;
   },
   onSearchChange: function(searchFilter){
-  	var newState = {filter: searchFilter}
+  	var newState = {filter: searchFilter};
 	if(this.state.selectedClient && !isMatchForFilter(this.state.selectedClient, searchFilter)){
 		newState.selectedClient = null;
 	}
@@ -64,11 +64,7 @@ var ClientLists = React.createClass({
   onClientDetailChange: function(property){
   	var newValue = this.refs[property].getDOMNode().value;
   	var changes = this.state.changes;
-  	if(newValue !== this.state.selectedClient[property]){
-  		changes[property] = newValue;
-  	} else {
-  		changes[property] = null;
-  	}
+  	changes[property] = newValue;
   	this.setState({changes: changes});
   },
   onSave : function(){
@@ -124,12 +120,18 @@ var ClientLists = React.createClass({
 		return lookup;
 	}, {});
 
+	var clientListTitle = self.state.filter !== ""? "Filtered Clients": "My Clients";
+
     return (
         <div className="row">
           <div className="col-md-6">
-			<Container title="My Clients" class="clientManagePanel">
-				<SearchBar onChange={this.onSearchChange} />
-				<RadioList source={filteredClients} selected={clientValues.id} onSelectionChange={this.onSelectedClientChange}/>
+          	<Container title="Search">
+				<SearchBar onChange={this.onSearchChange} />          	
+          	</Container>
+			<Container title={clientListTitle} class="clientManagePanel">
+				<div className="client-list">
+					<RadioList source={filteredClients} selected={clientValues.id} onSelectionChange={this.onSelectedClientChange}/>
+				</div>
 			</Container>
           </div>
           <div className="col-md-6">
