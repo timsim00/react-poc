@@ -1,7 +1,8 @@
 var React = require('react'),
     Router = require('react-router'),
     $ = require('jquery'),
-    PubSub = require('pubsub-js');
+    PubSub = require('pubsub-js'),
+    Alert = require('react-bootstrap').Alert;
 
 jQuery("html").on("click.selectableEmailDivs", ".selectableEmailDivs", function(){
     jQuery(this).toggleClass("active");
@@ -38,8 +39,11 @@ var CreateEmail = React.createClass({
     return (
 	<div>
     <div className="row pageTitle">
-  		<div className="col-md-12">
+  		<div className="col-md-8">
   		  <h2>Create Email</h2>
+  		</div>
+  		<div className="col-md-4 pull-right">
+  			<AlertAutoDismissable />
   		</div>
     </div>
     <div className="row">
@@ -63,10 +67,11 @@ var Wizard = React.createClass({
 			step: 1,
 			btnNextDisabled: true,
 			tabs: "disabled",
-			audiencecount: 0
+			audiencecount: 0,
+			sendconfirm: ''
 		}
 	},
-	handleNext: function() {
+	handleNext: function(e) {
 		if (this.state.step <= 3) this.state.step++;
 		switch (this.state.step) {
 			/*
@@ -86,7 +91,12 @@ var Wizard = React.createClass({
     			$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
     			break;
     		}
-    		case 4: location.hash = "#/";
+    		case 4: {
+    			$('#sendemailalert').click();
+    			setTimeout(function() {
+    				location.hash = "#/";
+    			}, 2500);
+    		}
     	}
 	},
 	handleBack: function() {
@@ -159,7 +169,7 @@ var Wizard = React.createClass({
 	handleStepAudienceShow: function() {
 		this.setState({btnNextDisabled: this.state.audiencecount==0});
 	},
-	handleStepScheduleShow: function() {		
+	handleStepScheduleShow: function() {
 	},	
 	componentDidMount: function() {
 		this.subscriptions['Content-Selected'] = PubSub.subscribe( 'Content-Selected', this.handleContentSelected );
@@ -167,7 +177,7 @@ var Wizard = React.createClass({
 		$('a[href^="#stepSelectContent"]').on('click', this.handleStepSelectContentShow);
 		$('a[href^="#stepSelectAudience"]').on('click', this.handleStepAudienceShow);
 		$('a[href^="#stepSchedule"]').on('click', this.handleStepScheduleShow);	
-		this.handleStepSelectContentShow();	
+		this.handleStepSelectContentShow();
 	},
 	componentWillUnmount: function() {
 		//un-subscribe to next disable state event
@@ -175,8 +185,8 @@ var Wizard = React.createClass({
 		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );
 	},
     render: function() {
-    var that = this;
-	return (
+    	var that = this;
+		return (
 		<div className="wizard">
 			<div className="wizard-header navbar navbar-default">
 				<ul className="nav navbar-nav navbar-left">
@@ -195,23 +205,23 @@ var Wizard = React.createClass({
 						Schedule
 						</a>
 					</li>
-				</ul>
+				</ul>				
 				<div id="btnNext" className="pull-right text-right wiz-btn"><button disabled={this.state.btnNextDisabled} onClick={this.handleNext} className="btn btn-default">Next&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></button></div>
 				<div id="btnBack" className="pull-right text-right wiz-btn"><button onClick={this.handleBack} className="btn btn-default">Back</button></div>
 				<div id="btnCancel" className="pull-right text-right wiz-btn"><Link to="/" className="btn btn-default">Cancel</Link></div>
 			</div>
 			<div className="wizard-content tab-content">
-			<div role="tabpanel" className="tab-pane active" id="stepSelectContent">
-				<StepSelectContent />
-			</div>
-			<div role="tabpanel" className="tab-pane" id="stepSelectAudience">
-				<StepSelectAudience />
-			</div>
-			<div role="tabpanel" className="tab-pane" id="stepSchedule">
-				<StepSchedule />
+				<div role="tabpanel" className="tab-pane active" id="stepSelectContent">
+					<StepSelectContent />
+				</div>
+				<div role="tabpanel" className="tab-pane" id="stepSelectAudience">
+					<StepSelectAudience />
+				</div>
+				<div role="tabpanel" className="tab-pane" id="stepSchedule">
+					<StepSchedule />
+				</div>
 			</div>
 		</div>
-	</div>
 	);
 	}
 });
@@ -940,6 +950,41 @@ var Radios = React.createClass({
             </div>
         </div>
     );
+  }
+});
+
+
+/*** SEND EMAIL CONFIRMATION ***/
+
+const AlertAutoDismissable = React.createClass({
+  getInitialState() {
+    return {
+      alertVisible: false
+    };
+  },
+
+  render() {
+  	var alertStyle = {'margin-bottom':'0px;', 'color':'black;'}
+    if (this.state.alertVisible) {
+      console.log('about to alert');
+      return (
+        <Alert bsStyle='info' onDismiss={this.handleAlertDismiss} dismissAfter={2500}>
+          <h4 style={alertStyle}>Sending Email...</h4>
+        </Alert>
+      );
+    }
+
+    return (
+      <span id="sendemailalert" onClick={this.handleAlertShow}></span>
+    );
+  },
+
+  handleAlertDismiss() {
+    this.setState({alertVisible: false});
+  },
+
+  handleAlertShow() {
+    this.setState({alertVisible: true});
   }
 });
 
