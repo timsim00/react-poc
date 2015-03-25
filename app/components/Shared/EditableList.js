@@ -22,8 +22,8 @@ var EditListModal = React.createClass({
 		state.selected = this.props.selected;
 		return state;
 	},
-	onHide: function(a){
-		this.props.onClose(a, this.state.selected);
+	onHide: function(){
+		this.props.onClose(this.state.selected);
 		this.props.onRequestHide();
 	},
 	onChangeSingle: function(id){
@@ -56,9 +56,6 @@ var EditListModal = React.createClass({
 						})}
 					</div>
 				</div>
-				<div className="modal-footer">
-					<Button onClick={this.onHide.bind(this, true)} bsStyle="primary"> Save </Button>
-				</div>
 			</Modal>
 		);
 	}
@@ -77,10 +74,8 @@ var EditableList = React.createClass({
 			this.props.onChange(ids);
 		}
 	},
-	handleHide: function(save, items){
-		if(save){
-			this.saveItems(items);
-		}
+	handleHide: function(items){
+		this.saveItems(items);
 	},
 	componentWillReceiveProps: function(nextProps){
 		var newState = {};
