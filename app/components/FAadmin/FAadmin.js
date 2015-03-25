@@ -106,7 +106,7 @@ var FAadmin = React.createClass({
             <h2>Update your Financial Advisor Information</h2>
           </div>
           <div className="col-md-6 text-right">
-            <button type="button" className="btn btn-default">Edit</button>
+            <button type="button" className="btn btn-default">Save</button>
           </div>
         </div>
         <Container title="Your Details">
