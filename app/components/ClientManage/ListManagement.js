@@ -118,11 +118,9 @@ var ListSubs = React.createClass({
             		</div>
         		</div>
         		<div className="col-md-6">
-              	<Container title="List Members">
-		        	<EditableList source={members} selected={selected} />
-        		</Container>
-        	</div>
-        </div>
+					<EditableList source={members} selected={selected} title="List Members"/>
+				</div>
+			</div>
     );
   }
 
