@@ -15,6 +15,7 @@ var Link = Router.Link;
 var Shared = require('../Shared/Shared');
 var SearchBar = Shared.SearchBar;
 var ItemList = Shared.ItemList;
+var MasterList = Shared.MasterList;
 
 var FolderTree = require('../Shared/FolderTree');
 var FilterByType_ = require('../Shared/FilterByType').ItemList;
@@ -23,6 +24,8 @@ var Container =  require('../Shared/Container');
 //data
 var folders = require("../../data/folders");
 var filterData = require("../../data/types");
+var lists = require("../../data/lists");
+var clients = require("../../data/clients");
 
 
 /**** MAIN *****/
@@ -425,6 +428,7 @@ var HTMLView = React.createClass({
 
 
 //data
+/*
 var folderClients = [
     {
         name: "Lists",
@@ -439,21 +443,94 @@ var folderClients = [
     ]},
     { name: "All Clients"}
 ];
+*/
+
+/*
+{ id: 1, title: "John Smith", data: ["jsmith@gmail.com"], checked: "checked", selected: true },
+{ id: 7, title: "Erika Saarland", data: ["esaarland@gmail.com", "Sent 03/12/2015"], disabled: true },
+
+{
+        "firstName": "Heidi",
+        "lastName": "Kirkland",
+        "emailAddress": "quis.diam.luctus@scelerisquenequesed.edu",
+        "lists": [3, 5, 8],
+        "publications": [3]
+}
+*/
 
 var StepSelectAudience = React.createClass({
 	listid: "subscriberCheckList",
+	masterlistid: "masterCheckList",
+	masterCols: [{heading:'Name',attr:"name", width:7},{heading:'#Clients',attr:"__childCount", width:3}],
+	listChild: {data:clients, masterId:"id", childId:"lists"},
 	subscriptions: {},
-	handleItemChanged: function(msg, data) {
+	handleClientItemChanged: function(msg, data) {
 		var n = (data.item.prevSelected && !data.item.selected) ? -1 : 1;
 		PubSub.publish( 'Audience-Count-Change', {add: n} );  
 	},
+	handleListItemChanged: function(msg, data) {
+		var n = (data.item.prevSelected && !data.item.selected) ? -(data.item.__childCount) : data.item.__childCount;
+		var o = (data.item.prevSelected && !data.item.selected) ? {remove: data.item} : {add: data.item};
+		PubSub.publish( 'Audience-Count-Change', {add: n} );
+		PubSub.publish( 'Audience-List-Change',  o);  
+	},
+	handleAudienceChanged: function(msg, data) {
+		if (data.add) {
+			for (var i=0; i<data.add.children.length; i++) {
+				var c = data.add.children[i];
+				var sub = {
+					id: c.emailAddress
+					,title: c.firstName + ' ' + c.lastName
+					,data: [c.emailAddress]
+					,checked: "checked"
+					,selected: true
+				};
+				//total hack:
+				if ((i !=0) && (i % 9 == 0)) {
+					sub.data.push('Sent 03/12/2015');
+					sub.disabled = true;
+					delete sub.checked;
+					delete sub.selected;
+					PubSub.publish( 'Excluded-List-Change',  {add: sub});
+					PubSub.publish( 'Audience-Count-Change', {add: -1} );
+					PubSub.publish( 'Excluded-Count-Change', {add: 1} );
+				}
+				this.state.subscribers.push(sub);
+			}
+		} else if (data.remove) {
+			for (var i=this.state.subscribers.length-1; i>-1; i--) {
+				console.log(i);
+				for (var j=0; j<data.remove.children.length; j++) {
+					var c = data.remove.children[j];
+					if (this.state.subscribers[i] && this.state.subscribers[i].id == c.emailAddress) {
+						if (this.state.subscribers[i].disabled) {
+							PubSub.publish( 'Excluded-List-Change',  {remove: this.state.subscribers[i]});
+							PubSub.publish( 'Excluded-Count-Change', {add: -1} );
+						}
+						this.state.subscribers.splice(i,1);
+					}	
+				}
+			}
+		}
+		
+		this.setState({subscribers: this.state.subscribers});  
+	},		
 	componentDidMount: function() {
-		var token = PubSub.subscribe( 'Item-Check-Change-'+this.listid, this.handleItemChanged );
+		var token = PubSub.subscribe( 'Item-Check-Change-'+this.listid, this.handleClientItemChanged );
 		this.subscriptions['Item-Check-Change-'+this.listid] = token;
+		token = PubSub.subscribe( 'Item-Check-Change-'+this.masterlistid, this.handleListItemChanged );
+		this.subscriptions['Item-Check-Change-'+this.masterlistid] = token;
+		token = PubSub.subscribe( 'Audience-List-Change', this.handleAudienceChanged );
+		this.subscriptions['Audience-List-Change'] = token;				
 	},
 	componentWillUnmount: function() {
 		PubSub.unsubscribe( this.subscriptions['Item-Check-Change-'+this.listid] );
+		PubSub.unsubscribe( this.subscriptions['Item-Check-Change-'+this.masterlistid] );
+		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );
 	},
+    getInitialState: function(){
+		return { subscribers: [] };
+    },	
   render: function() {
   	var listspanstyle = { float:'left', padding:'7px' };
   	var searchstyle = { 'margin-left':'-15px' };
@@ -471,18 +548,21 @@ var StepSelectAudience = React.createClass({
 							<SearchBar />
 						</div>
 					</div>	
+					
+					<ItemList items={subnames} listid={this.listid} header={subNameHeaders}/>	
+					<ItemList listid={this.listid} items={subscribers} />					
 	*/
     return (
 	<div  role="tabpanel" className="tab-pane active">
 		<div className="row">
 			<div id="SubscriberListContainer" className="col-md-4" style={subNamesStyle}>
 				<div className="well">
-					<SubscriberListContainer />
+					<MasterList listid={this.masterlistid} items={lists} columns={this.masterCols} child={this.listChild}/>
 				</div>
 			</div>
 			<div id="SubscriberContainer" className="col-md-5" style={ subscriberListStyle }>
 				<div className="well">
-					<ItemList listid={this.listid} items={subscribers} />
+					<ItemList listid={this.listid} items={this.state.subscribers} />
 				</div>
 			</div>
 			<div className="col-md-3">
@@ -510,11 +590,10 @@ var subnames = [
 var subNameHeaders= ["Name", "#Clients"];
 
 /*** SUBSCRIBER LIST CONTAINER ***/
-
+/*
 var SubscriberListContainer = React.createClass({
 	listid: "subscriberListCheckList",
 	subscriptions: {},
-	/*
 	handleFolderSelected: function(msg, data) {
 		if (data.name == 'All Clients' && this.state.isVisible) {
 			//hide SubscriberListContainer
@@ -540,7 +619,6 @@ var SubscriberListContainer = React.createClass({
 		//un-subscribe to next disable state event
 		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
 	},
-	*/
     getInitialState: function(){
 		return { FolderName: 'Lists', isVisible: true };
     },
@@ -550,6 +628,8 @@ var SubscriberListContainer = React.createClass({
 		);
     }
 });
+*/
+
 
 
 /*** SUBSCRIBER LIST ***/
@@ -566,13 +646,21 @@ var subscribers = [
 ];
 
 
+
+
 /*** SELECTED LIST ***/
 
-var selectednames = [
-	{ title: "Email - High Value", count: "8" }
-];
+var selectednames = [];
 
 var SelectedItem = React.createClass({
+    render: function () {
+      return (
+        <li className="list-group-item">&nbsp;{ this.props.item }</li>
+      );
+    }
+});
+
+var ExcludedItem = React.createClass({
     render: function () {
       return (
         <li className="list-group-item">&nbsp;{ this.props.item.title }</li>
@@ -583,29 +671,71 @@ var SelectedItem = React.createClass({
 var SelectedItemList = React.createClass({
 	subscriptions: {},
 	handleSelectedCountChange: function(msg, data) {
-		this.setState({ selectedCount: (this.state.selectedCount += data.add) });
+		this.state.selectedCount += data.add;
+		if (this.state.selectedCount < 0) this.state.selectedCount = 0;
+		this.setState({ selectedCount: this.state.selectedCount });
 	},
+	handleExcludedCountChange: function(msg, data) {
+		this.state.excludedCount += data.add;
+		if (this.state.excludedCount < 0) this.state.excludedCount = 0;
+		this.setState({ excludedCount: this.state.excludedCount });
+	},	
+	handleSelectedListChange: function(msg, data) {
+		if (data.add) {
+			this.state.items.push(data.add.name);
+		} else if (data.remove) {
+			var i = this.state.items.indexOf(data.remove.name);
+			this.state.items.splice(i,1);
+		}
+		this.setState({items: this.state.items});
+	},
+	handleExcludedListChange: function(msg, data) {
+		if (data.add) {
+			this.state.excludes.push(data.add);
+		} else if (data.remove) {
+			var j = -1;
+			console.log(data.remove);
+			for (var i=0; i<this.state.excludes.length; i++) {
+				console.log(this.state.excludes[i]);
+				if (this.state.excludes[i].id == data.remove.id) {
+					j = i;
+					break;
+				}
+			}
+			if (j != -1) this.state.excludes.splice(j,1);
+		}
+		this.setState({excludes: this.state.excludes});
+	},		
 	componentDidMount: function() {
 		var token = PubSub.subscribe( 'Audience-Count-Change', this.handleSelectedCountChange );
 		this.subscriptions['Audience-Count-Change'] = token;
+		token = PubSub.subscribe( 'Audience-List-Change', this.handleSelectedListChange );
+		this.subscriptions['Audience-List-Change'] = token;	
+		token = PubSub.subscribe( 'Excluded-List-Change', this.handleExcludedListChange );
+		this.subscriptions['Excluded-List-Change'] = token;	
+		token = PubSub.subscribe( 'Excluded-Count-Change', this.handleExcludedCountChange );
+		this.subscriptions['Excluded-Count-Change'] = token;				
 	},
 	componentWillUnmount: function() {
 		PubSub.unsubscribe( this.subscriptions['Audience-Count-Change'] );
+		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );
+		PubSub.unsubscribe( this.subscriptions['Excluded-List-Change'] );
+		PubSub.unsubscribe( this.subscriptions['Excluded-Count-Change'] );
 	},
   getInitialState: function(){
     var itemList = this.props.items.map(function(item, i){
     	return item;
     });
-    return {items:selectednames, excludes:subscribers, selectedCount: 5, excludedCount: 3};
+    return {items:selectednames, excludes:[], selectedCount: 0, excludedCount: 0};
   },
   render: function(){
     var that = this;
     var itemNodes = this.state.items.map(function (item, i) {
-      return <SelectedItem item={item} order={i} clicked={that.whenClicked} />
+      	return <SelectedItem item={item} order={i} />
     });
     var excluded = this.state.excludes.map(function (item, i) {
     	if (item.disabled) {
-      		return <SelectedItem item={item} order={i} clicked={that.whenClicked} />
+      		return <ExcludedItem item={item} order={i} />
       	}
     });    
     return (

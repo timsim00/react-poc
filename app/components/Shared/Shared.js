@@ -1,5 +1,6 @@
 var React = require('react'),
 	moment = require('moment'),
+	$ = require('jquery'),
     PubSub = require('pubsub-js');
 
 
@@ -75,6 +76,62 @@ var Item = React.createClass({
     }
 });
 
+var MasterItem = React.createClass({
+	__changeSelection: function(item) {
+		var newValue = !this.state.selected;
+		item.prevSelected = item.selected;
+        this.setState({selected: newValue});
+        item.selected = newValue; //this.state.selected;
+        if(this.props.onChange){
+        	this.props.onChange(item.id, newValue);
+        }
+    	PubSub.publish( 'Item-Check-Change-'+this.props.listid, {item: item} );        
+    },
+    getInitialState: function(){
+    	var state = {};
+    	state.selected = this.props.item.selected;
+    	state.disabled = this.props.item.disabled;
+    	return state;
+    },
+    render: function () {
+    	var that = this;
+    	var checked = "";
+    	var disabledAttr = "";
+    	var disabledClasses = "";
+
+    	if(this.state.selected){
+    		checked = "checked";
+    	}
+
+    	if(this.state.disabled){
+    		disabledAttr = "disabled";
+    		disabledClasses= "disabledColor";
+    	}
+		    	
+        var colattrs = [];
+        for (var i=0; i<this.props.columns.length; i++) {
+        	colattrs.push(this.props.columns[i].attr);
+        }    	
+        var colClass = 'col-md-' + this.props.columns[0].width;
+		var first=true;
+
+      	return (
+		<div key={this.props.item.id} className="row checkbox">
+			<div className={colClass}>
+				<label>
+					<input type="checkbox" key={this.props.item.id} listid={this.props.listid} checked={checked} disabled={disabledAttr} onChange={this.__changeSelection.bind(this, this.props.item)}/>
+					{ this.props.item[colattrs[0]] }
+				</label>
+			</div>
+			{this.props.columns.map(function(col){					
+				if (!first) return(<div className={'col-md-' + col.width}>{that.props.item[col.attr]}</div>)
+				first=false;
+			})}				
+		</div>
+      	);
+    }
+});
+
 var Header = React.createClass({
 	getColumnClasses : function(){
 		if(!this.props.data){
@@ -89,6 +146,16 @@ var Header = React.createClass({
 				{headers.map(function(h){
 					return (<div className={classes}>{h}</div>);
 				})}
+			</div>)
+	}
+});
+
+var MasterHeader = React.createClass({
+	render: function(){
+		return (<div className="row header">
+				{this.props.columns.map(function(col){					
+					return (<div className={'list-header col-md-' + col.width}>{col.heading}</div>);
+				})}				
 			</div>)
 	}
 });
@@ -190,6 +257,104 @@ module.exports = {
         );
       }
     }),
+    
+    "MasterList" : React.createClass({
+      /*
+      	Usage: 	<MasterList items={lists} columns={this.masterCols} child={this.listChild}/>
+      	Props: 	items: 		data for the list, array of objects
+      			columns:	columns header info, array of {heading:'value',attr:'value', width:3}
+      			child:		data/info for child items, ie. {data:clients, masterId:"id", childId:"lists"}
+      */
+      needsChildCount: function() {
+      	var needsChildCount = false;
+      	for (var i=0; i<this.props.columns.length; i++) {
+      		if (this.props.columns[i].attr == "__childCount") {
+      			needsChildCount = true;
+      			break;
+      		}
+      	}
+      	return needsChildCount;      
+      },
+      getChildCounts: function() {
+      	//if anyone can do this more efficiently, have at it.
+      	/*
+      	//less efficient but more concise way:
+      	for (var i=0; i<this.props.items.length; i++) {
+			this.props.items[i].childCount = 0;
+			var masterId = this.props.items[i][this.props.child.masterId];
+			var cfld = this.props.child.childId;
+			for (var j=0; i<this.props.child.data.length; j++) {
+				if (this.props.child.data[j][cfld].indexOf(masterId) > -1) {
+					this.props.items[i].childCount++;
+				}
+			}
+      	}
+      	*/
+      	
+      	var masterCnts = {};   
+      	var childItems = {}; //after thought bolt on   	
+      	var masterIdFld = this.props.child.masterId;
+      	var masterdata = this.props.items;
+      	var childdata = this.props.child.data;
+      	var children = childdata.length;
+      	var childIdFld = this.props.child.childId;
+      	
+      	//put the master list into an assoc. array:      	
+      	for (var i=0; i<masterdata.length; i++) {
+      		var row = masterdata[i];
+      		var masterId = row[masterIdFld];
+			masterCnts[masterId] = 0;
+			childItems[masterId] = new Array(); //bolt on
+      	}      	
+      	//iterate through the children
+      	for (var i=0; i<children; i++) {
+      		var row = childdata[i]; 
+      		var idfld = row[childIdFld];
+      		var idcnt = idfld.length;
+      		for (var j=0; j<idcnt; j++) {
+      			masterCnts[ idfld[j] ]++;
+      			if (childItems[ idfld[j] ]) childItems[ idfld[j] ].push(row); //bolt on
+      		}
+      	}
+      	//put the child counts back into master items
+      	for (var i=0; i<masterdata.length; i++) {
+      		var row = masterdata[i];
+      		var masterId = row[masterIdFld];
+			row.__childCount = masterCnts[ masterId ];
+			row.children = childItems[ masterId ]; //bolt on
+      	}      	   
+      },
+      getInitialState: function(){
+      	var items = this.props.items;
+      	this.needsChildCount() && this.getChildCounts();
+
+        var selected = {};
+        this.props.items.filter(function(i){
+        	return i.selected;
+        }).forEach(function(i){
+        	selected[i.id] = true;
+        });
+        return {items:items, selected: selected, listid:this.props.listid};
+      },
+      render: function(){
+        var that = this;
+        
+        var headers = [];
+        for (var i=0; i<this.props.columns.length; i++) {
+        	headers.push(this.props.columns[i].heading);
+        }        
+		var rootClasses = "itemList";
+        var itemNodes = this.props.items.map(function (item) {
+          	return <MasterItem item={item} listid={that.props.listid} key={item.id} columns={that.props.columns} />
+        });
+        return (
+            <div className={rootClasses}>
+            	<MasterHeader data={headers} columns={that.props.columns} />
+                { itemNodes }
+            </div>
+        );
+      }
+    }),    
 
     "TrackingDetails" :  React.createClass({
       render: function() {
