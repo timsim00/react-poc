@@ -48,14 +48,14 @@ var ClientLists = React.createClass({
   		selectedPublications: selectedClient.publications,
   		selectedLists: selectedClient.lists
   	});
-  	
+
   },
   getInitialState: function(){
-  	var state = {selectedLists: [], selectedPublications: [], filter: "", selectedClient:{}, changes: {}};
+  	var state = {selectedLists: [], selectedPublications: [], filter: "", selectedClient:null, changes: {}};
   	return state;
   },
   onSearchChange: function(searchFilter){
-  	var newState = {filter: searchFilter}
+  	var newState = {filter: searchFilter};
 	if(this.state.selectedClient && !isMatchForFilter(this.state.selectedClient, searchFilter)){
 		newState.selectedClient = null;
 	}
@@ -64,29 +64,25 @@ var ClientLists = React.createClass({
   onClientDetailChange: function(property){
   	var newValue = this.refs[property].getDOMNode().value;
   	var changes = this.state.changes;
-  	if(newValue !== this.state.selectedClient[property]){
-  		changes[property] = newValue;
-  	} else {
-  		changes[property] = null;
-  	}
+  	changes[property] = newValue;
   	this.setState({changes: changes});
   },
   onSave : function(){
 	if(this.state.changes.firstName){
 		this.state.selectedClient.firstName = this.state.changes.firstName;
 	}
-	
+
 	if(this.state.changes.lastName){
 		this.state.selectedClient.lastName = this.state.changes.lastName;
 	}
-	
+
 	if(this.state.changes.emailAddress){
 		this.state.selectedClient.emailAddress = this.state.changes.emailAddress;
 	}
-	
+
 	this.state.selectedClient.lists = this.state.selectedLists;
 	this.state.selectedClient.publications = this.state.selectedPublications;
-	
+
 	this.setState({selectedClient: this.state.selectedClient, changes: {}});
   },
   onChangeSingle: function(id){
@@ -106,7 +102,7 @@ var ClientLists = React.createClass({
   	}).map(function(c){
 		return {id: c.id, name: [c.firstName, c.lastName].join(" "), email: c.emailAddress};
 	});
-	
+
 	var clientValues = {id: null, firstName: "", lastName: "", emailAddress: "", lists: [], publications: []};
 	if(this.state.selectedClient){
 		clientValues.id = this.state.selectedClient.id;
@@ -114,22 +110,28 @@ var ClientLists = React.createClass({
 		clientValues.lastName = this.state.changes.lastName || this.state.selectedClient.lastName || "";
 		clientValues.emailAddress = this.state.changes.emailAddress || this.state.selectedClient.emailAddress || "";
 	}
-	
+
 	var listCopy = lists.map(function(l){
 		return {id: l.id, name: l.name, selected: (clientValues.lists.indexOf(l.id) !== -1)};
 	});
-	
+
 	var selectedListsLookup = this.state.selectedLists.reduce(function(lookup, lst){
 		lookup[lst] = true;
 		return lookup;
 	}, {});
 
+	var clientListTitle = self.state.filter !== ""? "Filtered Clients": "My Clients";
+
     return (
         <div className="row">
           <div className="col-md-6">
-			<Container title="My Clients" class="clientManagePanel">
-				<SearchBar onChange={this.onSearchChange} />
-				<RadioList source={filteredClients} selected={clientValues.id} onSelectionChange={this.onSelectedClientChange}/>
+          	<Container title="Search">
+				<SearchBar onChange={this.onSearchChange} />          	
+          	</Container>
+			<Container title={clientListTitle} class="clientManagePanel">
+				<div className="client-list">
+					<RadioList source={filteredClients} selected={clientValues.id} onSelectionChange={this.onSelectedClientChange}/>
+				</div>
 			</Container>
           </div>
           <div className="col-md-6">
@@ -174,7 +176,7 @@ var ClientLists = React.createClass({
 					})}
 					</div>
 			</Container>
-			<Container title="Subscriptions">
+			<Container title="Email Subscriptions">
 				<CheckListPlus data={subscriptions} selected={this.state.selectedPublications} onChange={this.onSelectedPublicationsChange}/>
 			</Container>
 			<div className="row">

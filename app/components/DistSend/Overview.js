@@ -125,7 +125,7 @@ var MostRecentSend = React.createClass({
     return (
     <Container title="Most Recent Send">
         <div className="col-md-3">
-          <EmailPreview imageUrl={this.props.email.previewImage} />
+          <EmailPreview data={this.props.email} />
         </div>
         <div className="col-md-9">
           <EmailDetails data={this.props.email} />
@@ -142,7 +142,7 @@ var MostRecentModify = React.createClass({
     return (
     <Container title="Recent Modified Email">
         <div className="col-md-3">
-          <EmailPreview imageUrl={this.props.email.previewImage} />
+          <EmailPreview data={this.props.email} />
         </div>
         <div className="col-md-9">
           <EmailDetails data={this.props.email} />

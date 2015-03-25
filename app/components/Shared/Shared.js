@@ -1,7 +1,9 @@
 var React = require('react'),
-	moment = require('moment'),
-	$ = require('jquery'),
-    PubSub = require('pubsub-js');
+		moment = require('moment'),
+		$ = require('jquery'),
+  	PubSub = require('pubsub-js'),
+		ModalContainer = require('./ModalContainer'),
+		ModalTrigger = require('react-bootstrap').ModalTrigger;
 
 
 var createLookup = function(list){
@@ -85,7 +87,7 @@ var MasterItem = React.createClass({
         if(this.props.onChange){
         	this.props.onChange(item.id, newValue);
         }
-    	PubSub.publish( 'Item-Check-Change-'+this.props.listid, {item: item} );        
+    	PubSub.publish( 'Item-Check-Change-'+this.props.listid, {item: item} );
     },
     getInitialState: function(){
     	var state = {};
@@ -107,11 +109,11 @@ var MasterItem = React.createClass({
     		disabledAttr = "disabled";
     		disabledClasses= "disabledColor";
     	}
-		    	
+
         var colattrs = [];
         for (var i=0; i<this.props.columns.length; i++) {
         	colattrs.push(this.props.columns[i].attr);
-        }    	
+        }
         var colClass = 'col-md-' + this.props.columns[0].width;
 		var first=true;
 
@@ -123,10 +125,10 @@ var MasterItem = React.createClass({
 					{ this.props.item[colattrs[0]] }
 				</label>
 			</div>
-			{this.props.columns.map(function(col){					
+			{this.props.columns.map(function(col){
 				if (!first) return(<div className={'col-md-' + col.width}>{that.props.item[col.attr]}</div>)
 				first=false;
-			})}				
+			})}
 		</div>
       	);
     }
@@ -153,9 +155,9 @@ var Header = React.createClass({
 var MasterHeader = React.createClass({
 	render: function(){
 		return (<div className="row header">
-				{this.props.columns.map(function(col){					
+				{this.props.columns.map(function(col){
 					return (<div className={'list-header col-md-' + col.width}>{col.heading}</div>);
-				})}				
+				})}
 			</div>)
 	}
 });
@@ -163,7 +165,7 @@ var MasterHeader = React.createClass({
 var SearchButton = React.createClass({
     render: function(){
         return (<div className="search-button">
-            <span className="glyphicon glyphicon-search" />
+            <span className="fa fa-eye" />
         </div>)
     }
 });
@@ -189,10 +191,14 @@ module.exports = {
         return (
         <div id="emailPreview">
             <div className="text-center email-preview">
-                <img src={'./images/' + this.props.imageUrl} className="img-responsive" height="75"  />
+                <img src={'./images/' + this.props.data.previewImage} className="img-responsive" height="75"  />
             </div>
              <div className="text-center">
-                 <button className="btn btn-xs btn-primary">View</button>
+							 <ModalContainer size="xsmall" cta="View" title={this.props.data.name}>
+								<div className="text-center">
+									<img src={'./images/' + this.props.data.image} className="img-responsive emailPreview" />
+								</div>
+							</ModalContainer>
              </div>
         </div>
         );
@@ -266,7 +272,7 @@ module.exports = {
         );
       }
     }),
-    
+
     "MasterList" : React.createClass({
       /*
       	Usage: 	<MasterList items={lists} columns={this.masterCols} child={this.listChild}/>
@@ -282,7 +288,7 @@ module.exports = {
       			break;
       		}
       	}
-      	return needsChildCount;      
+      	return needsChildCount;
       },
       getChildCounts: function() {
       	//if anyone can do this more efficiently, have at it.
@@ -299,25 +305,25 @@ module.exports = {
 			}
       	}
       	*/
-      	
-      	var masterCnts = {};   
-      	var childItems = {}; //after thought bolt on   	
+
+      	var masterCnts = {};
+      	var childItems = {}; //after thought bolt on
       	var masterIdFld = this.props.child.masterId;
       	var masterdata = this.props.items;
       	var childdata = this.props.child.data;
       	var children = childdata.length;
       	var childIdFld = this.props.child.childId;
-      	
-      	//put the master list into an assoc. array:      	
+
+      	//put the master list into an assoc. array:
       	for (var i=0; i<masterdata.length; i++) {
       		var row = masterdata[i];
       		var masterId = row[masterIdFld];
 			masterCnts[masterId] = 0;
 			childItems[masterId] = new Array(); //bolt on
-      	}      	
+      	}
       	//iterate through the children
       	for (var i=0; i<children; i++) {
-      		var row = childdata[i]; 
+      		var row = childdata[i];
       		var idfld = row[childIdFld];
       		var idcnt = idfld.length;
       		for (var j=0; j<idcnt; j++) {
@@ -331,7 +337,7 @@ module.exports = {
       		var masterId = row[masterIdFld];
 			row.__childCount = masterCnts[ masterId ];
 			row.children = childItems[ masterId ]; //bolt on
-      	}      	   
+      	}
       },
       getInitialState: function(){
       	var items = this.props.items;
@@ -347,11 +353,11 @@ module.exports = {
       },
       render: function(){
         var that = this;
-        
+
         var headers = [];
         for (var i=0; i<this.props.columns.length; i++) {
         	headers.push(this.props.columns[i].heading);
-        }        
+        }
 		var rootClasses = "itemList";
         var itemNodes = this.props.items.map(function (item) {
           	return <MasterItem item={item} listid={that.props.listid} key={item.id} columns={that.props.columns} />
@@ -363,7 +369,7 @@ module.exports = {
             </div>
         );
       }
-    }),    
+    }),
 
     "TrackingDetails" :  React.createClass({
       render: function() {
@@ -533,7 +539,7 @@ module.exports = {
 							var content = i.content;
 							if(!content){
 								if(i.name && i.email){
-									content = (<div><div className="col-md-5">{i.name} </div><div className="col-md-6">{i.email} </div></div>)
+									content = (<div><div className="col-md-4">{i.name} </div><div className="col-md-7">{i.email} </div></div>)
 								} else {
 									content = (<div className="col-md-11">{i.name} </div>)
 								}

@@ -28,13 +28,13 @@ var ListSubs = React.createClass({
   },
   render: function() {
   	var self = this;
-  	var selected = []; 
+  	var selected = [];
   	if(this.state.selectedPublication){
 		selected = clients.filter(function(m){
 			return m.publications.indexOf(self.state.selectedPublication.id) !== -1;
 		}).map(function(m){
 			return m.id;
-		});  	
+		});
   	}
 
 	var selectedPublicationId = this.state.selectedPublication? this.state.selectedPublication.id : null;
@@ -42,7 +42,7 @@ var ListSubs = React.createClass({
     return (
         	<div className="listsSubsMainContent">
         		<div className="col-md-6">
-              <Container title="Subscriptions">
+              <Container title="Email Subscriptions">
                 <RadioList source={publications} selected={selectedPublicationId} onSelectionChange={this.onSelectedPublicationChange}/>
               </Container>
         		</div>
