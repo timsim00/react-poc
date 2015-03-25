@@ -48,7 +48,7 @@ var ClientLists = React.createClass({
   		selectedPublications: selectedClient.publications,
   		selectedLists: selectedClient.lists
   	});
-  	
+
   },
   getInitialState: function(){
   	var state = {selectedLists: [], selectedPublications: [], filter: "", selectedClient:{}, changes: {}};
@@ -75,18 +75,18 @@ var ClientLists = React.createClass({
 	if(this.state.changes.firstName){
 		this.state.selectedClient.firstName = this.state.changes.firstName;
 	}
-	
+
 	if(this.state.changes.lastName){
 		this.state.selectedClient.lastName = this.state.changes.lastName;
 	}
-	
+
 	if(this.state.changes.emailAddress){
 		this.state.selectedClient.emailAddress = this.state.changes.emailAddress;
 	}
-	
+
 	this.state.selectedClient.lists = this.state.selectedLists;
 	this.state.selectedClient.publications = this.state.selectedPublications;
-	
+
 	this.setState({selectedClient: this.state.selectedClient, changes: {}});
   },
   onChangeSingle: function(id){
@@ -106,7 +106,7 @@ var ClientLists = React.createClass({
   	}).map(function(c){
 		return {id: c.id, name: [c.firstName, c.lastName].join(" "), email: c.emailAddress};
 	});
-	
+
 	var clientValues = {id: null, firstName: "", lastName: "", emailAddress: "", lists: [], publications: []};
 	if(this.state.selectedClient){
 		clientValues.id = this.state.selectedClient.id;
@@ -114,11 +114,11 @@ var ClientLists = React.createClass({
 		clientValues.lastName = this.state.changes.lastName || this.state.selectedClient.lastName || "";
 		clientValues.emailAddress = this.state.changes.emailAddress || this.state.selectedClient.emailAddress || "";
 	}
-	
+
 	var listCopy = lists.map(function(l){
 		return {id: l.id, name: l.name, selected: (clientValues.lists.indexOf(l.id) !== -1)};
 	});
-	
+
 	var selectedListsLookup = this.state.selectedLists.reduce(function(lookup, lst){
 		lookup[lst] = true;
 		return lookup;
@@ -174,7 +174,7 @@ var ClientLists = React.createClass({
 					})}
 					</div>
 			</Container>
-			<Container title="Subscriptions">
+			<Container title="Email Subscriptions">
 				<CheckListPlus data={subscriptions} selected={this.state.selectedPublications} onChange={this.onSelectedPublicationsChange}/>
 			</Container>
 			<div className="row">

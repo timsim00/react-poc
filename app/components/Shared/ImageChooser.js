@@ -38,7 +38,7 @@ var ImageChooser = module.exports.ImageChooser = React.createClass({
        return(
         <div id="imagesDiv" className="rounded form-group">
                 <span className="btn btn-primary btn-file col-md-3">
-					Browse <input type="file" id="chooseFiles" multiple="multiple" accept="image/*" />
+					Change Photo <input type="file" id="chooseFiles" multiple="multiple" accept="image/*" />
 				</span>
 				<span id="fileName" className="col-md-6"></span>
         </div>

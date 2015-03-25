@@ -96,7 +96,7 @@ var Header = React.createClass({
 var SearchButton = React.createClass({
     render: function(){
         return (<div className="search-button">
-            <span className="glyphicon glyphicon-search" />
+            <span className="fa fa-eye" />
         </div>)
     }
 });
