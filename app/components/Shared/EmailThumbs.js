@@ -8,7 +8,7 @@ var React = require('react'),
 
 /****  Content Thumbnails ****/
 
-var thumbs = require("../../data/emails");
+var thumbs = require("../../data/emails"); //TODO: pass this in from where it's used. don't declare here.
 var imgPath = '/images/';
 var EmailThumbs = React.createClass({
 	subscriptions: {},
@@ -23,6 +23,7 @@ var EmailThumbs = React.createClass({
 		var $ele = $(e.target);
 		if (!$ele.hasClass('selectableEmailDivs')) $ele = $ele.closest('.selectableEmailDivs');
 		var thisId = $ele.data('reactid');
+		var id = $ele.find('img').attr('id');
 		var $check = $ele.find('.selected-indicator');
 
 		if (this.state.selectedId) {
@@ -34,7 +35,7 @@ var EmailThumbs = React.createClass({
 		//$ele.addClass('active');
 		$check.addClass('content-selected').addClass('checked');
 
-		PubSub.publish( 'Content-Selected', thisId );
+		PubSub.publish( 'Content-Selected', id );
 	},
 	handleFolderSelected: function(msg, data) {
 		this.setState({folder: data.id});

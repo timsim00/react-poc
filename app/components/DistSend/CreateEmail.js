@@ -28,6 +28,7 @@ var folders = require("../../data/folders");
 var filterData = require("../../data/types");
 var lists = require("../../data/lists");
 var clients = require("../../data/clients");
+var emails = require("../../data/emails");
 
 
 /**** MAIN *****/
@@ -53,13 +54,16 @@ var CreateEmail = React.createClass({
 
 /****  WIZARD *****/
 
+
+
 var Wizard = React.createClass({
 	subscriptions: {},
 	getInitialState: function() {
 		return {
 			step: 1,
 			btnNextDisabled: true,
-			tabs: "disabled"
+			tabs: "disabled",
+			audiencecount: 0
 		}
 	},
 	handleNext: function() {
@@ -139,14 +143,35 @@ var Wizard = React.createClass({
 	handleContentSelected: function(msg, data) {
 		this.setState({btnNextDisabled: false, tabs: ''});
 	},
+	handleAudienceListChange: function(msg, data) {
+		console.log('handleAudienceListChange',data);
+		if (data.add) {
+			this.state.audiencecount++;
+		} else if (data.remove) {
+			this.state.audiencecount--;
+		}
+		this.setState({audiencecount: this.state.audiencecount});
+		this.setState({btnNextDisabled: this.state.audiencecount==0});
+	},
+	handleStepSelectContentShow: function() {		
+	},		
+	handleStepAudienceShow: function() {
+		this.setState({btnNextDisabled: this.state.audiencecount==0});
+	},
+	handleStepScheduleShow: function() {		
+	},	
 	componentDidMount: function() {
-		//subscribe to next disable state event
-		var token = PubSub.subscribe( 'Content-Selected', this.handleContentSelected );
-		this.subscriptions['Content-Selected'] = token;
+		this.subscriptions['Content-Selected'] = PubSub.subscribe( 'Content-Selected', this.handleContentSelected );
+		this.subscriptions['Audience-List-Change'] = PubSub.subscribe( 'Audience-List-Change', this.handleAudienceListChange );
+		$('a[href^="#stepSelectContent"]').on('click', this.handleStepSelectContentShow);
+		$('a[href^="#stepSelectAudience"]').on('click', this.handleStepAudienceShow);
+		$('a[href^="#stepSchedule"]').on('click', this.handleStepScheduleShow);	
+		this.handleStepSelectContentShow();	
 	},
 	componentWillUnmount: function() {
 		//un-subscribe to next disable state event
 		PubSub.unsubscribe( this.subscriptions['Content-Selected'] );
+		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );
 	},
     render: function() {
     var that = this;
@@ -265,17 +290,25 @@ var EmailSelect = React.createClass({
 	handleFolderSelected: function(msg, data) {
 		this.setState({FolderName: data.name});
 	},
+	handleContentSelected: function(msg, data) {	
+		var email = this.state.oEmails[data];
+		this.setState({ selectedEmail: email });
+		PubSub.publish( 'Content-Set', email );
+	},	
 	componentDidMount: function() {
-		//subscribe to next disable state event
-		var token = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
-		this.subscriptions['Folder-Selected'] = token;
+		this.subscriptions['Folder-Selected'] = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
+		this.subscriptions['Content-Selected'] = PubSub.subscribe( 'Content-Selected', this.handleContentSelected );	
 	},
 	componentWillUnmount: function() {
-		//un-subscribe to next disable state event
 		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
+		PubSub.unsubscribe( this.subscriptions['Content-Selected'] );
 	},
     getInitialState: function(){
-		return { FolderName: "Retirement" };
+    	var assocEmails = {};
+    	for (var i=0; i<emails.length; i++) {
+    		assocEmails[ emails[i].id ] = emails[i];
+    	}
+		return { FolderName: "Retirement", oEmails: assocEmails, selectedEmail:null };
     },
     render: function() {
     	var searchStyle = {'padding-top':'10px;'};
@@ -448,12 +481,9 @@ var StepSelectAudience = React.createClass({
 		this.setState({subscribers: this.state.subscribers});
 	},
 	componentDidMount: function() {
-		var token = PubSub.subscribe( 'Item-Check-Change-'+this.listid, this.handleClientItemChanged );
-		this.subscriptions['Item-Check-Change-'+this.listid] = token;
-		token = PubSub.subscribe( 'Item-Check-Change-'+this.masterlistid, this.handleListItemChanged );
-		this.subscriptions['Item-Check-Change-'+this.masterlistid] = token;
-		token = PubSub.subscribe( 'Audience-List-Change', this.handleAudienceChanged );
-		this.subscriptions['Audience-List-Change'] = token;
+		this.subscriptions['Item-Check-Change-'+this.listid] = PubSub.subscribe( 'Item-Check-Change-'+this.listid, this.handleClientItemChanged );
+		this.subscriptions['Item-Check-Change-'+this.masterlistid] = PubSub.subscribe( 'Item-Check-Change-'+this.masterlistid, this.handleListItemChanged );
+		this.subscriptions['Audience-List-Change'] = PubSub.subscribe( 'Audience-List-Change', this.handleAudienceChanged );
 	},
 	componentWillUnmount: function() {
 		PubSub.unsubscribe( this.subscriptions['Item-Check-Change-'+this.listid] );
@@ -698,10 +728,34 @@ var SelectedItemList = React.createClass({
 /*************************************** SCHEDULE TAB ******************************************/
 
 var StepSchedule = React.createClass({
+	subscriptions: {},
+	handleContentSelected: function(msg, data) {	
+		this.setState({ email: data  });
+	},	
+	handleSelectedListChange: function(msg, data) {
+		if (data.add) {
+			this.state.audiencelist.push(data.add.name);
+		} else if (data.remove) {
+			var i = this.state.audiencelist.indexOf(data.remove.name);
+			this.state.audiencelist.splice(i,1);
+		}
+		this.setState({audiencelist: this.state.audiencelist});
+	},	
+	componentDidMount: function() {
+		this.subscriptions['Content-Set'] = PubSub.subscribe( 'Content-Set', this.handleContentSelected );
+		this.subscriptions['Audience-List-Change'] = PubSub.subscribe( 'Audience-List-Change', this.handleSelectedListChange );	
+	},
+	componentWillUnmount: function() {
+		PubSub.unsubscribe( this.subscriptions['Content-Set'] );
+		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );
+	},
+  	getInitialState: function(){
+    	return {email: {}, audiencelist: []};
+  },	
   render: function() {
-  	var previewStyle = {
-  		'marginTop':'10px'
-  	};
+	var previewStyle = { 
+		'marginTop':'10px'
+	};
     return (
 	<div role="tabpanel" className="tab-pane">
 		<div className="col-md-12">
@@ -712,23 +766,23 @@ var StepSchedule = React.createClass({
 			<div className="col-md-6">
 				<div className="row">
 					<div className="col-md-6">
-						<div className="staticLabel">Subject</div>
-						<div className="staticValue">Get out on an Hike NOW!</div>
+						<label className="staticLabel">Subject</label>
+						<div className="">{this.state.email.subject}</div>
 						<br/>
-						<div className="staticLabel">Email Name</div>
-						<div className="staticValue">Simple - Guide to Incredible Hikes</div>
+						<label className="staticLabel">Email Name</label>
+						<div className="">{this.state.email.name}</div>
 						<br/>
-						<div className="staticLabel">Audience</div>
-						<div className="staticValue">High Value - Investment Focus</div>
+						<label className="staticLabel">Audience</label>
+						<div className="">{ this.state.audiencelist.join(', ') }</div>
 					</div>
 					<div className="col-md-6">
 						<div className="date-created">
-							<div className="staticLabel">Date Created</div>
-							<div className="staticValue">2/25/2015 8:17 PM</div>
+							<label className="staticLabel">Date Created</label>
+							<div className="">{this.state.email.createDate}</div>
 						</div>
 						<div>
-							<div className="staticLabel">Date Modified</div>
-							<div className="staticValue">2/25/2015 8:17 PM</div>
+							<label className="staticLabel">Date Modified</label>
+							<div className="">{this.state.email.modifiedDate}</div>
 						</div>
 					</div>
 				</div>
@@ -764,11 +818,8 @@ var dropdowndata = {
     title: "From Name"
     ,visible: ["title","email"]
     ,items: [
-        { title: "Lilly Kennedy", email: "lkennedy@gmail.com" },
-        { title: "Bradford Hill", email: "bhill@gmail.com" },
-        { title: "Erika Saarland", email: "esaarland@gmail.com" },
-        { title: "Peter Paulson", email: "ppaulson@gmail.com" },
-        { title: "Thomas Neal", email: "tneal@gmail.com" }
+        { title: "Tom Niehaus", email: "tniehaus@f1fet.com" },
+        { title: "John Mayer", email: "jmayer@f1fet.com" }
     ]
 };
 
