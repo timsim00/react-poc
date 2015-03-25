@@ -365,9 +365,14 @@ module.exports = {
 							if(currentSelect === i.id){
 								checked = "checked";
 							}
-
-							var content = i.content || (<div className="col-md-11">{i.name} </div>)
-
+							var content = i.content;
+							if(!content){
+								if(i.name && i.email){
+									content = (<div><div className="col-md-5">{i.name} </div><div className="col-md-6">{i.email} </div></div>)
+								} else {
+									content = (<div className="col-md-11">{i.name} </div>)
+								}
+							}
 							return (<div className="row" key={i.id}>
 								<div className="col-md-1"><input type="radio" ref={i.id} checked={checked} onChange={self.onChange.bind(self,i.id)} /></div>
 								{content}
