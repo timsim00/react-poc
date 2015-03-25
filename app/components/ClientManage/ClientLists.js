@@ -105,7 +105,7 @@ var ClientLists = React.createClass({
           	<Container title="Search">
 				<SearchBar onChange={this.onSearchChange} />          	
           	</Container>
-			<Container title={clientListTitle} class="clientManagePanel">
+			<Container title={clientListTitle} className="clientManagePanel">
 				<div className="client-list">
 					<RadioList source={filteredClients} selected={clientValues.id} onSelectionChange={this.onSelectedClientChange}/>
 				</div>
