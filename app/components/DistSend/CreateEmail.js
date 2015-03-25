@@ -63,6 +63,10 @@ var CreateEmail = React.createClass({
 var Wizard = React.createClass({
 	subscriptions: {},
 	getInitialState: function() {
+		//fix state defect for poc demo:
+		for (var i=0; i<lists.length; i++) {
+			lists[i].selected = false;			
+		}	
 		return {
 			step: 1,
 			btnNextDisabled: true,
@@ -179,10 +183,9 @@ var Wizard = React.createClass({
 		$('a[href^="#stepSchedule"]').on('click', this.handleStepScheduleShow);	
 		this.handleStepSelectContentShow();
 	},
-	componentWillUnmount: function() {
-		//un-subscribe to next disable state event
+	componentWillUnmount: function() {	
 		PubSub.unsubscribe( this.subscriptions['Content-Selected'] );
-		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );
+		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );		
 	},
     render: function() {
     	var that = this;
@@ -676,6 +679,7 @@ var SelectedItemList = React.createClass({
 		this.setState({ excludedCount: this.state.excludedCount });
 	},
 	handleSelectedListChange: function(msg, data) {
+		console.log('handleSelectedListChange',data);
 		if (data.add) {
 			this.state.items.push(data.add.name);
 		} else if (data.remove) {
@@ -709,7 +713,7 @@ var SelectedItemList = React.createClass({
 		this.subscriptions['Excluded-List-Change'] = PubSub.subscribe( 'Excluded-List-Change', this.handleExcludedListChange );
 		this.subscriptions['Excluded-Count-Change'] = PubSub.subscribe( 'Excluded-Count-Change', this.handleExcludedCountChange );
 	},
-	componentWillUnmount: function() {
+	componentWillUnmount: function() {		
 		PubSub.unsubscribe( this.subscriptions['Audience-Count-Change'] );
 		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );
 		PubSub.unsubscribe( this.subscriptions['Excluded-List-Change'] );
@@ -719,7 +723,7 @@ var SelectedItemList = React.createClass({
     var itemList = this.props.items.map(function(item, i){
     	return item;
     });
-    return {items:selectednames, excludes:[], selectedCount: 0, excludedCount: 0};
+    return {items:[], excludes:[], selectedCount: 0, excludedCount: 0};
   },
   render: function(){
     var that = this;
