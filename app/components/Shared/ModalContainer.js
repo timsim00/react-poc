@@ -13,6 +13,9 @@ var CustomModalTrigger = React.createClass({
   },
 
   handleToggle: function () {
+  	if(this.props.onToggle){
+  		this.props.onToggle(!this.state.isModalOpen)
+  	}
     this.setState({
       isModalOpen: !this.state.isModalOpen
     });
@@ -25,8 +28,9 @@ var CustomModalTrigger = React.createClass({
         <span className={classes} onClick={this.handleToggle} ></span>
       );
     }
+    var style = this.props.style || "primary";
     return (
-      <Button onClick={this.handleToggle} bsSize={this.props.size} bsStyle="primary">{this.props.cta}</Button>
+      <Button onClick={this.handleToggle} bsSize={this.props.size} bsStyle={style}>{this.props.cta}</Button>
     );
   },
 
@@ -36,7 +40,7 @@ var CustomModalTrigger = React.createClass({
     if (!this.state.isModalOpen) {
       return <span/>;
     }
-
+	
     return (
         <Modal bsStyle="primary" title={this.props.title} onRequestHide={this.handleToggle}>
           <div className="modal-body">
