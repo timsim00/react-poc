@@ -50,6 +50,7 @@ var EmailThumbs = React.createClass({
 		this.state.searchMode = true;
 		this.state.searchTerm = data;
 		this.setState({ searchMode: this.state.searchMode, searchTerm: this.state.searchTerm });
+		PubSub.publish( 'Search-Term-Name', {name:this.state.searchTerm} );
 	},
 	componentDidMount: function() {
 		this.subscriptions['Folder-Selected'] = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
@@ -76,6 +77,7 @@ var EmailThumbs = React.createClass({
 	},
     render: function() {
     	var that = this;
+    	var search = this.props.search;
 	  	var types = this.props.types.map(function(t){return t.id});
 	  	//var selectedStyle = {visibility:"hidden"};
   		var thumbList;
@@ -87,7 +89,7 @@ var EmailThumbs = React.createClass({
   			});
 		} else {
   			thumbList = that.state.thumbs.filter(function(t){
-  				return t.name.indexOf(that.state.searchTerm) == 0;
+  				return t.name.toLowerCase().indexOf(that.state.searchTerm.toLowerCase()) !== -1;
   			});	
 		}
 		var rootClasses = this.props.settings? "email-edit": "email-select";

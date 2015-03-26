@@ -31,12 +31,15 @@ var filterData = require("../../data/types");
 
 var ContentAdmin = React.createClass({
   handleFilterChange: function(selectedTypes){
-  	console.log('selectedTypes:',selectedTypes);
   	this.setState({selectedTypes: selectedTypes});
+  },
+  handleSearchChange: function(searchText){
+  	this.setState({searchText: searchText});
   },
   getInitialState: function(){
   	var state = {};
   	state.selectedTypes = [];
+  	state.searchText = "";
   	return state;
   },
   render: function() {
@@ -58,7 +61,7 @@ var ContentAdmin = React.createClass({
 		<div className="row">
 			<div className="col-md-4">
         <Container title="Search" >
-          <SearchBar />
+          <SearchBar onChange={that.handleSearchChange}/>
         </Container>
         <div className="clearfix"></div>
 				<div>
@@ -69,7 +72,7 @@ var ContentAdmin = React.createClass({
 				</div>
 			</div>
 			<div className="col-md-8">
-				<EmailSelect types={types}/>
+				<EmailSelect types={types} search={this.state.searchText}/>
 			</div>
 		</div>
 	</div>
@@ -175,7 +178,7 @@ var EmailSelect = React.createClass({
     	var searchStyle = {'padding-top':'10px;'};
 		return (
 		<Container title={ this.state.FolderName }>
-			<EmailThumbs types={this.props.types} settings="true" />
+			<EmailThumbs types={this.props.types} search={this.props.search} settings="true" />
 		</Container>
 		);
     }
