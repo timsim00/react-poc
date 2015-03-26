@@ -34,6 +34,22 @@ var emails = require("../../data/emails");
 
 /**** MAIN *****/
 
+var SendModal = React.createClass({
+	render: function(){
+		return (<ModalContainer cta="Send" style="default" onToggle={this.props.onToggle} title="Sending Email">
+			<div id="sendModal" className="progress">
+  				<div className="progress-bar progress-bar-success progress-bar-striped">
+  				
+  				</div>
+			</div>
+			<div className="onDone pull-right">
+  				<h2><span className="label label-success">Sent</span></h2>
+  			</div>
+  			<div className="clearfix"></div>
+		</ModalContainer>)
+	}
+});
+
 var CreateEmail = React.createClass({
   render: function() {
     return (
@@ -92,14 +108,16 @@ var Wizard = React.createClass({
     		}
     		case 3: {
     			$('a[href^="#stepSchedule"]').click();
-    			$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
+    			jQuery("#btnSend").show();
+				jQuery("#btnNext").hide();
+//     			$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
     			break;
     		}
     		case 4: {
     			$('#sendemailalert').click();
     			setTimeout(function() {
-    				location.hash = "#/";
-    			}, 2500);
+    				//$("#sendModal .progress-bar").animate({width: "100%"}, 3000); //easing, onComplete
+    			}, 500);
     		}
     	}
 	},
@@ -145,7 +163,8 @@ var Wizard = React.createClass({
 			}
 			case "#stepSchedule": {
 				this.state.step = 3;
-				$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
+				jQuery("#btnSend").show();
+				jQuery("#btnNext").hide();
 				break;
 			}
 		}
@@ -153,6 +172,26 @@ var Wizard = React.createClass({
 	handleLiClick: function(e) {
 		e.preventDefault();  //haven't yet found anything that works.
 		e.stopPropagation();
+	},
+	handleSendModal: function(isOpen){
+		if(isOpen){
+			console.log(jQuery("#sendModal .progress-bar"))
+			var width = 5;
+			var animate = function(){
+				jQuery("#sendModal .progress-bar").width(width+"%");
+				width += 1;
+				if(width <= 100){
+					setTimeout(animate, 50);
+				} else {
+					jQuery("#sendModal + .onDone").css({visibility: "visible"});
+				}
+			}
+			setTimeout(animate, 100);
+		} else {
+			setTimeout(function() {
+				location.hash = "#/";
+			}, 100);
+		}
 	},
 	handleContentSelected: function(msg, data) {
 		this.setState({btnNextDisabled: false, tabs: ''});
@@ -210,6 +249,7 @@ var Wizard = React.createClass({
 					</li>
 				</ul>
 				<div id="btnNext" className="pull-right text-right wiz-btn"><button disabled={this.state.btnNextDisabled} onClick={this.handleNext} className="btn btn-default">Next&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></button></div>
+				<div id="btnSend" className="pull-right text-right wiz-btn"><SendModal onToggle={this.handleSendModal}/> </div>
 				<div id="btnBack" className="pull-right text-right wiz-btn"><button onClick={this.handleBack} className="btn btn-default">Back</button></div>
 				<div id="btnCancel" className="pull-right text-right wiz-btn"><Link to="/" className="btn btn-default">Cancel</Link></div>
 			</div>
