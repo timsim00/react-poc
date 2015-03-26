@@ -68,6 +68,7 @@ var EmailThumbs = React.createClass({
 	},
     render: function() {
     	var that = this;
+    	var search = this.props.search;
 	  	var types = this.props.types.map(function(t){return t.id});
 	  	//var selectedStyle = {visibility:"hidden"};
   		var thumbList = this.state.thumbs.filter(function(t){
@@ -75,7 +76,11 @@ var EmailThumbs = React.createClass({
   			}).filter(function(t){
   				return types.length === 0 || types.indexOf(t.type) != -1;
   			});
-
+		if(search){
+			thumbList = thumbList.filter(function(t){
+				return t.name.indexOf(search) !== -1 || t.subject.indexOf(search) !== -1;
+			})
+		}
 		var rootClasses = this.props.settings? "email-edit": "email-select";
 		var tagLookup = tags.reduce(function(lookup, tag){lookup[tag.id] = tag; return lookup;},{});
         return(
