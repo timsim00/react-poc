@@ -279,9 +279,13 @@ var StepSelectContent = React.createClass({
   		//TODO consider extracting relevant values
   		this.setState({selectedTypes : selectedTypes});
     },
+    handleSearchChange: function(searchText){
+    	this.setState({searchText: searchText})
+    },
     getInitialState: function(){
   		var state = {};
   		state.selectedTypes = [];
+  		state.searchText = "";
   		return state;
     },
     render: function() {
@@ -291,7 +295,7 @@ var StepSelectContent = React.createClass({
 		<div className="row">
 			<div className="col-md-4">
         <Container title="Search">
-  			<SearchBar />
+  			<SearchBar onChange={this.handleSearchChange} />
         </Container>
 				<div>
 				  <ContentCategories />
@@ -301,7 +305,7 @@ var StepSelectContent = React.createClass({
 				</div>
 			</div>
 			<div className="col-md-8">
-				<EmailSelect types={types}/>
+				<EmailSelect types={types} search={this.state.searchText}/>
 			</div>
 		</div>
 		);
@@ -368,7 +372,7 @@ var EmailSelect = React.createClass({
     	var searchStyle = {'padding-top':'10px;'};
 		return (
 		<Container title={ this.state.FolderName }>
-			<EmailThumbs types={this.props.types} />
+			<EmailThumbs types={this.props.types} search={this.props.search} />
 		</Container>
 		);
     }
