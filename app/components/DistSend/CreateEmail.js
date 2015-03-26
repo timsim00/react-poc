@@ -39,7 +39,7 @@ var SendModal = React.createClass({
 		return (<ModalContainer cta="Send" style="default" onToggle={this.props.onToggle} title="Sending Email">
 			<div id="sendModal" className="progress">
   				<div className="progress-bar progress-bar-success progress-bar-striped">
-  				
+
   				</div>
 			</div>
 			<div className="onDone pull-right">
@@ -279,9 +279,9 @@ var StepSelectContent = React.createClass({
   		//TODO consider extracting relevant values
   		this.setState({selectedTypes : selectedTypes});
     },
-    handleSearchChange: function(searchText){
-    	this.setState({searchText: searchText})
-    },
+  onSearchChange: function(data) {
+	PubSub.publish( 'Search-Term-Entered', data );
+  },
     getInitialState: function(){
   		var state = {};
   		state.selectedTypes = [];
@@ -295,7 +295,7 @@ var StepSelectContent = React.createClass({
 		<div className="row">
 			<div className="col-md-4">
         <Container title="Search">
-  			<SearchBar onChange={this.handleSearchChange} />
+  			<SearchBar onChange={this.onSearchChange}  />
         </Container>
 				<div>
 				  <ContentCategories />
@@ -356,10 +356,12 @@ var EmailSelect = React.createClass({
 	componentDidMount: function() {
 		this.subscriptions['Folder-Selected'] = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
 		this.subscriptions['Content-Selected'] = PubSub.subscribe( 'Content-Selected', this.handleContentSelected );
-	},
+    this.subscriptions['Search-Term-Name'] = PubSub.subscribe( 'Search-Term-Name', this.handleFolderSelected );
+  },
 	componentWillUnmount: function() {
 		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
 		PubSub.unsubscribe( this.subscriptions['Content-Selected'] );
+    PubSub.unsubscribe( this.subscriptions['Search-Term-Name'] );
 	},
     getInitialState: function(){
     	var assocEmails = {};

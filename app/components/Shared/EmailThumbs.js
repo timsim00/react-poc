@@ -17,7 +17,9 @@ var EmailThumbs = React.createClass({
 		return {
 			selectedId: null,
 			folder: 7,
-			thumbs: thumbs
+			thumbs: thumbs,
+			searchMode: false,
+			searchTerm: ''
 		}
 	},
 	handleThumbClick: function(e) {
@@ -40,16 +42,23 @@ var EmailThumbs = React.createClass({
 		PubSub.publish( 'Content-Selected', id );
 	},
 	handleFolderSelected: function(msg, data) {
-		this.setState({folder: data.id});
+		this.state.searchMode = false;
+		this.state.searchTerm = '';
+		this.setState({folder: data.id, searchMode: this.state.searchMode, searchTerm: this.state.searchTerm});
+	},
+	handleSearchTerm: function(msg, data) {
+		this.state.searchMode = true;
+		this.state.searchTerm = data;
+    PubSub.publish( 'Search-Term-Name', {name:'Search Results for "'+ this.state.searchTerm +'"'} );
+		this.setState({ searchMode: this.state.searchMode, searchTerm: this.state.searchTerm });
 	},
 	componentDidMount: function() {
-		//subscribe to next disable state event
-		var token = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
-		this.subscriptions['Folder-Selected'] = token;
+		this.subscriptions['Folder-Selected'] = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
+		this.subscriptions['Search-Term-Entered'] = PubSub.subscribe( 'Search-Term-Entered', this.handleSearchTerm );
 	},
 	componentWillUnmount: function() {
-		//un-subscribe to next disable state event
 		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
+		PubSub.unsubscribe( this.subscriptions['Search-Term-Entered'] );
 	},
 	onEmailSettingsChange: function(id, changes){
 		var changedThumb = thumbs.filter(function(th){
@@ -71,15 +80,17 @@ var EmailThumbs = React.createClass({
     	var search = this.props.search;
 	  	var types = this.props.types.map(function(t){return t.id});
 	  	//var selectedStyle = {visibility:"hidden"};
-  		var thumbList = this.state.thumbs.filter(function(t){
+  		var thumbList;
+  		if (!this.state.searchMode) {
+  			thumbList = this.state.thumbs.filter(function(t){
   				return t.folder === that.state.folder;
   			}).filter(function(t){
   				return types.length === 0 || types.indexOf(t.type) != -1;
   			});
-		if(search){
-			thumbList = thumbList.filter(function(t){
-				return t.name.indexOf(search) !== -1 || t.subject.indexOf(search) !== -1;
-			})
+		} else {
+  			thumbList = that.state.thumbs.filter(function(t){
+  				return t.name.toLowerCase().indexOf(that.state.searchTerm.toLowerCase()) !== -1;
+  			});
 		}
 		var rootClasses = this.props.settings? "email-edit": "email-select";
 		var tagLookup = tags.reduce(function(lookup, tag){lookup[tag.id] = tag; return lookup;},{});
@@ -119,7 +130,7 @@ var EmailThumbs = React.createClass({
                         			<Settings email={t} onChange={that.onEmailSettingsChange.bind(that, t.id)}/>
                         		</div>)
                       	}
-                        
+
                         return (
                         	<div>
                         		<div className={classes}>
