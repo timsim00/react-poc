@@ -239,6 +239,9 @@ var StepSelectContent = React.createClass({
   		//TODO consider extracting relevant values
   		this.setState({selectedTypes : selectedTypes});
     },
+  onSearchChange: function(data) {
+	PubSub.publish( 'Search-Term-Entered', data );
+  },    
     getInitialState: function(){
   		var state = {};
   		state.selectedTypes = [];
@@ -251,7 +254,7 @@ var StepSelectContent = React.createClass({
 		<div className="row">
 			<div className="col-md-4">
         <Container title="Search">
-  			<SearchBar />
+  			<SearchBar onChange={this.onSearchChange}  />
         </Container>
 				<div>
 				  <ContentCategories />
