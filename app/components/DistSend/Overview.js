@@ -91,7 +91,7 @@ var Overview = React.createClass({
           <div className="col-md-6 text-right">
             <Link to="create-email" className="btn btn-default">
               <span className="glyphicon glyphicon-plus" />
-              &nbsp;Create Email
+              &nbsp;Send Email
             </Link>
           </div>
         </div>

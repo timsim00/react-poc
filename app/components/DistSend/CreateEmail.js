@@ -40,7 +40,7 @@ var CreateEmail = React.createClass({
 	<div>
     <div className="row pageTitle">
   		<div className="col-md-8">
-  		  <h2>Create Email</h2>
+  		  <h2>Send Email</h2>
   		</div>
   		<div className="col-md-4 pull-right">
   			<AlertAutoDismissable />
@@ -65,8 +65,8 @@ var Wizard = React.createClass({
 	getInitialState: function() {
 		//fix state defect for poc demo:
 		for (var i=0; i<lists.length; i++) {
-			lists[i].selected = false;			
-		}	
+			lists[i].selected = false;
+		}
 		return {
 			step: 1,
 			btnNextDisabled: true,
@@ -168,24 +168,24 @@ var Wizard = React.createClass({
 		this.setState({audiencecount: this.state.audiencecount});
 		this.setState({btnNextDisabled: this.state.audiencecount==0});
 	},
-	handleStepSelectContentShow: function() {		
-	},		
+	handleStepSelectContentShow: function() {
+	},
 	handleStepAudienceShow: function() {
 		this.setState({btnNextDisabled: this.state.audiencecount==0});
 	},
 	handleStepScheduleShow: function() {
-	},	
+	},
 	componentDidMount: function() {
 		this.subscriptions['Content-Selected'] = PubSub.subscribe( 'Content-Selected', this.handleContentSelected );
 		this.subscriptions['Audience-List-Change'] = PubSub.subscribe( 'Audience-List-Change', this.handleAudienceListChange );
 		$('a[href^="#stepSelectContent"]').on('click', this.handleStepSelectContentShow);
 		$('a[href^="#stepSelectAudience"]').on('click', this.handleStepAudienceShow);
-		$('a[href^="#stepSchedule"]').on('click', this.handleStepScheduleShow);	
+		$('a[href^="#stepSchedule"]').on('click', this.handleStepScheduleShow);
 		this.handleStepSelectContentShow();
 	},
-	componentWillUnmount: function() {	
+	componentWillUnmount: function() {
 		PubSub.unsubscribe( this.subscriptions['Content-Selected'] );
-		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );		
+		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );
 	},
     render: function() {
     	var that = this;
@@ -208,7 +208,7 @@ var Wizard = React.createClass({
 						Schedule
 						</a>
 					</li>
-				</ul>				
+				</ul>
 				<div id="btnNext" className="pull-right text-right wiz-btn"><button disabled={this.state.btnNextDisabled} onClick={this.handleNext} className="btn btn-default">Next&nbsp;&nbsp;<span className="glyphicon glyphicon-arrow-right" /></button></div>
 				<div id="btnBack" className="pull-right text-right wiz-btn"><button onClick={this.handleBack} className="btn btn-default">Back</button></div>
 				<div id="btnCancel" className="pull-right text-right wiz-btn"><Link to="/" className="btn btn-default">Cancel</Link></div>
@@ -304,14 +304,14 @@ var EmailSelect = React.createClass({
 	handleFolderSelected: function(msg, data) {
 		this.setState({FolderName: data.name});
 	},
-	handleContentSelected: function(msg, data) {	
+	handleContentSelected: function(msg, data) {
 		var email = this.state.oEmails[data];
 		this.setState({ selectedEmail: email });
 		PubSub.publish( 'Content-Set', email );
-	},	
+	},
 	componentDidMount: function() {
 		this.subscriptions['Folder-Selected'] = PubSub.subscribe( 'Folder-Selected', this.handleFolderSelected );
-		this.subscriptions['Content-Selected'] = PubSub.subscribe( 'Content-Selected', this.handleContentSelected );	
+		this.subscriptions['Content-Selected'] = PubSub.subscribe( 'Content-Selected', this.handleContentSelected );
 	},
 	componentWillUnmount: function() {
 		PubSub.unsubscribe( this.subscriptions['Folder-Selected'] );
@@ -452,9 +452,9 @@ var StepSelectAudience = React.createClass({
 		if (data.item.__all) {
 			n = (data.item.prevSelected && !data.item.selected) ? {replace: 0} : {replace: data.item.__childCount};
 			o = (data.item.prevSelected && !data.item.selected) ? {remove: data.item} : {replace: data.item};
-			
+
 			(data.item.prevSelected && !data.item.selected) && PubSub.publish( 'Excluded-Count-Change', {replace: 0} );
-			(data.item.prevSelected && !data.item.selected) && PubSub.publish( 'Excluded-List-Change',  {replace: []});						
+			(data.item.prevSelected && !data.item.selected) && PubSub.publish( 'Excluded-List-Change',  {replace: []});
 		} else {
 			n = (data.item.prevSelected && !data.item.selected) ? {add: -(data.item.__childCount)} : {add: data.item.__childCount};
 			o = (data.item.prevSelected && !data.item.selected) ? {remove: data.item} : {add: data.item};
@@ -483,7 +483,7 @@ var StepSelectAudience = React.createClass({
 				PubSub.publish( 'Excluded-Count-Change', {add: 1} );
 			}
 			this.state.subscribers.push(sub);
-		}	
+		}
 	},
 	handleAudienceChanged: function(msg, data) {
 		if (data.add) {
@@ -519,7 +519,7 @@ var StepSelectAudience = React.createClass({
 		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );
 	},
     getInitialState: function(){
-		return { subscribers: [] };		
+		return { subscribers: [] };
     },
   render: function() {
   	var listspanstyle = { float:'left', padding:'7px' };
@@ -713,7 +713,7 @@ var SelectedItemList = React.createClass({
 		this.subscriptions['Excluded-List-Change'] = PubSub.subscribe( 'Excluded-List-Change', this.handleExcludedListChange );
 		this.subscriptions['Excluded-Count-Change'] = PubSub.subscribe( 'Excluded-Count-Change', this.handleExcludedCountChange );
 	},
-	componentWillUnmount: function() {		
+	componentWillUnmount: function() {
 		PubSub.unsubscribe( this.subscriptions['Audience-Count-Change'] );
 		PubSub.unsubscribe( this.subscriptions['Audience-List-Change'] );
 		PubSub.unsubscribe( this.subscriptions['Excluded-List-Change'] );
@@ -764,9 +764,9 @@ var SelectedItemList = React.createClass({
 
 var StepSchedule = React.createClass({
 	subscriptions: {},
-	handleContentSelected: function(msg, data) {	
+	handleContentSelected: function(msg, data) {
 		this.setState({ email: data  });
-	},	
+	},
 	handleSelectedListChange: function(msg, data) {
 		if (data.add) {
 			this.state.audiencelist.push(data.add.name);
@@ -777,10 +777,10 @@ var StepSchedule = React.createClass({
 			this.state.audiencelist = [data.replace.name];
 		}
 		this.setState({audiencelist: this.state.audiencelist});
-	},	
+	},
 	componentDidMount: function() {
 		this.subscriptions['Content-Set'] = PubSub.subscribe( 'Content-Set', this.handleContentSelected );
-		this.subscriptions['Audience-List-Change'] = PubSub.subscribe( 'Audience-List-Change', this.handleSelectedListChange );	
+		this.subscriptions['Audience-List-Change'] = PubSub.subscribe( 'Audience-List-Change', this.handleSelectedListChange );
 	},
 	componentWillUnmount: function() {
 		PubSub.unsubscribe( this.subscriptions['Content-Set'] );
@@ -788,9 +788,9 @@ var StepSchedule = React.createClass({
 	},
   	getInitialState: function(){
     	return {email: {}, audiencelist: []};
-  },	
+  },
   render: function() {
-	var previewStyle = { 
+	var previewStyle = {
 		'marginTop':'10px'
 	};
     return (
