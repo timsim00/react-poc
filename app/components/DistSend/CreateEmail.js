@@ -165,7 +165,6 @@ var Wizard = React.createClass({
 				this.state.step = 3;
 				jQuery("#btnSend").show();
 				jQuery("#btnNext").hide();
-//				$('#btnNext button').html('Send&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right" />');
 				break;
 			}
 		}
@@ -188,6 +187,10 @@ var Wizard = React.createClass({
 				}
 			}
 			setTimeout(animate, 100);
+		} else {
+			setTimeout(function() {
+				location.hash = "#/";
+			}, 100);
 		}
 	},
 	handleContentSelected: function(msg, data) {
