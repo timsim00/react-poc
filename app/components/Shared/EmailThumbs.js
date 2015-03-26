@@ -9,6 +9,7 @@ var React = require('react'),
 /****  Content Thumbnails ****/
 
 var thumbs = require("../../data/emails"); //TODO: pass this in from where it's used. don't declare here.
+var tags = require("../../data/tags");
 var imgPath = '/images/';
 var EmailThumbs = React.createClass({
 	subscriptions: {},
@@ -76,6 +77,7 @@ var EmailThumbs = React.createClass({
   			});
 
 		var rootClasses = this.props.settings? "email-edit": "email-select";
+		var tagLookup = tags.reduce(function(lookup, tag){lookup[tag.id] = tag; return lookup;},{});
         return(
 		<div id="createEmail" className={rootClasses}>
 			{thumbList.map(function(t){
@@ -93,7 +95,10 @@ var EmailThumbs = React.createClass({
           </div>
           <div className="row emailThumbActions">
             <div className="col-md-6 tags">
-              TAGS
+              {(t.tags ||[]).map(function(tg, index){
+              	var content = (index > 0 && index % 4 === 0)? <br /> : "";
+              	return <span className="tag-text">{content}{tagLookup[tg].name}</span>
+              })}
             </div>
             <div className="col-md-6 actions">
               <span className="selected-indicator fa fa-check fa-lg"></span>

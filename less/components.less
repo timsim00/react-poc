@@ -380,3 +380,14 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+.emailThumbActions {
+	.tags {
+		.tag-text{
+			font-size:75%;
+				&:not(:last-child)::after{
+					content: ", "
+			}
+		}
+	}
+}
