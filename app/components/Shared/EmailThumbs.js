@@ -43,12 +43,13 @@ var EmailThumbs = React.createClass({
 	},
 	handleFolderSelected: function(msg, data) {
 		this.state.searchMode = false;
-		this.state.searchTerm = '';		
+		this.state.searchTerm = '';
 		this.setState({folder: data.id, searchMode: this.state.searchMode, searchTerm: this.state.searchTerm});
 	},
 	handleSearchTerm: function(msg, data) {
 		this.state.searchMode = true;
 		this.state.searchTerm = data;
+    PubSub.publish( 'Search-Term-Name', {name:'Search Results for "'+ this.state.searchTerm +'"'} );
 		this.setState({ searchMode: this.state.searchMode, searchTerm: this.state.searchTerm });
 		PubSub.publish( 'Search-Term-Name', {name:this.state.searchTerm} );
 	},
@@ -90,7 +91,7 @@ var EmailThumbs = React.createClass({
 		} else {
   			thumbList = that.state.thumbs.filter(function(t){
   				return t.name.toLowerCase().indexOf(that.state.searchTerm.toLowerCase()) !== -1;
-  			});	
+  			});
 		}
 		var rootClasses = this.props.settings? "email-edit": "email-select";
 		var tagLookup = tags.reduce(function(lookup, tag){lookup[tag.id] = tag; return lookup;},{});
@@ -130,7 +131,7 @@ var EmailThumbs = React.createClass({
                         			<Settings email={t} onChange={that.onEmailSettingsChange.bind(that, t.id)}/>
                         		</div>)
                       	}
-                        
+
                         return (
                         	<div>
                         		<div className={classes}>

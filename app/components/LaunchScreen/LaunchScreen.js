@@ -15,7 +15,7 @@ var LaunchScreen = React.createClass({
           </Link>
 					<Link to="create-email">
             <div className="s1icon s1icon-xxl s1icon-s-email"></div>
-            <div className="text">Create Email</div>
+            <div className="text">Send Email</div>
           </Link>
 					<Link to="client-management">
             <div className="s1icon s1icon-xxl s1icon-s-groups"></div>

@@ -102,10 +102,10 @@ var ListSubs = React.createClass({
             </Container>
 				<div className="row group-btns">
 					<div className="col-md-6">
-						<button disabled={groupAttr} className={groupOperationClasses} onClick={this.deleteGroup}>Delete Group </button>
+						<button disabled={groupAttr} className={groupOperationClasses} onClick={this.deleteGroup}>Delete List </button>
 					</div>
               		<div className="col-md-6">
-              			<button disabled={groupAttr} className={groupOperationClasses} onClick={this.renameGroup}>Rename Group </button>
+              			<button disabled={groupAttr} className={groupOperationClasses} onClick={this.renameGroup}>Rename List </button>
               		</div>
             	</div>
   					<div className="row group-btns">
@@ -113,7 +113,7 @@ var ListSubs = React.createClass({
   							<input type="text" className="form-control" disabled={groupAttr} ref="groupName" value={selectedName} onChange={this.onNameChange}/>
   						</div>
               			<div className="col-md-6">
-              				<button disabled={groupAttr} className={groupOperationClasses} onClick={this.renameGroup}>Add New Group </button>
+              				<button disabled={groupAttr} className={groupOperationClasses} onClick={this.renameGroup}>Add New List </button>
               			</div>
             		</div>
         		</div>
