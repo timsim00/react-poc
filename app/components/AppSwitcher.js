@@ -2,7 +2,7 @@ var React = require('react');
 var Router = require('react-router');
 
 var FA = require('../data/fa-info');
-
+var auth = require("./Authentication/Authentication");
 var Link = Router.Link;
 
 var menu =  {"items":[
@@ -17,10 +17,19 @@ var menu =  {"items":[
 
 
 var AppSwitcher = React.createClass({
+
   render: function() {
+  
+  	var logOut = auth.loggedIn()? (<div className="navbar-header pull-right">
+  			<ul className="nav navbar-nav">
+  				<li><Link to="log-out">Log Out</Link></li>
+  			</ul>
+	    </div>): "";
+  
     return (
     <nav className="navbar navbar-default">
       <div className="container-fluid">
+	    {logOut}
         <div className="navbar-header pull-right">
           <a className="navbar-brand" href="#">
             <img src="./images/ms-logo.png" />

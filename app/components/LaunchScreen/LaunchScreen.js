@@ -3,7 +3,9 @@ var Router = require('react-router');
 
 var Link = Router.Link;
 
-var LaunchScreen = React.createClass({
+var AuthenticationRequired = require("../Authentication/AuthenticationRequired");
+
+var LaunchScreen = AuthenticationRequired.requireAuth(React.createClass({
   render: function() {
     return (
       <div>
@@ -30,6 +32,6 @@ var LaunchScreen = React.createClass({
     );
   }
 
-});
+}));
 
 module.exports = LaunchScreen;

@@ -4,6 +4,7 @@ var React = require('react'),
     $ = require('jquery'),
     PubSub = require('pubsub-js');
 
+var AuthenticationRequired = require("../Authentication/AuthenticationRequired");
 
 jQuery("html").on("click.selectableDivs", ".selectableDivs", function(){
     jQuery(this).toggleClass("active");
@@ -29,7 +30,7 @@ var filterData = require("../../data/types");
 
 /*** MAIN ***/
 
-var ContentAdmin = React.createClass({
+var ContentAdmin = AuthenticationRequired.requireAuth(React.createClass({
   handleFilterChange: function(selectedTypes){
   	this.setState({selectedTypes: selectedTypes});
   },
@@ -78,7 +79,7 @@ var ContentAdmin = React.createClass({
 	</div>
     );
   }
-});
+}));
 
 /****  Content Categories ****/
 
