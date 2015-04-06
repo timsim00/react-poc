@@ -5,8 +5,8 @@ var React = require('react'),
     Route = Router.Route;
 
 var App = require('./App'),
-	LogIn = require('./components/Authentication/LogIn'),
-	Logout = require('./components/Authentication/Logout'),
+	// LogIn = require('./components/Authentication/LogIn'),
+	// Logout = require('./components/Authentication/Logout'),
     LaunchScreen = require('./components/LaunchScreen/LaunchScreen'),
     DistSending = require('./components/DistSend/DistSending'),
     CreateEmail = require('./components/DistSend/CreateEmail'),
@@ -16,14 +16,14 @@ var App = require('./App'),
     ListManagement = require('./components/ClientManage/ListManagement'),
     SubscriptionManagement = require('./components/ClientManage/SubscriptionManagement'),
     FAadmin = require('./components/FAadmin/FAadmin');
-    
 
+    // <Route name="log-in" handler={LogIn} />
+    // <Route name="log-out" handler={Logout} />
 
 var routes = (
   <Route name="app" path="/" handler={App}>
     <DefaultRoute name="launch-screen" handler={LaunchScreen}/>
-    <Route name="log-in" handler={LogIn} />
-    <Route name="log-out" handler={Logout} />
+
     <Route name="dashboard" handler={DistSending} />
     <Route name="create-email" handler={CreateEmail}/>
     <Route name="content-admin" handler={ContentAdmin}/>
