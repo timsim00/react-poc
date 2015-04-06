@@ -8,7 +8,7 @@ jQuery("html").on("click.selectableEmailDivs", ".email-select .selectableEmailDi
     jQuery(this).toggleClass("active");
 });
 
-
+var AuthenticationRequired = require("../Authentication/AuthenticationRequired");
 var Link = Router.Link;
 
 //components
@@ -50,7 +50,7 @@ var SendModal = React.createClass({
 	}
 });
 
-var CreateEmail = React.createClass({
+var CreateEmail = AuthenticationRequired.requireAuth(React.createClass({
   render: function() {
     return (
 	<div>
@@ -70,7 +70,7 @@ var CreateEmail = React.createClass({
 	</div>
     );
   }
-});
+}));
 
 /****  WIZARD *****/
 
