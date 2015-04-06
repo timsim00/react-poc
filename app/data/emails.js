@@ -3,8 +3,8 @@
 */
 module.exports = [{
     id: 1,
-    name: "MS - Newsletter - March 2015",
-    subject: "Check out the latest news from MS",
+    name: "ML - Newsletter - March 2015",
+    subject: "Check out the latest news from ML",
     preheader: "Latest News Now!",
     previewImage: "poc-68628-email-thmb.jpg",
     image: "poc-68628-email.jpg",
@@ -16,8 +16,8 @@ module.exports = [{
     entitlements: [6]
 }, {
     id: 2,
-    name: "MS - Newsletter - February 2015",
-    subject: "Check out the latest news from MS",
+    name: "ML - Newsletter - February 2015",
+    subject: "Check out the latest news from ML",
     preheader: "Latest News Now!",
     previewImage: "poc-68376-email-thmb.jpg",
     image: "poc-68376-email.jpg",
