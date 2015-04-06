@@ -7,7 +7,7 @@ module.exports.requireAuth = (Component) => {
 		static willTransitionTo(transition) {
 		  if (!auth.loggedIn()) {
 			transition.redirect('/log-in', {}, {'nextPath' : transition.path});
-		  }  
+		  }
 		}
 		render () {
 		  return <Component {...this.props}/>

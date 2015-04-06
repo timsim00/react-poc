@@ -3,7 +3,7 @@ var React = require('react');
 var ImageChooser_ = require('../Shared/ImageChooser');
 var ImageChooser = ImageChooser_.ImageChooser;
 var ImagePreview = ImageChooser_.ImagePreview;
-var AuthenticationRequired = require("../Authentication/AuthenticationRequired");
+//var AuthenticationRequired = require("../Authentication/AuthenticationRequired");
 
 //data
 var data = require('../../data/fa-info');
@@ -94,7 +94,31 @@ var FAeditphoto = React.createClass({
   }
 });
 
-var FAadmin = AuthenticationRequired.requireAuth(React.createClass({
+// var FAadmin = AuthenticationRequired.requireAuth(React.createClass({
+//   handleChange: function(event) {
+//     console.log(event);
+//   },
+//   render: function() {
+//     return (
+//       <div>
+//         <div className="row pageTitle">
+//           <div className="col-md-6">
+//             <h2>Update your Financial Advisor Information</h2>
+//           </div>
+//           <div className="col-md-6 text-right">
+//             <button type="button" className="btn btn-default">Save</button>
+//           </div>
+//         </div>
+//         <Container title="Your Details">
+//           <FAedit data={data.data} imageUrl={data.imageUrl} onChange={this.handleChange} />
+//         </Container>
+//       </div>
+//     );
+//   }
+//
+// }));
+
+var FAadmin = React.createClass({
   handleChange: function(event) {
     console.log(event);
   },
@@ -116,8 +140,7 @@ var FAadmin = AuthenticationRequired.requireAuth(React.createClass({
     );
   }
 
-}));
-
+});
 
 
 module.exports = FAadmin;

@@ -4,7 +4,7 @@ var React = require('react'),
     $ = require('jquery'),
     PubSub = require('pubsub-js');
 
-var AuthenticationRequired = require("../Authentication/AuthenticationRequired");
+//var AuthenticationRequired = require("../Authentication/AuthenticationRequired");
 
 jQuery("html").on("click.selectableDivs", ".selectableDivs", function(){
     jQuery(this).toggleClass("active");
@@ -30,7 +30,59 @@ var filterData = require("../../data/types");
 
 /*** MAIN ***/
 
-var ContentAdmin = AuthenticationRequired.requireAuth(React.createClass({
+// var ContentAdmin = AuthenticationRequired.requireAuth(React.createClass({
+//   handleFilterChange: function(selectedTypes){
+//   	this.setState({selectedTypes: selectedTypes});
+//   },
+//   handleSearchChange: function(searchText){
+//   	this.setState({searchText: searchText});
+//   },
+//   getInitialState: function(){
+//   	var state = {};
+//   	state.selectedTypes = [];
+//   	state.searchText = "";
+//   	return state;
+//   },
+//   render: function() {
+//   	var types = this.state.selectedTypes;
+//   	var that = this;
+//     return (
+// 	<div>
+// 		<div className="row pageTitle">
+// 			<div className="col-md-6">
+// 				<h2>Content Administration</h2>
+// 			</div>
+// 			<div className="col-md-6 text-right">
+// 				<Link to="dashboard" className="btn btn-default">
+// 					<span className="glyphicon glyphicon-arrow-left" />
+// 					&nbsp;Back to Dashboard
+// 				</Link>
+// 			</div>
+// 		</div>
+// 		<div className="row">
+// 			<div className="col-md-4">
+//         <Container title="Search" >
+//           <SearchBar onChange={that.handleSearchChange}/>
+//         </Container>
+//         <div className="clearfix"></div>
+// 				<div>
+// 					<ContentCategories />
+// 				</div>
+// 				<div>
+// 					<FilterByType data={filterData} onChange={that.handleFilterChange}/>
+// 				</div>
+// 			</div>
+// 			<div className="col-md-8">
+// 				<EmailSelect types={types} search={this.state.searchText}/>
+// 			</div>
+// 		</div>
+// 	</div>
+//     );
+//   }
+// }));
+
+
+var ContentAdmin = React.createClass({
   handleFilterChange: function(selectedTypes){
   	this.setState({selectedTypes: selectedTypes});
   },
@@ -79,7 +131,7 @@ var ContentAdmin = AuthenticationRequired.requireAuth(React.createClass({
 	</div>
     );
   }
-}));
+});
 
 /****  Content Categories ****/
 

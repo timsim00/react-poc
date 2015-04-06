@@ -21,7 +21,7 @@ var Container =  require('../Shared/Container');
 var lists = require('../../data/lists');
 var clients = require('../../data/clients');
 
-var AuthenticationRequired = require("../Authentication/AuthenticationRequired");
+//var AuthenticationRequired = require("../Authentication/AuthenticationRequired");
 
 var Overview = React.createClass({
   getInitialState: function() {
