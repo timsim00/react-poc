@@ -5,7 +5,10 @@ var Link = Router.Link;
 var RouteHandler = Router.RouteHandler;
 var ListItemLink = require("../Shared/ListItemLink");
 
-var ClientManagement = React.createClass({
+
+var AuthenticationRequired = require("../Authentication/AuthenticationRequired");
+
+var ClientManagement = AuthenticationRequired.requireAuth(React.createClass({
   render: function() {
     return (
 	<div>
@@ -28,6 +31,6 @@ var ClientManagement = React.createClass({
     );
   }
 
-});
+}));
 
 module.exports = ClientManagement;
